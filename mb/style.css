@@ -1,0 +1,120 @@
+HTML {
+	color: #000000;
+	font-family: "helvetica", sans-serif;
+	font-size: 14px;
+}
+
+BODY { 
+	margin-left: 5%;
+	margin-top: 2%;
+	margin-right: 5%;
+	margin-bottom: 2%;
+
+        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#c6b8a9+1,e8e8e8+100 */
+        background: #c6b8a9; /* Old browsers */
+        background: -moz-linear-gradient(left,  #c6b8a9 1%, #e8e8e8 100%); /* FF3.6-15 */
+        background: -webkit-gradient(linear, left top, right top, color-stop(1%,#c6b8a9), color-stop(100%,#e8e8e8)); /* Chrome4-9,Safari4-5 */
+        background: -webkit-linear-gradient(left,  #c6b8a9 1%,#e8e8e8 100%); /* Chrome10-25,Safari5.1-6 */
+        background: -o-linear-gradient(left,  #c6b8a9 1%,#e8e8e8 100%); /* Opera 11.10-11.50 */
+        background: -ms-linear-gradient(left,  #c6b8a9 1%,#e8e8e8 100%); /* IE10 preview */
+        background: linear-gradient(to right,  #c6b8a9 1%,#e8e8e8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+TH, TD { 
+	padding: 5px;	
+        border-spacing: 5px;
+}
+
+P { 
+	color: #000000; 
+}
+
+H1 { 
+	font-size: 24px;
+}
+
+H2 { 
+	font-size: 18px;
+}
+
+H3 { 
+	font-size: 15px;
+}
+
+A:link {
+        color: #CB4335;
+        text-decoration: none;
+}
+
+A:hover {
+        color: #CB4335;
+        text-decoration: underline;
+        background-color: rgba(6, 6, 6, 0.0);
+}
+
+A:active {
+        color: #CB4335;
+        text-decoration: underline;
+}
+
+A:visited {
+        color: #CB4335;
+        text-decoration: underline;
+}
+
+.mytable {
+        display: inline-table;
+	background: #ffffff;
+        margin-left:auto; 
+        margin-right:auto;
+        width: 500px; 
+        word-wrap: break-word;
+        overflow: scroll;
+        padding: 5px 25px 10px 25px;
+        border-spacing: 0px;
+        border-collapse: separate;
+        border: 1px solid #333;
+        -moz-box-shadow: 3px 3px rgba(0,0,0,0.2);
+        -webkit-box-shadow: 3px 3px rgba(0,0,0,0.2);
+        box-shadow: 3px 3px rgba(0,0,0,0.2);
+}
+
+.highlight {
+	background: #e8e8e8;
+}
+
+.highlight2 {
+	background: #f6f6f6;
+}
+
+.centered {
+	text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        /*align-items: center;*/
+        justify-content: center 
+}
+
+.ralign {
+	text-align: right;
+}
+
+.narrowtbl {
+	width: 87%;
+}
+/*
+.mytable {
+        display: inline-table;
+        table-layout:fixed;
+        word-wrap:break-word;
+        overflow:scroll;
+        padding: 10px;
+        border-spacing: 10px;
+        border-collapse: collapse;
+        border: 1px solid black;
+        border-style: groove;
+        -moz-box-shadow: 3px 3px rgba(0,0,0,0.4);
+        -webkit-box-shadow: 3px 3px rgba(0,0,0,0.4);
+        box-shadow: 3px 3px rgba(0,0,0,0.4);
+}
+*/

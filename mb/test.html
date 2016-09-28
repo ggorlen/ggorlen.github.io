@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+    <TITLE>Mission Bit at Gateway HS</TITLE>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <link rel='shortcut icon' href='favicon.ico' type='image/x-icon'/>
+    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
+    <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+		
+    <script>
+      $(function() {
+        $( "#tabs-1" ).tabs();
+      });
+    </script>
+		
+    <style>
+      #tabs-1{font-size: 14px;}
+         .ui-widget-header {
+            background:#c8c8c8;
+            border: 0px solid #b9cd6d;
+            color: #FFFFFF;
+            font-weight: bold;
+         }
+         .resultarea {
+            background: #cedc98;
+            border-top: 1px solid #000000;
+            border-bottom: 1px solid #000000;
+            color: #333333;
+            font-size:14px;
+         }
+    </style>
+  </head>
+  <BODY>
+    <TABLE class=mytable>
+      <TR>
+        <TD>
+          <H1>Mission Bit at Gateway HS, Fall 2016</H1>
+          <P>
+            Introduction to Web Development
+          </P>
+        </TD>
+      </TR>
+    </TABLE>
+    <P>
+    <TABLE class=mytable>
+      <TR>
+        <TD>
+          <TABLE>
+            <TR>
+              <TD>
+                <div id = "tabs-1">
+                <ul>
+                  <li><a href = "#tabs-2">About</a></li>
+                  <li><a href = "#tabs-3">Overview</a></li>
+                  <li><a href = "#tabs-4">Resources</a></li>
+                </ul>
+         <div id = "tabs-2">
+            <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit 
+               amet, consectetur, adipisci velit... </p>
+         </div>
+			
+         <div id = "tabs-3">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
+               sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+               Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+               nisi ut aliquip ex ea commodo consequat. </p>
+         </div>
+			
+         <div id = "tabs-4">
+            <p>ed ut perspiciatis unde omnis iste natus error sit 
+               voluptatem accusantium doloremque laudantium, totam rem aperiam, 
+               eaque ipsa quae ab illo inventore veritatis et quasi architecto 
+               beatae vitae dicta sunt explicabo.  </p>
+					
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
+               sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+               Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+               nisi ut aliquip ex ea commodo consequat. </p>
+         </div>
+			
+      </div>
+              </TD>
+            </TR>
+          </TABLE>
+          <TABLE class="centered">
+            <TR>
+              <TD class="centered">
+                <p>
+                <div id="modified">
+                </div>
+                <script>document.getElementById("modified").innerHTML = "<div style='font-size:10px'>Last updated:  " + document.lastModified; + "</div>";
+                </script>
+              </TD>
+            </TR>
+          </TABLE>
+        </TD>
+      </TR>
+    </TABLE>
+  </BODY>
+</HTML>
