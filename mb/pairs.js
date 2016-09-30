@@ -1,6 +1,6 @@
 var arr = [ "Amara", "Anthony", "Caitlin", "Elisa", "Fadil", "Faisal", "Hannah", "Jayden", 
-            "Joseph", "Kyle", "Liam", "Lila", "Lynelle", "Manuel", "Maria", "Mark", "Marley",
-            "Nushan", "Sam" ];
+            "Joseph", "Kyle", "Liam", /*"Lila",*/ "Lynelle", "Manuel", /*"Maria", "Mark",*/ "Marley",
+            "Nushan", "Sam", "Willie", "Christian", "Jason" ];
 
 var res = makePairs(arr);
 var output = "";
