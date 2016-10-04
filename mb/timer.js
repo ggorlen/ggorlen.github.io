@@ -12,7 +12,7 @@ function start() {
       }
     
       document.getElementById('output').innerHTML = 
-      Math.floor(duration / 60).toFixed() + "m : " + (duration % 60) + "s";
+      Math.floor(duration / 60) + "m : " + Math.floor(duration % 60) + "s";
     
     }, 1000);
   }
