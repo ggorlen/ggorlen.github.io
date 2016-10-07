@@ -1,5 +1,5 @@
-var arr = [ "Amara", "Anthony", "Caitlin", "Elisa", "Fadil", "Faisal", "Hannah", "Jayden", 
-            "Joseph", "Kyle", "Liam", /*"Lila",*/ "Lynelle", "Manuel", /*"Maria", "Mark",*/ "Marley",
+var arr = [ "Amara", /*"Anthony", "Caitlin", "Elisa",*/ "Fadil", "Faisal", "Hannah", "Jayden", 
+            "Joseph", "Kyle", "Liam", "Lila", "Lynelle", /*"Manuel",*/ "Maria", "Emilio", "Shawn",
             "Nushan", "Sam", "Willie", "Christian", "Jason" ];
 
 var res = makePairs(arr);
