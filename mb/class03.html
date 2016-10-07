@@ -6,41 +6,50 @@
   <head>
     <title>Tuesday class: 10/4/16</title>
     
+    <!-- Begin stylesheet -->
     <style>
     
+        /* Global styling, effects all child tags within <html> */
         html {
-            background-color: #ffe;
+            background-color: #edeff0;
             font-family: helvetica;
-            margin-left: 50px;
+            font-weight: 300;
+            font-size: 15px;
+            margin-left: 20px;
 
-            /*background-image: url("....");*/
-
+            /* Here's the syntax for adding a background image: */
+            /*background-image: url(" [link to image here] ");*/
         }
         
+        /* Commas apply the properties in the brackets to each listed selector */
         h1, h2, h3 {
-            color: #0053e4;
+            color: #2825bc;
         }
         
+        /* selector for formatting anchor (link) tags */
         a {
-            color: #157eac;
+            color: #2825bc;
         }
         
+        /* :hover formats a CSS selector when the mouse hovers over it */
         a:hover {
             text-decoration: none;
         }
         
+        /* A custom class I created to format code */
         .code {
             font-family: "lucida console";
-            font-weight: 600;
-            color: #1aa3a3;
             /* background-color: #18138c; */
         }
         
+        /* A custom class I created to create bold text */
         .b {
             font-weight: 600;
         }
     
     </style>
+    <!-- End stylesheet -->
+    
   </head>
 
   <body>
@@ -51,7 +60,7 @@
       <li>Attendance sheet & update outstanding student contact info</li>
       <li>Rules recap--keep your pages respectful!</li>
       <li>Ensure all websites are live on <a target="_blank" href="https://github.com/">Github</a></li> <!-- target="_blank" attribute opens the link in a new tab -->
-      <li>Add tables with the <span class="code">&lt;table&gt; &lt;tr&gt; &lt;td&gt; &lt;th&gt;</span> tags.</li>
+      <li>Add tables with the <span class="code">&lt;table&gt; &lt;tr&gt; &lt;td&gt; &lt;th&gt;</span> tags.</li> <!-- Using <span> tags to apply class styles on specific words -->
       <li>Introduce CSS with the <span class="code">&lt;div&gt; &lt;span&gt;</span> tags, discuss the <span class="code">class</span> and <span class="code">id</span> attributes.</li>
       <li>Introduce CSS selectors and properties.</li>
       <li>Make a separate page from index.html and link the two together using <span class="code">&lt;a&gt;</span> tags.</li>
