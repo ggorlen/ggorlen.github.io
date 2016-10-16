@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Rock, paper, scissors</title>
+
+    <!-- import jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <!-- jQuery script to prevent forms from refreshing the page -->
+    <script>
+        $(document).ready(function() {
+            $(function() {
+                $("form").submit(function() { return false; });
+            });
+        });
+    </script>
+    <!-- End jQuery script -->
+
+    <!-- Begin stylesheet -->
+    <style>
+      html {
+        margin: 5px 25px;
+        font-size: 16px; font-family: helvetica;
+      }
+    </style>
+    <!-- End stylesheet -->
+    
+  </head>
+  <body>
+
+    <h1>Rock, paper, scissors!</h1>
+    
+    Enter rock, paper, or scissors:
+
+    <!-- This generates a form the user will enter their 
+         choice into -->
+    <form id="myForm" onsubmit="doTurn();">
+    <input name="input" type="text">
+    <input type="button" value="Submit" onclick="doTurn();">
+    </form>
+
+    <!-- our JS script will send return 
+         HTML to this div element -->
+    <div id="output"><br></div>
+
+    <!-- Here's the link to our JavaScript file.
+         It's at the bottom of the page to ensure
+         that the browser has loaded all HTML elements 
+         before the script loads. -->
+    <script src="rockpaperscissors.js">
+    </script>
+  </body>
+</html>

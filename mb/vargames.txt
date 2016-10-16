@@ -1,0 +1,281 @@
+/* Variable puzzles */
+
+// Question 1: What is the output of the following program?
+
+var a = "14";
+var b = "5";
+console.log(a + b);
+
+
+// Question 2: What is the output of the following program?
+
+var a = 5;
+var b = 4;
+console.log(a + b + "");
+
+
+// Question 3: What is the output of the following program?
+
+var a = 5;
+var b = 4;
+console.log("" + a + b);
+
+
+// Question 4: What is the output of the following program?
+
+var a = 5;
+var b = 4;
+var c = a + b;
+a = -4;
+console.log(a + c);
+
+
+// Question 5: Write a program to swap two variables' values
+
+var a = 16;
+var b = -8;
+/**** Your code here ****/
+console.log("a === -8?  " + a === -8);
+console.log("b === 16?  " + b === 16);
+
+
+// Question 6: What is the output of the following program?
+
+var a = 67;
+var b = 4;
+b = 15;
+console.log(a + b);
+
+
+// Question 7: What is the output of the following program?
+
+var a;
+var b;
+console.log(typeof (a * b));
+
+
+// Question 8: What is the output of the following program?
+
+var a = 0;
+var b = 91;
+console.log(typeof (a / b));
+
+
+// Question 9: Find the error
+
+var word = " bar";
+console.log("foo" + ));
+
+
+// Question 10: Find the error
+
+var name = "Greg";
+console.log(name + " likes JS');
+
+
+/* Conditional puzzles */
+
+// Question 1: Modify the if () statement to ensure "Hello" is printed.
+
+var x = 8;
+var y = 8;
+var str = "Hello";
+
+if (x > y) {
+    console.log(str);
+}
+
+
+// Question 2: What is the output of the following program?
+
+var x = "d";
+var y = "a";
+
+if (x > a) {
+    console.log("x is greater than a.");
+}
+else {
+    console.log("x is not greater than a.");
+}
+
+
+// Question 3: What is the output of the following program?
+
+var firstName = "Nina";
+var lastName = "Simone";
+
+if (firstName + lastName === "Nina Simone") {
+    console.log("It worked!");
+}
+else {
+    console.log("It didn't work.");
+}
+
+
+// Question 4: What is the output of the following program?
+
+var a = 6;
+var b = 12;
+var c = 18;
+
+if (a * 2 === b && b + a === c) {
+    if (a > c - b && true) {
+        console.log("Tom Thumb");
+    }
+}
+else if (a + b === c) {
+    console.log("Humpty Dumpty");
+}
+else {
+    console.log("Little Bo Peep");
+}
+
+
+/* Function puzzles */
+
+// Question 1: What is the output of the following program?
+
+var x = 89.4;
+var y = 14;
+
+function doStuff(a, b) {
+    return a + b;
+}
+
+console.log(doStuff(x, y + 2));
+
+
+// Question 2: What is the output of the following program?
+
+var time = 60;
+var rate = 2;
+
+function findDistance(r, t) {
+    return r * t;
+}
+
+console.log(findDistance(time, rate) + " " + findDistance(6, 1));
+
+
+// Question 3: What is the output of the following program?
+
+var height = 3;
+
+function square(number) {
+    return number * number;
+}
+
+console.log(square(square(number)));
+
+
+// Question 4: What is the output of the following program?
+
+var x = 10;
+
+function funFunction(a) {
+    var n = a;
+    return n * a;
+}
+
+console.log(funFunction(x));
+console.log(n);
+
+
+// Question 5: What is the output of the following program?
+
+function functionA(n) {
+    n = n + 5;
+    return functionB(n - 2);
+}
+
+function functionB(n) {
+    n + 22;
+    return n + 9;
+}
+
+console.log(functionA(8));
+
+
+// Question 6: What is the output of the following program?
+
+function filter(number, cutoff) {
+    return number > cutoff;
+}
+
+var num1 = 49;
+var num2 = 13;
+var num3 = 51;
+
+if (filter(num1, num2)) {
+    console.log("foo");
+}
+if (filter(num2, num3)) {
+    console.log("bar");
+}
+
+
+// Question 7: Write a function to choose the largest of three parameters.
+
+function larger(a, b, c) {
+    /* Your code here */
+}
+
+
+// Question 8: Make a simple calculator function for two numbers.
+// The claculator takes a third parameter, which is a string,
+// either "+", "-", "/", "*", or "x" which performs the requested
+// evaluation.  Check for division by zero errors!
+
+function calculator(num1, num2, operation) {
+    /* Your code here */
+}
+
+
+/* Loop puzzles */
+
+// Question 1: What is the output of the following program?
+
+for (var i = 0; i < 6; i++) {
+    console.log(i * i);
+}
+
+
+// Question 2: What is the output of the following program?
+
+for (var i = 0; i < 10; i++) {
+    if (i % 2 === 0) {
+        console.log(i);
+    }
+}
+
+
+// Question 3: What is the output of the following program?
+
+var i = 5;
+while (i < 1) {
+    console.log(i);
+    i++;
+}
+
+
+// Question 4: What is the output of the following program?
+
+var i = 15;
+
+while (i > 0) {
+    console.log(i);
+    i -= 3;
+}
+
+console.log(i);
+
+
+// Question 5: What is the output of the following program?
+
+var i = 0
+var j = 0
+
+for (var i = 0, j = 5; i <= 5; i++, j--) {
+    console.log(i, j);
+}
+
