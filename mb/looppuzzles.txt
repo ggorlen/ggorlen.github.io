@@ -1,0 +1,48 @@
+/* Loop puzzles */
+
+// Question 1: What is the output of the following program?
+
+for (var i = 0; i < 6; i++) {
+    console.log(i * i);
+}
+
+
+// Question 2: What is the output of the following program?
+
+for (var i = 0; i < 10; i++) {
+    if (i % 2 === 0) {
+        console.log(i);
+    }
+}
+
+
+// Question 3: What is the output of the following program?
+
+var i = 5;
+while (i < 1) {
+    console.log(i);
+    i++;
+}
+
+
+// Question 4: What is the output of the following program?
+
+var i = 15;
+
+while (i > 0) {
+    console.log(i);
+    i -= 3;
+}
+
+console.log(i);
+
+
+// Question 5: What is the output of the following program?
+
+var i = 0
+var j = 0
+
+for (var i = 0, j = 5; i <= 5; i++, j--) {
+    console.log(i, j);
+}
+

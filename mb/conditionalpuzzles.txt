@@ -1,0 +1,56 @@
+/* Conditional puzzles */
+
+// Question 1: Modify the if () statement to ensure "Hello" is printed.
+
+var x = 8;
+var y = 8;
+var str = "Hello";
+
+if (x > y) {
+    console.log(str);
+}
+
+
+// Question 2: What is the output of the following program?
+
+var x = "d";
+var y = "a";
+
+if (x > a) {
+    console.log("x is greater than a.");
+}
+else {
+    console.log("x is not greater than a.");
+}
+
+
+// Question 3: What is the output of the following program?
+
+var firstName = "Nina";
+var lastName = "Simone";
+
+if (firstName + lastName === "Nina Simone") {
+    console.log("It worked!");
+}
+else {
+    console.log("It didn't work.");
+}
+
+
+// Question 4: What is the output of the following program?
+
+var a = 6;
+var b = 12;
+var c = 18;
+
+if (a * 2 === b && b + a === c) {
+    if (a > c - b && true) {
+        console.log("Tom Thumb");
+    }
+}
+else if (a + b === c) {
+    console.log("Humpty Dumpty");
+}
+else {
+    console.log("Little Bo Peep");
+}
