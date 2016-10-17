@@ -1,8 +1,7 @@
 /*
  * Plain old rock, paper scissors!
  * 
- * Todo:
- *  - add clickable images
+ * Todos:
  *  - add lizard/spock
  *  - separate doTurn() into smaller functions
  */
@@ -18,15 +17,9 @@ var humanWins = 0;
 var output = "";
 
 // This function processes a turn and writes the result of the turn to the page
-function doTurn() {
-
-    // Grab the human choice (a string) from the text box input on the page
-    var humanChoice = document.forms["myForm"].elements["input"].value;
+// The human choice (a string) is the parameter in the function call.
+function doTurn(humanChoice) {
     
-    // Make the humanChoice string lowercase to account for any capitalization
-    // the user may have entered
-    humanChoice = humanChoice.toLowerCase();
-
     // The computer chooses a random item using some calls to JS's Math class
     // Math.random selects a random decimal between 0 and 1
     // Math.floor rounds a decimal down to the nearest integer
@@ -42,7 +35,7 @@ function doTurn() {
     
     // Both choices are equivalent, so we have a draw!
     else if (humanChoice === computerChoice) {
-        output = "Draw!<p></p>";
+        output = humanChoice + " and " + computerChoice + " is a draw!<p></p>";
     }
     
     // Test for human wins

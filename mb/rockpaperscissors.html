@@ -8,11 +8,25 @@
 
     <!-- jQuery script to prevent forms from refreshing the page -->
     <script>
-        $(document).ready(function() {
-            $(function() {
-                $("form").submit(function() { return false; });
-            });
+    
+      $(document).ready(function() {
+        $(function() {
+          $("form").submit(function() { return false; });
         });
+      
+        $("#rock").click(function(){
+           doTurn("rock");
+        });
+        
+        $("#paper").click(function(){
+           doTurn("paper");
+        });
+        
+        $("#scissors").click(function(){
+           doTurn("scissors");
+        });
+      });
+    
     </script>
     <!-- End jQuery script -->
 
@@ -20,7 +34,9 @@
     <style>
       html {
         margin: 5px 25px;
-        font-size: 16px; font-family: helvetica;
+        font-size: 26px; font-family: helvetica;
+        font-weight: 700;
+        text-align: center;
       }
     </style>
     <!-- End stylesheet -->
@@ -28,15 +44,16 @@
   </head>
   <body>
 
-    <h1>Rock, paper, scissors!</h1>
+    <!-- These images are the user interface -->
     
-    Enter rock, paper, or scissors:
+    <img src="rock-paper-scissors.jpg" width="702" height="380" 
+      alt="rock, paper, scissors icons" usemap="#map" />
 
-    <!-- This generates a form the user will enter their 
-         choice into -->
-    <form id="myForm" onsubmit="doTurn();">
-    <input name="input" type="text">
-    <input type="button" value="Submit" onclick="doTurn();">
+    <map name="map">
+      <area shape="rect" coords="55,69,230,287" id="rock" alt="rock icon">
+      <area shape="rect" coords="260,80,471,292" id="paper" alt="paper icon">
+      <area shape="rect" coords="473,25,663,302" id="scissors" alt="scissors icon">
+    </map>
     </form>
 
     <!-- our JS script will send return 
