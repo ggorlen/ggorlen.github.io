@@ -42,8 +42,7 @@ function doTurn(humanChoice) {
     else if (humanChoice === "rock" && computerChoice === "scissors"
           || humanChoice === "scissors" && computerChoice === "paper"
           || humanChoice === "paper" && computerChoice === "rock") {
-
-        output = humanChoice + " beats " + computerChoice + "!<p></p>";
+        output = "Your " + humanChoice + " beats computer's " + computerChoice + "!<p></p>";
         
         // Increment the counter for human wins by 1
         humanWins++; 
@@ -52,7 +51,8 @@ function doTurn(humanChoice) {
     // If we made it this far in the conditional, we KNOW the computer won
     // by process of elimination and don't need to do any tests
     else { 
-        output = computerChoice + " beats " + humanChoice + "!<p></p>";
+        output = "Computer's " + computerChoice + 
+            " beats your " + humanChoice + "!<p></p>";
 
         // Increment the counter for computer wins by 1
         computerWins++; 
