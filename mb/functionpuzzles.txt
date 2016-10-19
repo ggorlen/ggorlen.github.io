@@ -14,6 +14,17 @@ console.log(doStuff(x, y + 2));
 
 // Question 2: What is the output of the following program?
 
+var height = 3;
+
+function square(number) {
+    return number * number;
+}
+
+console.log(square(square(height)));
+
+
+// Question 3: What is the output of the following program?
+
 var time = 60;
 var rate = 2;
 
@@ -22,17 +33,6 @@ function findDistance(r, t) {
 }
 
 console.log(findDistance(time, rate) + " " + findDistance(6, 1));
-
-
-// Question 3: What is the output of the following program?
-
-var height = 3;
-
-function square(number) {
-    return number * number;
-}
-
-console.log(square(square(number)));
 
 
 // Question 4: What is the output of the following program?

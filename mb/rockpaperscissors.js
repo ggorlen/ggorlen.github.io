@@ -3,7 +3,7 @@
  * 
  * Todos:
  *  - add lizard/spock
- *  - separate doTurn() into smaller functions
+ *  - separate doTurn() into smaller functions?
  */
 
 // An array to store the different game options as strings
@@ -27,14 +27,8 @@ function doTurn(humanChoice) {
 
     // Let's test all of the possible outcomes!
     
-    // First, we'll validate that the user entered something reasonable
-    if (humanChoice !== "paper" && humanChoice !== "rock" 
-        && humanChoice !== "scissors") {
-        output = "Invalid input!  Try again.<p></p>";
-    }
-    
     // Both choices are equivalent, so we have a draw!
-    else if (humanChoice === computerChoice) {
+    if (humanChoice === computerChoice) {
         output = humanChoice + " and " + computerChoice + " is a draw!<p></p>";
     }
     

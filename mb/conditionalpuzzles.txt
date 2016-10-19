@@ -48,7 +48,7 @@ if (a * 2 === b && b + a === c) {
         console.log("Tom Thumb");
     }
 }
-else if (a + b === c) {
+else if (a + b === c || a === b) {
     console.log("Humpty Dumpty");
 }
 else {

@@ -34,9 +34,11 @@ console.log(a + c);
 
 var a = 16;
 var b = -8;
+
 /**** Your code here ****/
-console.log("a === -8?  " + a === -8);
-console.log("b === 16?  " + b === 16);
+
+console.log("a's value is " + a);
+console.log("b's value is " + b);
 
 
 // Question 6: What is the output of the following program?
@@ -64,7 +66,7 @@ console.log(typeof (a / b));
 // Question 9: Find the error
 
 var word = " bar";
-console.log("foo" + ));
+console.log("foo" + word));
 
 
 // Question 10: Find the error
