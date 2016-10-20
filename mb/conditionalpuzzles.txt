@@ -16,11 +16,11 @@ if (x > y) {
 var x = "d";
 var y = "a";
 
-if (x > a) {
-    console.log("x is greater than a.");
+if (x > y) {
+    console.log("x is greater than y.");
 }
 else {
-    console.log("x is not greater than a.");
+    console.log("x is not greater than y.");
 }
 
 
@@ -48,7 +48,7 @@ if (a * 2 === b && b + a === c) {
         console.log("Tom Thumb");
     }
 }
-else if (a + b === c || a === b) {
+else if (a + b === c || a !== b) {
     console.log("Humpty Dumpty");
 }
 else {

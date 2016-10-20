@@ -2,7 +2,7 @@
 
 // Question 1: What is the output of the following program?
 
-var x = 89.4;
+var x = 3;
 var y = 14;
 
 function doStuff(a, b) {
@@ -25,22 +25,23 @@ console.log(square(square(height)));
 
 // Question 3: What is the output of the following program?
 
-var time = 60;
+var time = 10;
 var rate = 2;
 
 function findDistance(r, t) {
     return r * t;
 }
 
-console.log(findDistance(time, rate) + " " + findDistance(6, 1));
+console.log(findDistance(time, rate) + " and " + findDistance(6, 3));
 
 
 // Question 4: What is the output of the following program?
 
-var x = 10;
+var x = 3;
+var n = 5;
 
 function funFunction(a) {
-    var n = a;
+    var n = a - 1;
     return n * a;
 }
 
@@ -52,7 +53,7 @@ console.log(n);
 
 function functionA(n) {
     n = n + 5;
-    return functionB(n - 2);
+    return functionB(n);
 }
 
 function functionB(n) {
