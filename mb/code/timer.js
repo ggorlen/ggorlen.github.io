@@ -1,7 +1,9 @@
 var interval;
 
 function start() {
+  
   stop();
+  
   var duration = document.forms["input"].elements["duration"].value * 60;
   
   if (duration > 0) {
