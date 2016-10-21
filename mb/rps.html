@@ -6,18 +6,20 @@
   <body>
     
     <script>
-        /* TODO: 
-             -user input
-             -score increments
-             -add output other than console
-        */
+      /* TODO: 
+        -user input
+        -score increments
+        -add output other than console
+        -move script to external file
+      */
 
       // string variables to hold possible choices
+      // we'll use these later on
       var choice1 = "rock";
       var choice2 = "paper";
       var choice3 = "scissors";
 
-      // number variables to hold the score
+      // number variables to hold the scores
       var humanScore = 0;
       var computerScore = 0;
       
@@ -25,11 +27,11 @@
       var humanChoice = "";
       var computerChoice = "";
     
-      doTurn(); // just testing
+      doTurn(); // just testing our function
         
       function doTurn() {
          humanChoice = "scissors"; // TODO: allow user input later
-         computerChoice = "paper";
+         computerChoice = "paper"; // try changing these values to test!
          
          if (humanChoice === computerChoice) { // Draw
             console.log("Draw!");    
@@ -40,7 +42,7 @@
                  // Human won
             console.log("You win!"); 
          }
-         else { // Human lost
+         else { // Human lost--no need to check by process of elimination
             console.log("You lose!");
          }
       }
