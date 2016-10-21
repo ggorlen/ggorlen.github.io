@@ -9,20 +9,20 @@
         margin-top: 10;
         margin-left: 10;
         background: black;
-       /* z-index: -1;  specifies bottom of the stack, below text, etc */
+        z-index: -1;  /* specifies bottom of the stack, below text, etc */
       }
     </style>
     
   </head>
   <body>
 
-    <!-- create our canvas object -->
-    <canvas id="mycanvas" height="500" width="500"></canvas>
+    <!-- create a canvas object -->
+    <canvas id="snakecanvas" height="500" width="500"></canvas>
       
     <script>
       
       // save the canvas and context in variables
-      var canvas = document.getElementById("mycanvas");
+      var canvas = document.getElementById("snakecanvas");
       var ctx = canvas.getContext("2d");
 
       // declare constants
@@ -54,8 +54,10 @@
       }
       
       function newApple() {
+        var valid = false;
+        
         while (!valid) {  // keep attempting to place an apple until valid
-          var valid = true;
+          valid = true;
           
           appleX = Math.ceil((Math.random()) * (canvas.width - 30) 
                                 / CELL_SIZE) * CELL_SIZE + 10;
@@ -69,8 +71,6 @@
             }
           }
         }
-        // debug:
-        //console.log("X: " + appleX + " Y: " + appleY);
       }
         
       function collisionDetection() {
@@ -143,7 +143,6 @@
       }
       
       function drawSnake() {
-
         for (var i = snakeLength; i > 0; i--) {
           ctx.beginPath();
 
@@ -189,7 +188,7 @@
         drawSnake();
         drawApple();
         drawScore();
-      }
+      };
       
       // add keyevent listener to track arrow key actions
       document.addEventListener("keydown", function (e) {
@@ -207,10 +206,13 @@
         }
       }, false);
 
-      /* Main timer with update function and 
-         interval duration as parameters */
-      init();
-      setInterval(update, 70);
+      function start() {
+        init();
+
+        /* Main timer with update function and 
+           interval duration as parameters */
+        setInterval(update, 70);
+      }
       
     </script>
   </body>
