@@ -2,21 +2,23 @@
 <html>
   <head>
     <title>
-      Palindrome checker
+      Hollow square printer
     </title>
-    <script src="palindrome.js">
+    <script src="hollowsquare.js">
     </script>
   </head>
   <body>
-    <h1>Palindrome checker</h1>
+    <h3>Hollow square printer</h3>
     <form id="input">
-      <input type="text" name="palindrome" required>
+      <input type="text" name="size" required>
       
       <!-- use type="submit" to allow the enter key to submit form-->
       <input type="submit" value="Submit" onclick="process();">
     
     </form>
-    <div id="output">
+    
+    <br>
+    <div style="font-family: lucida console;" id="output">
       <br>
     </div>
     
@@ -31,6 +33,20 @@
           $("form").submit(function() { return false; });
         });
       });
+      
+      function process() {
+        
+        // Grab the size from the form
+        var size = document.forms["input"].elements["size"].value;
+        
+        // Validity check
+        if (!isNaN(size)) {
+          document.getElementById("output").innerHTML = hollowsquare(size);
+        }
+        else {
+           document.getElementById("output").innerHTML = "Invalid input";
+        }
+      }
     </script>
     
   </body>

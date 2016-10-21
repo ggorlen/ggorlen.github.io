@@ -12,7 +12,10 @@ function process() {
 function isPalindrome(word) {
     word = word.toLowerCase();  // ignore case
     
+    // iterate through the word from the back and front and working towards the mid
     for (var i = 0; i < word.length; i++) {
+        
+        // compare characters at two indexes
         if (word[i] !== word[word.length - i - 1]) {
             return false;  // we found two characters that are unequal
         }

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Snake</title>
+    
+    <style>
+      canvas {
+        position: absolute;
+        top: 10;
+        left: 10;
+        background: black;
+        z-index: -1; /* specifies bottom of the stack, below text, etc */
+      }
+    </style>
+    
+  </head>
+  <body>
+
+    <!-- create our canvas object -->
+    <canvas id="mycanvas" height="500" width="500"></canvas>
+      
+    <script>
+      
+      // save the canvas and context in variables
+      var canvas = document.getElementById("mycanvas");
+      var ctx = canvas.getContext("2d");
+
+      // declare constants
+      var INIT_X = canvas.width / 2;
+      var INIT_Y = canvas.height / 2;
+      var CELL_SIZE = 10;
+      
+      // declare variables
+      var snakeX = [];
+      var snakeY = [];
+      var appleX = 0;
+      var appleY = 0;
+      var xDirection = CELL_SIZE;
+      var yDirection = CELL_SIZE;
+      var snakeLength = 3;
+      var kbd = "down";
+      
+      // initialize game
+      function init() {
+        snakeLength = 3;
+        snakeX = new Array(snakeLength);
+        snakeY = new Array(snakeLength);
+        snakeX[0] = INIT_X;
+        snakeY[0] = INIT_Y;
+        xDirection = CELL_SIZE;
+        yDirection = CELL_SIZE;
+        kbd = "down";
+        newApple();
+      }
+      
+      function newApple() {
+        while (!valid) {  // keep attempting to place an apple until valid
+          var valid = true;
+          
+          appleX = Math.ceil((Math.random()) * (canvas.width - 30) 
+                                / CELL_SIZE) * CELL_SIZE + 10;
+          appleY = Math.ceil((Math.random()) * (canvas.width - 30) 
+                                / CELL_SIZE) * CELL_SIZE + 10;
+          
+          for (var i = 0; i < snakeLength; i++) {
+            if (appleX === snakeX[i] && appleY === snakeY[i]) {
+              valid = false;
+              break;
+            }
+          }
+        }
+        // debug:
+        //console.log("X: " + appleX + " Y: " + appleY);
+      }
+        
+      function collisionDetection() {
+        
+        // munch an apple
+        if (snakeX[0] === appleX && snakeY[0] === appleY) {
+          newApple();
+          snakeLength++;
+        }
+      
+        // left side
+        if (snakeX[0] <= 0 + CELL_SIZE) {
+          init();
+        }
+         
+        // right side
+        else if (snakeX[0] >= canvas.width - CELL_SIZE) {
+          init();
+        }
+        
+        // top of canvas
+        if (snakeY[0] <= 0 + CELL_SIZE) {
+          init();
+        }
+
+        
+        // bottom of screen
+        else if (snakeY[0] >= canvas.height - CELL_SIZE) {
+          init();
+        }
+        
+        // tail
+        for (var i = 2; i < snakeLength; i++) {
+          if (snakeX[0] === snakeX[i] && snakeY[0] === snakeY[i]) {
+            init();
+          }
+        }
+      }
+      
+      function moveSnake() {
+      
+        // handle keyboard presses
+        if (kbd === "left") {
+          xDirection = -CELL_SIZE;
+          yDirection = 0;
+        }
+        else if (kbd === "right") {
+          xDirection = CELL_SIZE;
+          yDirection = 0;
+        }
+        else if (kbd === "up") {
+          yDirection = -CELL_SIZE;
+          xDirection = 0;
+        }
+        else if (kbd === "down") {
+          yDirection = CELL_SIZE;
+          xDirection = 0;
+        }
+        
+        // update head position
+        snakeX[0] += xDirection;
+        snakeY[0] += yDirection;
+        
+        /* Set each snake part to the coordinates
+           of the part before it */
+        for (var i = snakeLength; i > 0; i--) {
+          snakeX[i] = snakeX[i - 1];
+          snakeY[i] = snakeY[i - 1];
+        }
+      }
+      
+      function drawSnake() {
+
+        for (var i = snakeLength; i > 0; i--) {
+          ctx.beginPath();
+
+          // make a circle 
+          ctx.arc(snakeX[i], snakeY[i], CELL_SIZE / 2, 0, Math.PI * 2);
+      
+          // set a color for our fill.  hex also works here
+          ctx.fillStyle = "rgb(0, 255, 0)";
+
+          ctx.fill();
+          ctx.closePath(); 
+        }
+      }
+      
+      function drawApple() {
+        ctx.beginPath();
+
+        // make a circle
+        ctx.arc(appleX, appleY, CELL_SIZE / 2, 0, Math.PI * 2);
+      
+        // set a color for our fill.  hex also works here
+        ctx.fillStyle = "rgb(255, 0, 0)";
+
+        ctx.fill();
+        ctx.closePath(); 
+      }
+      
+      
+      // Draw score
+      function drawScore() {
+        ctx.font = "12px lucida console";
+        ctx.fillStyle = "rgb(255, 255, 255)";
+        ctx.fillText("apples munched: " + (snakeLength - 3), 5, 15);
+      }
+      
+      // update will be called each frame
+      var update = function() {
+      
+        // clears canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // check for collisions
+        collisionDetection();
+        
+        // update snake coordinates
+        moveSnake();
+        
+        // draw stuff
+        drawSnake();
+        drawApple();
+        drawScore();
+      }
+      
+      // add keyevent listener to track arrow key actions
+      document.addEventListener("keydown", function (e) {
+        if (e.keyCode === 39 && kbd !== "left") {
+          kbd = "right";
+        }
+        else if (e.keyCode === 38 && kbd !== "down") {
+          kbd = "up";
+        }
+        else if (e.keyCode === 37 && kbd !== "right") {
+          kbd = "left";
+        }
+        else if (e.keyCode === 40 && kbd !== "up") {
+          kbd = "down";
+        }
+      }, false);
+
+      /* Main timer with update function and 
+         interval duration as parameters */
+      init();
+      setInterval(update, 80);
+      
+    </script>
+  </body>
+</html>

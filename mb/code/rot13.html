@@ -1,23 +1,39 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <script src="rot13.js"></script>
-        <title>
-        rot13
-        </title>
-    </head>
-    <body>
-        <span style='font-family: monospace;'>
-            <a href="../">Return home</a>
-            <hr width=250 align=left>
-            <p>Enter the string to rotate:
-            <form id='myForm'>
-                <input type='text' size='30' name='rot'>
-                <input type='button' onclick='main();' value='Submit'>
-            </form>
-            <br>
-        </span>
-        <span id="output" style='font-family: monospace;'>
-        </span>
-    </body>
+<html lang="en">
+  <head>
+    <title>
+      ROT13
+    </title>
+  </head>
+  <body>
+    <span style='font-family: monospace;'>
+      <a href="../">Return home</a>
+      <hr width=250 align=left>
+      <p>Enter the string to rotate:</p>
+      <form id='myForm'>
+        <input type='text' size='30' name='rot'>
+        <input type='submit' onclick='main();' value='Submit'>
+      </form>
+      <br>
+    </span>
+    <span id="output" style='font-family: monospace;'>
+    </span>
+        
+    <!-- import jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <!-- jQuery script to prevent forms from refreshing the page on submit -->
+    <script>
+    
+      $(document).ready(function() {
+        $(function() {
+          $("form").submit(function() { return false; });
+        });
+      });
+    </script>
+    
+    <!-- link to our js script -->
+    <script src="rot13.js"></script>
+
+  </body>
 </html>

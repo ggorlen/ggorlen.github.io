@@ -1,18 +1,21 @@
-var size = 10;
-var s = "* ".repeat(size) + "\n";
+function hollowsquare(size) {
+    var s = "*&nbsp;".repeat(size) + "<br>";
 
-for (var row = 2; row < size; row++) {
-  for (var col = 0; col < size; col++) {
-    if (col === 0 || col === size - 1) {
-      s += "* ";
+    if (size > 1) {
+        for (var row = 2; row < size; row++) {
+          for (var col = 0; col < size; col++) {
+            if (col === 0 || col === size - 1) {
+              s += "*&nbsp;";
+            }
+            else {
+              s += "&nbsp;&nbsp;";
+            }
+          }
+          s += "<br>";
+        }
+
+        s += "*&nbsp;".repeat(size) + "<br>";
     }
-    else {
-      s += "  ";
-    }
-  }
-  s += "\n";
+    
+    return s;
 }
-
-s += "* ".repeat(size) + "\n";
-
-console.log(s);
