@@ -150,7 +150,7 @@
           // make a circle 
           ctx.arc(snakeX[i], snakeY[i], CELL_SIZE / 2, 0, Math.PI * 2);
       
-          // set a color for our fill.  hex also works here
+          // set a color for the fill.  hex also works here
           ctx.fillStyle = "rgb(0, 255, 0)";
 
           ctx.fill();
@@ -160,23 +160,17 @@
       
       function drawApple() {
         ctx.beginPath();
-
-        // make a circle
         ctx.arc(appleX, appleY, CELL_SIZE / 2, 0, Math.PI * 2);
-      
-        // set a color for our fill.  hex also works here
         ctx.fillStyle = "rgb(255, 0, 0)";
-
         ctx.fill();
         ctx.closePath(); 
       }
-      
       
       // Draw score
       function drawScore() {
         ctx.font = "12px lucida console";
         ctx.fillStyle = "rgb(255, 255, 255)";
-        ctx.fillText("apples munched: " + (snakeLength - 3), 5, 15);
+        ctx.fillText("munched: " + (snakeLength - 3), 5, 15);
       }
       
       // update will be called each frame
@@ -199,16 +193,16 @@
       
       // add keyevent listener to track arrow key actions
       document.addEventListener("keydown", function (e) {
-        if (e.keyCode === 39 && kbd !== "left") {
+        if ((e.keyCode === 39 || e.keyCode === 68) && kbd !== "left") {
           kbd = "right";
         }
-        else if (e.keyCode === 38 && kbd !== "down") {
+        else if ((e.keyCode === 38 || e.keyCode === 87) && kbd !== "down") {
           kbd = "up";
         }
-        else if (e.keyCode === 37 && kbd !== "right") {
+        else if ((e.keyCode === 37 || e.keyCode === 65) && kbd !== "right") {
           kbd = "left";
         }
-        else if (e.keyCode === 40 && kbd !== "up") {
+        else if ((e.keyCode === 40 || e.keyCode === 83) && kbd !== "up") {
           kbd = "down";
         }
       }, false);
@@ -216,7 +210,7 @@
       /* Main timer with update function and 
          interval duration as parameters */
       init();
-      setInterval(update, 80);
+      setInterval(update, 70);
       
     </script>
   </body>
