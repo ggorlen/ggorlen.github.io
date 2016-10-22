@@ -19,7 +19,7 @@
   </head>
   <body>
 
-    <!-- create our canvas object -->
+    <!-- create a canvas object -->
     <canvas id="mycanvas" height="500" width="500"></canvas>
       
     <script>
@@ -44,13 +44,13 @@
         // left side
         if (x <= 0 + SIZE) {
           x = 0 + SIZE;
-          xDirection = 1 * (Math.floor(Math.random() * 6) - 3);
+          xDirection = (Math.floor(Math.random() * 6) - 3);
         }
         
         // top of canvas
         if (y <= 0 + SIZE) {
           y = 0 + SIZE;
-          yDirection = 1 * (Math.floor(Math.random() * 6) - 3);
+          yDirection = (Math.floor(Math.random() * 6) - 3);
         }
         
         // right side

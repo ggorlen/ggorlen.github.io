@@ -13,7 +13,7 @@
       */
     
       // objects as classes
-      var player = function (name, score) {
+      var Player = function (name, score) {
       
         // "this" refers to instances of the object
         // which we'll create below
@@ -26,9 +26,10 @@
         }
       }; // added semicolon after func def when saving to var
       
-      var p1 = new player("Matt", 0);
+      var p1 = new Player("Matt", 0);
       p1.score++;
       document.write("<span style='font-family:lucida console'>" + p1.toString());
+      document.write("<br>" + typeof(p1));
       
       // create a new property for the object
       p1.lastName = "Smith";
