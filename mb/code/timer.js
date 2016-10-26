@@ -1,3 +1,5 @@
+/* TODO: add pause? http://stackoverflow.com/questions/21277900/javascript-pausing-setinterval */
+
 var interval;
 
 function start() {

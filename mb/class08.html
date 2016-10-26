@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>
+        Class 8 -- 10/27/16
+    </title>
+    <link rel="stylesheet" href="css/style2.css">
+  </head>
+  <body>
+    
+    <div class="skinny centered bordered">
+      
+      <h1>Class 8: Introduction to JavaScript continued</h1>
+    
+      <p>
+        Today we continue with JS basics by finishing our rock, paper, scissors game and discuss loops, one of the most important topics in computer science.  Next week, we'll jump into graphics and figure out our semester projects.
+      </p>
+      
+    </div>
+    <br>
+    <div class="skinny centered bordered">
+    
+      <p>Today's topics:</p>
+
+      <ol>
+        <li>Grab the <a href="rps.html">rock, paper, scissors source code</a> from where we left off Tuesday.</li>
+        <li>Check for game over each turn.</li>
+        <li>Implement a computer opponent with AI.  We'll define a function called <code>getComputerMove()</code> which returns the computer's move as a string.  There are many ways to decide how our AI behaves.  Try a few on your own!
+          <ul>
+            <li>AI can choose randomly from the available options.  Consider using a weighted random.  Here's how to implement this:
+              <ul>
+                <li>We can get a random decimal between 0 and 1 using JS's <code>Math.random()</code> function.  Try it out in the console!  Almost all games use random numbers, so it's a very important function to remember.  If we multiply the return value of <code>Math.random()</code> by the number of choices (in this case, 3) and cut off the decimal portion of the number, then we'll get either 0, 1, or 2 on each call.  Try it:</li>
+                <li><code>var randomNum = Math.floor(Math.random() * 3);</code></li>
+                <li>Now, we can examine the random number we generated and say <code>if (randomNum === 0) { computerCoice = "rock"; }</code> and so forth.</li>
+                <li>However, the more elegant way to do this is to use an array, which is a variable which holds multiple values at once.
+                  <ul>
+                    <li>Declare an array like this: <code>var choices = ["rock", "paper", "scissors"];</code></li>
+                    <li>To access an element of this array, type the variable name followed by an index number in brackets: <code>choices[2]</code>, for example, returns "scissors" (remember <a href="https://en.wikipedia.org/wiki/Zero-based_numbering">0-indexing</a>?).</li>
+                    <li>Access a random element of the array using our random number routine to pick one of our three indexes: <code>var computerCoice = choices[Math.floor(Math.random() * choices.length)];</code>
+                      <ul>
+                        <li><code>choices.length</code> is a property of our choices array which JS has provided.  It returns the number of elements, or items, in the array, in this case, 3.</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li>AI can look at the human player's choice and pick whichever beats (or loses against) that.</li>
+            <li>AI can cycle through a sequence of choices repeatedly using an array and a counter.</li>
+            <li>Use your imagination to come up with more ideas for AI behavior!</li>
+          </ul>
+          <li>Take some time to refactor and improve your "rock, paper, scissors" code alone or with your group.  Link it to/from your main github.io page, improve the <a href="https://en.wikipedia.org/wiki/User_interface">UI</a> with CSS.</li>
+        </li>
+        <li>Time permitting, let's talk about loops, the last CS basic we'll be talking about.  Loops make repetition in code easier.
+          <ul>
+            <li>Solve some <a href="https://ggorlen.github.io/mb/code/looppuzzles.txt">loop puzzles</a></li>
+          </ul>
+        </li>
+        <li><span class="b">Before leaving</span>, please shut down your computer and plug it into a power source on the cart.</li>
+      </ol>
+
+    </div>
+    <br>
+    <div class="skinny centered bordered">
+      <p class="centered">
+        <a href="material.html">Return home</a>
+      </p>
+    </div>
+  
+  </body>
+</html>
