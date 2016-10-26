@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,26 +5,38 @@
   </head>
   <body>
     
-    <!-- start body-->
+    <!-- start body HTML content-->
     
     <h1>Rock, paper, scissors</h1>
       
     <a href="#" onclick="doTurn('rock');">Choose rock</a><br>
     <a href="#" onclick="doTurn('paper');">Choose paper</a><br>
-    <a href="#" onclick="doTurn('scissors');">Choose scissors</a><br>
-    <div id="output">      </div>
+    <a href="#" onclick="doTurn('scissors');">Choose scissors</a>
+    
+    <p></p>
 
-    <!--end body -->
-    
-    
-    
+    <!-- this div will hold our output string 
+         and display it to the user -->
+    <div id="output"></div>
+
+    <!--end body HTML content-->
+
+
+
+    <!-- begin JS code -->
+
     <script>
       /* TODO: 
-        -user input DONE kind of.
-        -score increments
-        -add output other than console
-        -move script to external file
-      */
+        -implement AI.
+        -move script to external file.
+        -add a match win conditional such as "first to 5 wins".
+        -improve user interface (UI--add graphics?)
+        
+        COMPLETED:
+        -user input, although we could add images.
+        -score increments.
+        -add output other than console.
+    */
 
       // string variables to hold possible choices
       // we'll use these later on
@@ -43,19 +54,20 @@
       
       // variable to hold our output
       var output = "";
-            
+
+      // this function performs one round of rock, paper, scissors
       function doTurn(humanChoice) {
          
-         computerChoice = "paper"; // try changing these values to test!
+         computerChoice = "paper"; // placeholder for our AI
          
          if (humanChoice === computerChoice) { // Draw
             console.log("Draw!");
             output = "Draw!";
          }
          else if ((humanChoice === "rock" && computerChoice === "scissors") ||
-                 (humanChoice === "scissors" && computerChoice === "paper") ||
-                 (humanChoice === "paper" && computerChoice === "rock")) { 
-                 // Human won
+                  (humanChoice === "scissors" && computerChoice === "paper") ||
+                  (humanChoice === "paper" && computerChoice === "rock")) { 
+                  // Human won
             console.log("You win!"); 
             output = "You win!";
             humanScore++; // same as: humanScore = humanScore + 1;
@@ -66,17 +78,20 @@
             output = "You lose!";
             computerScore++;
          }
-        
-         output += "<br>Computer chose " + computerChoice
-                + "<br>Human score: " + humanScore
-                + "<br>Computer score: " + computerScore;
+
+         // Use the += operator to add more HTML to the "output" string
+         output += "<br>You chose " + humanChoice
+                 + "<br>Computer chose " + computerChoice
+                 + "<br>Human score: " + humanScore
+                 + "<br>Computer score: " + computerScore;
          
-         // Write the output string to the div element "output"
+         // Write the output string to the div element with id "output"
          document.getElementById("output").innerHTML = output;
       }
       
-      
     </script>
+    
+    <!-- end JS code -->
     
   </body>
 </html>
