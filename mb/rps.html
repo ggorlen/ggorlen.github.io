@@ -10,6 +10,9 @@
     
     <h1>Rock, paper, scissors</h1>
       
+    <a href="#" onclick="doTurn('rock');">Choose rock</a><br>
+    <a href="#" onclick="doTurn('paper');">Choose paper</a><br>
+    <a href="#" onclick="doTurn('scissors');">Choose scissors</a><br>
     <div id="output">      </div>
 
     <!--end body -->
@@ -54,12 +57,18 @@
                  // Human won
             console.log("You win!"); 
             output = "You win!";
+            humanScore++; // same as: humanScore = humanScore + 1;
+                          // same as: humanScore += 1;
          }
          else { // Human lost--no need to check by process of elimination
             console.log("You lose!");
             output = "You lose!";
+            computerScore++;
          }
+        
+         output += "<br>" + humanScore;
          
+         // Write the output string to the div element "output"
          document.getElementById("output").innerHTML = output;
       }
       
