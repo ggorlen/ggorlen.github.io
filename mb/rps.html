@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -5,9 +6,19 @@
   </head>
   <body>
     
+    <!-- start body-->
+    
+    <h1>Rock, paper, scissors</h1>
+      
+    <div id="output">      </div>
+
+    <!--end body -->
+    
+    
+    
     <script>
       /* TODO: 
-        -user input
+        -user input DONE kind of.
         -score increments
         -add output other than console
         -move script to external file
@@ -26,26 +37,32 @@
       // string variables to hold the choices
       var humanChoice = "";
       var computerChoice = "";
-    
-      doTurn(); // just testing our function
-        
-      function doTurn() {
-         humanChoice = "scissors"; // TODO: allow user input later
-         computerChoice = "paper"; // try changing these values to test!
+      
+      // variable to hold our output
+      var output = "";
+            
+      function doTurn(humanChoice) {
+         computerChoice = "rock"; // try changing these values to test!
          
          if (humanChoice === computerChoice) { // Draw
-            console.log("Draw!");    
+            console.log("Draw!");
+            output = "Draw!";
          }
-         else if (humanChoice === "rock" && computerChoice === "scissors" ||
-                 humanChoice === "scissors" && computerChoice === "paper" ||
-                 humanChoice === "paper" && computerChoice === "rock") { 
+         else if ((humanChoice === "rock" && computerChoice === "scissors") ||
+                 (humanChoice === "scissors" && computerChoice === "paper") ||
+                 (humanChoice === "paper" && computerChoice === "rock")) { 
                  // Human won
             console.log("You win!"); 
+            output = "You win!";
          }
          else { // Human lost--no need to check by process of elimination
             console.log("You lose!");
+            output = "You lose!";
          }
+         
+         document.getElementById("output").innerHTML = output;
       }
+      
       
     </script>
     
