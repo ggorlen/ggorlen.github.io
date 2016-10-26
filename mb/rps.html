@@ -45,7 +45,8 @@
       var output = "";
             
       function doTurn(humanChoice) {
-         computerChoice = "rock"; // try changing these values to test!
+         
+         computerChoice = "paper"; // try changing these values to test!
          
          if (humanChoice === computerChoice) { // Draw
             console.log("Draw!");
@@ -66,7 +67,9 @@
             computerScore++;
          }
         
-         output += "<br>" + humanScore;
+         output += "<br>Computer chose " + computerChoice
+                + "<br>Human score: " + humanScore
+                + "<br>Computer score: " + computerScore;
          
          // Write the output string to the div element "output"
          document.getElementById("output").innerHTML = output;
