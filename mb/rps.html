@@ -37,7 +37,7 @@
         -user input, although we could add images.
         -score increments.
         -add output other than console.
-    */
+      */
 
       // string variables to hold possible choices
       // we'll use these later on
@@ -62,29 +62,38 @@
          computerChoice = "paper"; // placeholder for our AI
          
          if (humanChoice === computerChoice) { // Draw
-            console.log("Draw!");
             output = "Draw!";
+            output = "You both picked " + humanChoice + ".  Draw!";
          }
          else if ((humanChoice === "rock" && computerChoice === "scissors") ||
                   (humanChoice === "scissors" && computerChoice === "paper") ||
                   (humanChoice === "paper" && computerChoice === "rock")) { 
                   // Human won
-            console.log("You win!"); 
-            output = "You win!";
+            output = "Your " + humanChoice + " beats computer's " + computerChoice;
             humanScore++; // same as: humanScore = humanScore + 1;
                           // same as: humanScore += 1;
          }
          else { // Human lost--no need to check by process of elimination
-            console.log("You lose!");
             output = "You lose!";
             computerScore++;
+             output = "Your " + humanChoice + " lost to computer's " + computerChoice;
          }
+        
 
          // Use the += operator to add more HTML to the "output" string
-         output += "<br>You chose " + humanChoice
-                 + "<br>Computer chose " + computerChoice
-                 + "<br>Human score: " + humanScore
+         output += "<br>Human score: " + humanScore
                  + "<br>Computer score: " + computerScore;
+         
+         if (humanScore >= 10) {
+           humanScore = 0;
+           computerScore = 0;
+           output += "<br>You win!";
+         }
+         else if (computerScore >= 10) {
+           humanScore = 0;
+           computerScore = 0;
+           output += "<br>You lose!";
+         }         
          
          // Write the output string to the div element with id "output"
          document.getElementById("output").innerHTML = output;
