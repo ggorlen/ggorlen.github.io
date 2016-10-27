@@ -39,11 +39,8 @@
         -add output other than console.
       */
 
-      // string variables to hold possible choices
-      // we'll use these later on
-      var choice1 = "rock";
-      var choice2 = "paper";
-      var choice3 = "scissors";
+      // string array to hold possible choices
+      var choices = [ "rock", "paper", "scissors" ];
 
       // number variables to hold the scores
       var humanScore = 0;
@@ -56,10 +53,15 @@
       // variable to hold our output
       var output = "";
 
+      // returns a random computer choice
+      function getComputerChoice(hc) {
+          return choices[Math.floor(Math.random() * choices.length)];
+      }
+      
       // this function performs one round of rock, paper, scissors
       function doTurn(humanChoice) {
          
-         computerChoice = "paper"; // placeholder for our AI
+         computerChoice = getComputerChoice(humanChoice);
          
          if (humanChoice === computerChoice) { // Draw
             output = "Draw!";
