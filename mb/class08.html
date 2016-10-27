@@ -13,7 +13,7 @@
       <h1>Class 8: Introduction to JavaScript continued</h1>
     
       <p>
-        Today we continue with JS basics by finishing our rock, paper, scissors game and discussing loops, one of the most important topics in computer science.  Next week, we'll jump into graphics and figure out our semester projects.
+        Today we continue with JS basics by finishing our rock, paper, scissors game and discussing loops, one of the most important topics in computer science.  Next week, we'll jump into graphics and begin planning the games or projects we'll build.
       </p>
       
     </div>
@@ -23,11 +23,12 @@
       <p>Today's topics:</p>
 
       <ol>
+        <li>Announcement: Field trip to Yelp offices on 11/9 from 5-7pm--more info next week!</li>
         <li>Grab the <a href="rps.html">rock, paper, scissors source code</a> from where we left off Tuesday.</li>
         <li>Check for game over each turn.</li>
         <li>Implement a computer opponent with AI.  We'll define a function called <code>getComputerMove()</code> which returns the computer's move as a string.  There are many ways to decide how our AI behaves.  Try a few on your own!
           <ul>
-            <li>AI can choose randomly from the available options.  Consider using a weighted random.  Here's how to implement this:
+            <li>AI can choose randomly from the available options.  Consider using a weighted random once a standard random has been implemented.  Here's how to implement this:
               <ul>
                 <li>We can get a random decimal between 0 and 1 using JS's <code>Math.random()</code> function.  Try it out in the console!  Almost all games use random numbers, so it's a very important function to remember.  If we multiply the return value of <code>Math.random()</code> by the number of choices (in this case, 3) and cut off the decimal portion of the number, then we'll get either 0, 1, or 2 on each call.  Try it:</li>
                 <li><code>var randomNum = Math.floor(Math.random() * 3);</code></li>
