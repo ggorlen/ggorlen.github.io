@@ -13,7 +13,7 @@ var ctx = canvas.getContext("2d");
 // constants
 var GRID_SIZE = canvas.width / 10;
 var INIT_X = canvas.width / 2;
-var INIT_Y = 0;
+var INIT_Y = -GRID_SIZE;
 
 // game variables
 var activeBlock;
@@ -21,68 +21,91 @@ var nextBlock;
 var deadSquares = [];
 var rowCounter = [];
 var score = 0;
-var kbd = "";
 
 // interval variables
 var frameInterval;
 var stepInterval;
 
+// keyboard
+var kbd = function () {
+  this.left = false;
+  this.up = false;
+  this.down = false;
+  this.right = false;
+};
 
 var Square = function(x, y, color) {
   this.x = x;
   this.y = y;
-  this.color = color || "rgb(255, 0, 0)";
+  this.color = color;
 };
 
 var Block = function (squares) {
   this.squares = squares;
   this.size = squares.length;
 
+  // steps the block one GRID_SIZE closer to the bottom of the screen
   this.step = function () {     
     for (var i = 0; i < this.size; i++) {
       this.squares[i].y += GRID_SIZE;
     }
   };
   
+  // moves Block to the left or right if legal
   this.move = function () {
-    for (var i = 0; i < this.size; i++) {
+    if (kbd.left) {
+      for (var i = 0; i < this.size; i++) {         
         
-      // check if block is at left or right walls
-      // and prevent it from moving further if so
-      if (this.squares[i].x <= 0 && kbd === "left" ||
-          this.squares[i].x >= canvas.width - GRID_SIZE
-          && kbd === "right") {
-        return;
-      }
+        // prevent block from moving over the left side of the screen
+        if (this.squares[i].x <= 0) {
+          return;
+        }
       
-      /*else if (kbd === "left") {
-        
-        // check to see if block will clip into a dead block from the right side
-        for (var b = 0; b < deadBlocks.length; b++) {
-          for (var i = 0; i < deadBlocks[b].size; i++) {
-            if (deadBlocks[b].squares[i].x + GRID_SIZE === this.squares[i].x &&
-                deadBlocks[b].squares[i].y + GRID_SIZE === this.squares[i].y) {
-              return;
-            }
+        // prevent block from clipping into a dead square from the right
+        for (var j = 0; j < deadSquares.length; j++) {
+          if (deadSquares[j].x + GRID_SIZE === this.squares[i].x && 
+              deadSquares[j].y === this.squares[i].y) {
+            return;
           }
         }
-      }//endif  */
-    }
-    
-    if (kbd === "left") {
+      }
+      
+      // tests passed--execute a move to the left
       for (var i = 0; i < this.size; i++) {
         this.squares[i].x -= GRID_SIZE;
       }
-    }
-    else if (kbd === "right") {
+    } // end if (kbd.left)
+    
+    if (kbd.right) {
+      for (var i = 0; i < this.size; i++) {         
+        
+        // prevent block from moving over the right side of the screen
+        if (this.squares[i].x >= canvas.width - GRID_SIZE) {
+          return;
+        }
+      
+        // prevent block from clipping into a dead square from the left
+        for (var j = 0; j < deadSquares.length; j++) {
+          if (deadSquares[j].x - GRID_SIZE === this.squares[i].x && 
+              deadSquares[j].y === this.squares[i].y) {
+            return;
+          }
+        }
+      }
+      
+      // tests passed--execute a move to the right
       for (var i = 0; i < this.size; i++) {
         this.squares[i].x += GRID_SIZE;
       }
-    }
-  };
+    } // end if (kbd.right)
+  }; // end move function
   
-  // todo add function: rotate
-};
+  // rotates a block counter-clockwise
+  this.rotateCCW = function () {
+    
+  }
+  
+}; // end Block class
 
 // initialize a game
 function init() {
@@ -118,6 +141,15 @@ function getPattern() {
              new Square(INIT_X - GRID_SIZE, INIT_Y, color), 
              new Square(INIT_X - GRID_SIZE, INIT_Y + GRID_SIZE, color) ];
   }
+/*
+  // L pattern
+  else if (choice === 2) {
+    var color = "rgb(127, 127, 0)";
+    return [ new Square(INIT_X, INIT_Y, color), 
+             new Square(INIT_X + GRID_SIZE, INIT_Y, color), 
+             new Square(INIT_X, INIT_Y + GRID_SIZE, color), 
+             new Square(INIT_X, INIT_Y + GRID_SIZE * 2, color) ];
+  }*/
 }
 
 // generates a new nextBlock and makes old nextBlock the activeBlock
@@ -169,7 +201,7 @@ function collapseRow(row) {
     }
   }
   
-  // shift row counters
+  // shift row counters downward
   row = row / GRID_SIZE - 1;
   for (var i = row; i > 0; i--) {
     rowCounter[i] = rowCounter[i - 1];
@@ -185,7 +217,8 @@ function collision() {
   // check if active block touched a dead square
   for (var i = 0; i < activeBlock.size; i++) {
     for (var j = 0; j < deadSquares.length; j++) {
-      if (activeBlock.squares[i].y === deadSquares[j].y - GRID_SIZE &&
+      if (activeBlock.squares[i].y === 
+            deadSquares[j].y - GRID_SIZE &&
           activeBlock.squares[i].x === deadSquares[j].x) {
         killBlock(activeBlock);
         return true;
@@ -210,7 +243,7 @@ function killBlock(block) {
     
     // increment rowCounter
     rowCounter[block.squares[i].y / GRID_SIZE] 
-          += GRID_SIZE / 10;
+                            += GRID_SIZE / 10;
 //    console.log(rowCounter[i]);
   }
 
@@ -269,21 +302,23 @@ function drawDeadSquares() {
 // keyevent listeners to track arrow key actions
 document.addEventListener("keydown", function (e) {
   if (e.keyCode === 39 || e.keyCode === 68) {
-    kbd = "right";
+    kbd.right = true;
   }
   else if (e.keyCode === 38 || e.keyCode === 87) {
-    kbd = "up";
+    kbd.up = true;
   }
   else if (e.keyCode === 37 || e.keyCode === 65) {
-    kbd = "left";
+    kbd.left = true;
   }
   else if (e.keyCode === 40 || e.keyCode === 83) {
-    kbd = "down";
+    kbd.down = true;
   }
 }, false);
 
 document.addEventListener("keyup", function (e) {
-  if (e) kbd = "";
+  if (e) {
+    kbd.right = kbd.up = kbd.down = kbd.left = false;
+  }
 }, false);
 
 
@@ -293,29 +328,33 @@ var update = function () {
   // clear canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   
+  checkCollapse();
+  
   // redraw stuff
   drawActiveBlock();
   drawDeadSquares();
-  checkCollapse();
 
   // check rotations
   
-  // check collisions
-  collision();
   
   // check for drops
-  if (kbd === "down") dropActiveBlock();
+  if (kbd.down) dropActiveBlock();
   else activeBlock.move();
 };
 
-// call every "tick" to move the active block down
+// call every "tick" to check collisions and step activeBlock down
 var moveDown = function () {
-  activeBlock.step();
+    
+  // check collisions
+  collision();
+  
+  // step activeBlock down
+  activeBlock.step();  
 };
 
 // instantly moves the block to the bottom
 function dropActiveBlock() {
-  kbd = "";
+  kbd.down = false;
   while (!collision()) {
     for (var i = 0; i < activeBlock.size; i++) {
       activeBlock.squares[i].y += GRID_SIZE;
