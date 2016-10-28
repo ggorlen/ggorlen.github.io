@@ -28,12 +28,12 @@
 
     <script>
       /* TODO: 
-        -implement AI.
-        -move script to external file.
-        -add a match win conditional such as "first to 5 wins".
         -improve user interface (UI--add graphics?)
+        -move script to external file ( <script src="main.js"></script> ).
         
         COMPLETED:
+        -implement AI.
+        -add a match win conditional such as "first to 5 wins".
         -user input, although we could add images.
         -score increments.
         -add output other than console.
@@ -55,59 +55,67 @@
 
       // returns a random computer choice
       function getComputerChoice(hc) {
-      /*    if (hc === "rock") {
-            return "paper";
-          }
-          else if (hc === "paper") {
-            return "scissors";
-          }
-          else {
-            return "rock";
-          }*/
-          return choices[Math.floor(Math.random() * choices.length)];
+        /*    
+        // an "always wins" AI implementation
+        if (hc === "rock") {
+          return "paper";
+        }
+        else if (hc === "paper") {
+          return "scissors";
+        }
+        else {
+          return "rock";
+        }*/
+
+        // a 
+        return choices[Math.floor(Math.random() * choices.length)];
       }
       
       // this function performs one round of rock, paper, scissors
       function doTurn(humanChoice) {
          
-         computerChoice = getComputerChoice(humanChoice);
-         
-         if (humanChoice === computerChoice) { // Draw
-            output = "Draw!";
-            output = "You both picked " + humanChoice + ".  Draw!";
-         }
-         else if ((humanChoice === "rock" && computerChoice === "scissors") ||
-                  (humanChoice === "scissors" && computerChoice === "paper") ||
-                  (humanChoice === "paper" && computerChoice === "rock")) { 
-                  // Human won
-            output = "Your " + humanChoice + " beats computer's " + computerChoice;
-            humanScore++; // same as: humanScore = humanScore + 1;
-                          // same as: humanScore += 1;
-         }
-         else { // Human lost--no need to check by process of elimination
-            output = "You lose!";
-            computerScore++;
-             output = "Your " + humanChoice + " lost to computer's " + computerChoice;
-         }
+        // call the getComputerChoice function
+        computerChoice = getComputerChoice(humanChoice);
         
+        if (humanChoice === computerChoice) { // Draw
+           output = "You both picked " + humanChoice + ".  Draw!";
+        }
+        else if ((humanChoice === "rock" && computerChoice === "scissors") ||
+                 (humanChoice === "scissors" && computerChoice === "paper") ||
+                 (humanChoice === "paper" && computerChoice === "rock")) { 
+                 // Human won
+           output = "Your " + humanChoice + " beats computer's " + computerChoice;
+           
+           // Increment the human's score by 1
+           humanScore++; // same as: humanScore = humanScore + 1;
+                         // same as: humanScore += 1;
+        }
+        else { // Human lost--no need to check by process of elimination
+           output = "You lose!";
 
-         // Use the += operator to add more HTML to the "output" string
-         output += "<br>Human score: " + humanScore
-                 + "<br>Computer score: " + computerScore;
-         
-         if (humanScore >= 10) {
-           humanScore = 0;
-           computerScore = 0;
-           output += "<br>You win!";
-         }
-         else if (computerScore >= 10) {
-           humanScore = 0;
-           computerScore = 0;
-           output += "<br>You lose!";
-         }         
-         
-         // Write the output string to the div element with id "output"
-         document.getElementById("output").innerHTML = output;
+           // Increment the computer's score by 1
+           computerScore++;
+           output = "Your " + humanChoice + " lost to computer's " + computerChoice;
+        }
+       
+
+        // Use the += operator to add more HTML to the "output" string
+        output += "<br>Human score: " + humanScore
+                + "<br>Computer score: " + computerScore;
+        
+        if (humanScore >= 10) {
+          humanScore = 0;
+          computerScore = 0;
+          output += "<br>You win!";
+        }
+        else if (computerScore >= 10) {
+          humanScore = 0;
+          computerScore = 0;
+          output += "<br>You lose!";
+        }         
+        
+        // Write the output string to the div element with id "output"
+        document.getElementById("output").innerHTML = output;
       }
       
     </script>
