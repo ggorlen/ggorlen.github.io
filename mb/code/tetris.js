@@ -19,7 +19,6 @@ var INIT_Y = -GRID_SIZE;
 var activeBlock;
 var nextBlock;
 var deadSquares = [];
-var rowCounter = [];
 var score = 0;
 
 // interval variables
@@ -33,6 +32,29 @@ var kbd = function () {
   this.down = false;
   this.right = false;
 };
+
+var Rod = function () {
+  this.color = "rgb(127, 0, 127)";
+  this.squares = [ new Square(INIT_X, INIT_Y, color), 
+           new Square(INIT_X, INIT_Y + GRID_SIZE, color), 
+           new Square(INIT_X - GRID_SIZE, INIT_Y, color), 
+           new Square(INIT_X - GRID_SIZE, INIT_Y + GRID_SIZE, color) ];
+  this.size = squares.length;
+  /*this.stage = 1;
+  
+
+  this.rotate = function () {
+    squares[0].x = squares[0].x + 1;
+    squares[0].y = squares[0].y + 1;
+    squares[1].x = squares[1].x + 1;
+    squares[1].y = squares[1].y;
+    squares[2].x = squares[2].x + 1;
+    squares[2].y = squares[2].y;
+    squares[3].x = squares[3].x - 1;
+    squares[3].y = squares[3].y - 2;
+  }*/
+};
+
 
 var Square = function(x, y, color) {
   this.x = x;
@@ -63,9 +85,11 @@ var Block = function (squares) {
       
         // prevent block from clipping into a dead square from the right
         for (var j = 0; j < deadSquares.length; j++) {
-          if (deadSquares[j].x + GRID_SIZE === this.squares[i].x && 
-              deadSquares[j].y === this.squares[i].y) {
-            return;
+          for (var k = 0; k < deadSquares[j].length; k++) {
+            if (deadSquares[j][k].x + GRID_SIZE === this.squares[i].x && 
+                deadSquares[j][k].y === this.squares[i].y) {
+              return;              
+            }
           }
         }
       }
@@ -86,9 +110,11 @@ var Block = function (squares) {
       
         // prevent block from clipping into a dead square from the left
         for (var j = 0; j < deadSquares.length; j++) {
-          if (deadSquares[j].x - GRID_SIZE === this.squares[i].x && 
-              deadSquares[j].y === this.squares[i].y) {
-            return;
+          for (var k = 0; k < deadSquares[j].length; k++) {
+            if (deadSquares[j][k].x - GRID_SIZE === this.squares[i].x && 
+                deadSquares[j][k].y === this.squares[i].y) {
+              return;              
+            }
           }
         }
       }
@@ -110,9 +136,8 @@ var Block = function (squares) {
 // initialize a game
 function init() {
   deadSquares = [];
-  rowCounter = [];
   for (var i = 0; i < canvas.height / GRID_SIZE; i++) {
-    rowCounter[i] = 0;
+    deadSquares[i] = [];
   }
   
   nextBlock = new Block(getPattern());
@@ -141,7 +166,7 @@ function getPattern() {
              new Square(INIT_X - GRID_SIZE, INIT_Y, color), 
              new Square(INIT_X - GRID_SIZE, INIT_Y + GRID_SIZE, color) ];
   }
-/*
+  /*
   // L pattern
   else if (choice === 2) {
     var color = "rgb(127, 127, 0)";
@@ -162,18 +187,13 @@ function newActiveBlock() {
 
 // check if any dead squares are at the top of the screen
 function isGameOver() {
-  for (var i = 0; i < deadSquares.length; i++) {
-    if (deadSquares[i].y <= 0) {
-      return true;
-    }  
-  }
-  return false;
+  return deadSquares[0].length > 0;
 }
 
 // checks for filled rows
 function checkCollapse() {
-  for (var i = 0; i < rowCounter.length; i++) {
-    if (rowCounter[i] === GRID_SIZE) {
+  for (var i = 0; i < deadSquares.length; i++) {
+    if (deadSquares[i].length >= GRID_SIZE / 2) {
       collapseRow(i);
     }
   }
@@ -185,27 +205,23 @@ function collapseRow(row) {
   //debug:
   //console.log("called collapserow()");
 
-  row = ++row * GRID_SIZE;
+  rowAsGrid = (row + 1) * GRID_SIZE;
 
-   // remove the dead squares for this row
-  for (var i = 0; i < deadSquares.length; i++) {
-    if (deadSquares[i].y === row) {
-      deadSquares.splice(i, 1);
-    }
-  }
-  
-  // shift all blocks above the row downward
-  for (var i = 0; i < deadSquares.length; i++) {
-    if (deadSquares[i].y < row) {
-      deadSquares[i].y += GRID_SIZE;
-    }
-  }
-  
-  // shift row counters downward
-  row = row / GRID_SIZE - 1;
+  // shift all block y coordinates above the row
   for (var i = row; i > 0; i--) {
-    rowCounter[i] = rowCounter[i - 1];
+    for (var j = 0; j < deadSquares[i].length; j++) {
+      deadSquares[i][j].y += GRID_SIZE;
+    }
   }
+  
+  // shift rows downward
+  for (var i = row; i > 0; i--) {
+    deadSquares[i] = deadSquares[i - 1];
+  }
+  
+  // this seems to prevent a bug where the column was overflowing
+  // during a call to dropActiveBlock()
+  deadSquares[0] = [];
   
   // increment score
   score++;
@@ -217,11 +233,13 @@ function collision() {
   // check if active block touched a dead square
   for (var i = 0; i < activeBlock.size; i++) {
     for (var j = 0; j < deadSquares.length; j++) {
-      if (activeBlock.squares[i].y === 
-            deadSquares[j].y - GRID_SIZE &&
-          activeBlock.squares[i].x === deadSquares[j].x) {
-        killBlock(activeBlock);
-        return true;
+      for (var k = 0; k < deadSquares[j].length; k++) {
+        if (activeBlock.squares[i].y === 
+            deadSquares[j][k].y - GRID_SIZE &&
+            activeBlock.squares[i].x === deadSquares[j][k].x) {
+          killBlock(activeBlock);
+          return true;
+        }
       }
     }
       
@@ -239,18 +257,10 @@ function killBlock(block) {
   
   // add squares from dying block to deadSquares array
   for (var i = 0; i < block.size; i++) {
-    deadSquares.push(block.squares[i]);
-    
-    // increment rowCounter
-    rowCounter[block.squares[i].y / GRID_SIZE] 
-                            += GRID_SIZE / 10;
-//    console.log(rowCounter[i]);
+    deadSquares[block.squares[i].y / GRID_SIZE]
+               .push(block.squares[i]);
   }
 
-  //debug:
-  //console.table(deadSquares);
-  //console.log(rowCounter);
-  
   newActiveBlock();
 }
 
@@ -262,7 +272,7 @@ function killBlock(block) {
 // render active block on screen
 function drawActiveBlock() {
   for (var i = 0; i < activeBlock.size; i++) {
-      
+
     // fill
     ctx.beginPath();
     ctx.fillRect(activeBlock.squares[i].x, 
@@ -283,19 +293,21 @@ function drawActiveBlock() {
 // render dead squares on screen
 function drawDeadSquares() {
   for (var i = 0; i < deadSquares.length; i++) {
+    for (var j = 0; j < deadSquares[i].length; j++) {  
     
-    // fill
-    ctx.beginPath();
-    ctx.fillRect(deadSquares[i].x, deadSquares[i].y,
-                 GRID_SIZE, GRID_SIZE);
-    ctx.fillStyle = deadSquares[i].color;
-    ctx.fill();
-    ctx.closePath();    
-  
-    //outline
-    ctx.rect(deadSquares[i].x, deadSquares[i].y, 
-             GRID_SIZE, GRID_SIZE);
-    ctx.stroke();     
+      // fill
+      ctx.beginPath();
+      ctx.fillRect(deadSquares[i][j].x, deadSquares[i][j].y,
+                   GRID_SIZE, GRID_SIZE);
+      ctx.fillStyle = deadSquares[i][j].color;
+      ctx.fill();
+      ctx.closePath();    
+    
+      //outline
+      ctx.rect(deadSquares[i][j].x, deadSquares[i][j].y, 
+               GRID_SIZE, GRID_SIZE);
+      ctx.stroke();     
+    }
   }
 }
 
@@ -354,12 +366,12 @@ var moveDown = function () {
 
 // instantly moves the block to the bottom
 function dropActiveBlock() {
-  kbd.down = false;
   while (!collision()) {
     for (var i = 0; i < activeBlock.size; i++) {
       activeBlock.squares[i].y += GRID_SIZE;
     }
   }
+  kbd.down = false;
 }
 
 // start game

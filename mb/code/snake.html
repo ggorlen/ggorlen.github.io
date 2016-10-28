@@ -39,6 +39,14 @@
       var yDirection = CELL_SIZE;
       var snakeLength = 3;
       
+      // keyboard handler
+      var kbd = function () {
+        this.left = false;
+        this.right = false;
+        this.up = false;
+        this.down = true;
+      };
+      
       // initialize game
       function init() {
         snakeLength = 3;
@@ -52,14 +60,6 @@
         kbd.down = true;
         newApple();
       }
-
-      // keyboard handler
-      var kbd = function () {
-        this.left = false;
-        this.right = false;
-        this.up = false;
-        this.down = true;
-      };
       
       function newApple() {
         var valid = false;
@@ -104,7 +104,6 @@
           init();
         }
 
-        
         // bottom of screen
         else if (snakeY[0] >= canvas.height - CELL_SIZE) {
           init();
