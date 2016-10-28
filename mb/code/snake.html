@@ -38,7 +38,6 @@
       var xDirection = CELL_SIZE;
       var yDirection = CELL_SIZE;
       var snakeLength = 3;
-      var kbd = "down";
       
       // initialize game
       function init() {
@@ -49,9 +48,18 @@
         snakeY[0] = INIT_Y;
         xDirection = CELL_SIZE;
         yDirection = CELL_SIZE;
-        kbd = "down";
+        kbd.left = kbd.right = kbd.up = false;
+        kbd.down = true;
         newApple();
       }
+
+      // keyboard handler
+      var kbd = function () {
+        this.left = false;
+        this.right = false;
+        this.up = false;
+        kbd.down = true;
+      };
       
       function newApple() {
         var valid = false;
@@ -113,19 +121,19 @@
       function moveSnake() {
       
         // handle keyboard presses
-        if (kbd === "left") {
+        if (kbd.left) {
           xDirection = -CELL_SIZE;
           yDirection = 0;
         }
-        else if (kbd === "right") {
+        else if (kbd.right) {
           xDirection = CELL_SIZE;
           yDirection = 0;
         }
-        else if (kbd === "up") {
+        else if (kbd.up) {
           yDirection = -CELL_SIZE;
           xDirection = 0;
         }
-        else if (kbd === "down") {
+        else if (kbd.down) {
           yDirection = CELL_SIZE;
           xDirection = 0;
         }
@@ -192,17 +200,21 @@
       
       // add keyevent listener to track arrow key actions
       document.addEventListener("keydown", function (e) {
-        if ((e.keyCode === 39 || e.keyCode === 68) && kbd !== "left") {
-          kbd = "right";
+        if ((e.keyCode === 39 || e.keyCode === 68) && !kbd.left) {
+          kbd.right = true;
+          kbd.up = kbd.down = false;
         }
-        else if ((e.keyCode === 38 || e.keyCode === 87) && kbd !== "down") {
-          kbd = "up";
+        else if ((e.keyCode === 38 || e.keyCode === 87) && !kbd.down) {
+          kbd.up = true;
+          kbd.left = kbd.right = false;
         }
-        else if ((e.keyCode === 37 || e.keyCode === 65) && kbd !== "right") {
-          kbd = "left";
+        else if ((e.keyCode === 37 || e.keyCode === 65) && !kbd.right) {
+          kbd.left = true;
+          kbd.up = kbd.down = false;
         }
-        else if ((e.keyCode === 40 || e.keyCode === 83) && kbd !== "up") {
-          kbd = "down";
+        else if ((e.keyCode === 40 || e.keyCode === 83) && !kbd.up) {
+          kbd.down = true;
+          kbd.left = kbd.right = false;
         }
       }, false);
 
