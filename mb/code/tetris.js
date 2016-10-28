@@ -1,10 +1,11 @@
-// In progress!
-
-/* http://tetris.wikia.com/wiki/Tetris_Guideline
+/* In progress!
+  Todos:
+   - add block classes for all types
+   - add rotation methods
+   - implement scores and add speed increases/levels:
+     http://stackoverflow.com/questions/1280263/changing-the-interval-of-setinterval-while-its-running
+   - http://tetris.wikia.com/wiki/Tetris_Guideline
 */
-/* todo todo http://stackoverflow.com/questions/1280263/changing-the-interval-of-setinterval-while-its-running
-*/
-
 
 // get canvas and context from DOM
 var canvas = document.getElementById("tetriscanvas");
@@ -20,6 +21,7 @@ var activeBlock;
 var nextBlock;
 var deadSquares = [];
 var score = 0;
+var level = 1;
 
 // interval variables
 var frameInterval;
@@ -33,41 +35,22 @@ var kbd = function () {
   this.right = false;
 };
 
-var Rod = function () {
-  this.color = "rgb(127, 0, 127)";
-  this.squares = [ new Square(INIT_X, INIT_Y, color), 
-           new Square(INIT_X, INIT_Y + GRID_SIZE, color), 
-           new Square(INIT_X - GRID_SIZE, INIT_Y, color), 
-           new Square(INIT_X - GRID_SIZE, INIT_Y + GRID_SIZE, color) ];
-  this.size = squares.length;
-  /*this.stage = 1;
-  
-
-  this.rotate = function () {
-    squares[0].x = squares[0].x + 1;
-    squares[0].y = squares[0].y + 1;
-    squares[1].x = squares[1].x + 1;
-    squares[1].y = squares[1].y;
-    squares[2].x = squares[2].x + 1;
-    squares[2].y = squares[2].y;
-    squares[3].x = squares[3].x - 1;
-    squares[3].y = squares[3].y - 2;
-  }*/
-};
-
-
+// square class
 var Square = function(x, y, color) {
   this.x = x;
   this.y = y;
   this.color = color;
 };
 
-var Block = function (squares) {
-  this.squares = squares;
-  this.size = squares.length;
+// block class
+var Block = function (type) {
+  this.type = type;
+  this.squares = [ {}, {}, {}, {} ];
+  this.size = this.squares.length;
+  this.stage = 0;
 
   // steps the block one GRID_SIZE closer to the bottom of the screen
-  this.step = function () {     
+  this.step = function () {
     for (var i = 0; i < this.size; i++) {
       this.squares[i].y += GRID_SIZE;
     }
@@ -125,12 +108,224 @@ var Block = function (squares) {
       }
     } // end if (kbd.right)
   }; // end move function
-  
-  // rotates a block counter-clockwise
-  this.rotateCCW = function () {
+
+  // set method behavior based on block type
+  switch (type) {
+    case "square":
+      var color = "rgb(255, 255, 255)";
+      this.squares = [ new Square(INIT_X, INIT_Y, color), 
+        new Square(INIT_X, INIT_Y + GRID_SIZE, color), 
+        new Square(INIT_X - GRID_SIZE, INIT_Y, color), 
+        new Square(INIT_X - GRID_SIZE, INIT_Y + GRID_SIZE, color) ];
+      this.rotateCW = function () { };
+      this.rotateCCW = function () { };
+    break;  // end square type
     
-  }
-  
+    case "notch":
+      var color = "rgb(255, 255, 255)";
+      this.squares = [ new Square(INIT_X - GRID_SIZE, INIT_Y, color), 
+        new Square(INIT_X, INIT_Y, color), 
+        new Square(INIT_X, INIT_Y + GRID_SIZE, color), 
+        new Square(INIT_X + GRID_SIZE, INIT_Y, color) ];
+       
+      this.rotateCW = function () {
+        if (this.stage === 0) {
+          kbd.up = false;
+          
+          // collision check
+          for (var i = 0; i < deadSquares.length; i++) {
+            for (var j = 0; j < deadSquares[i].length; j++) {
+              if (this.squares[3].x - GRID_SIZE === deadSquares[i][j].x &&
+                  this.squares[3].y - GRID_SIZE === deadSquares[i][j].y) {
+                return;
+              }
+            }
+          }
+          
+          // tests passed, do the rotation
+          this.squares[3].x -= GRID_SIZE;
+          this.squares[3].y -= GRID_SIZE;
+          this.stage = 1;
+        }
+        else if (this.stage === 1) {
+          kbd.up = false;
+          
+          // collision check
+          for (var i = 0; i < deadSquares.length; i++) {
+            for (var j = 0; j < deadSquares[i].length; j++) {
+              if (this.squares[2].x + GRID_SIZE === deadSquares[i][j].x &&
+                  this.squares[2].y - GRID_SIZE === deadSquares[i][j].y) {
+                return;
+              }
+            }
+          } 
+          
+          // prevent going off the edges
+          if (this.squares[2].x + GRID_SIZE >= canvas.width) {
+            return;
+          }
+          
+          // tests passed, do the rotation
+          this.squares[2].x += GRID_SIZE;
+          this.squares[2].y -= GRID_SIZE;
+          this.stage = 2;
+        }
+        else if (this.stage === 2) {
+          kbd.up = false;
+          
+          // collision check
+          for (var i = 0; i < deadSquares.length; i++) {
+            for (var j = 0; j < deadSquares[i].length; j++) {
+              if (this.squares[0].x + GRID_SIZE === deadSquares[i][j].x &&
+                  this.squares[0].y + GRID_SIZE === deadSquares[i][j].y) {
+                return;
+              }
+            }
+          } 
+          
+          // prevent going off the edges
+          if (this.squares[0].x + GRID_SIZE >= canvas.width ||
+              this.squares[0].y + GRID_SIZE >= canvas.height) {
+            return;
+          }
+          
+          // tests passed, do the rotation
+          this.squares[0].x += GRID_SIZE;
+          this.squares[0].y += GRID_SIZE;
+          this.stage = 3;
+        }
+        else if (this.stage === 3) {
+          kbd.up = false;
+          
+          // collision check
+          for (var i = 0; i < deadSquares.length; i++) {
+            for (var j = 0; j < deadSquares[i].length; j++) {
+              if (this.squares[3].x - GRID_SIZE === deadSquares[i][j].x &&
+                  this.squares[3].y + GRID_SIZE === deadSquares[i][j].y) {
+                return;
+              }
+            }
+          } 
+          
+          // prevent going off the edges
+          if (this.squares[3].x - GRID_SIZE < 0 ||
+              this.squares[3].y + GRID_SIZE >= canvas.height) { 
+            return; 
+          } 
+          
+          // tests passed, do the rotation
+          this.squares = [ new Square(this.squares[3].x - GRID_SIZE, this.squares[3].y + GRID_SIZE, color), 
+            new Square(this.squares[1].x, this.squares[1].y, color), 
+            new Square(this.squares[0].x, this.squares[0].y, color), 
+            new Square(this.squares[2].x, this.squares[2].y, color) ];
+          this.stage = 0;
+        }
+      }; // end notch rotateCW func
+
+      this.rotateCCW = function () {
+        this.rotateCW();
+      }
+    break;  // end notch type
+    
+    case "rod":
+      var color = "rgb(255, 255, 255)";
+      this.squares = [ new Square(INIT_X, INIT_Y, color), 
+        new Square(INIT_X, INIT_Y + GRID_SIZE, color), 
+        new Square(INIT_X, INIT_Y + GRID_SIZE * 2, color), 
+        new Square(INIT_X, INIT_Y + GRID_SIZE * 3, color) ];
+       
+      this.rotateCW = function () {
+        if (this.stage === 0) {
+          kbd.up = false;
+          
+          // collision check
+          for (var i = 0; i < deadSquares.length; i++) {
+            for (var j = 0; j < deadSquares[i].length; j++) {
+              if (this.squares[0].x + GRID_SIZE * 2 === deadSquares[i][j].x &&
+                  this.squares[0].y + GRID_SIZE * 2 === deadSquares[i][j].y ||
+                  this.squares[1].x + GRID_SIZE === deadSquares[i][j].x &&
+                  this.squares[1].y + GRID_SIZE === deadSquares[i][j].y ||
+                  this.squares[3].x - GRID_SIZE === deadSquares[i][j].x &&
+                  this.squares[3].y - GRID_SIZE === deadSquares[i][j].y) {
+                return;
+              }
+            }
+          }
+          
+          // prevent going off the edges
+          if (this.squares[0].x + GRID_SIZE * 2 >= canvas.width ||
+              this.squares[1].x + GRID_SIZE  >= canvas.width ||   
+              this.squares[3].x - GRID_SIZE < 0 ||
+              this.squares[0].y + GRID_SIZE * 2 >= canvas.height ||
+              this.squares[1].y + GRID_SIZE >= canvas.height) {
+            return;
+          }
+          
+          // tests passed, do the rotation
+          this.squares[0].x += GRID_SIZE * 2;
+          this.squares[0].y += GRID_SIZE * 2;
+          this.squares[1].x += GRID_SIZE;   
+          this.squares[1].y += GRID_SIZE;
+          this.squares[3].x -= GRID_SIZE;
+          this.squares[3].y -= GRID_SIZE;
+          this.stage = 1; 
+        }
+        else if (this.stage === 1) {
+          kbd.up = false;
+
+          // collision check
+          for (var i = 0; i < deadSquares.length; i++) {
+            for (var j = 0; j < deadSquares[i].length; j++) {
+              if (this.squares[0].x - GRID_SIZE * 2 === deadSquares[i][j].x &&
+                  this.squares[0].y - GRID_SIZE < 0 === deadSquares[i][j].y ||
+                  this.squares[1].x - GRID_SIZE < 0 === deadSquares[i][j].x &&
+                  this.squares[1].y === deadSquares[i][j].y ||
+                  this.squares[2].x === deadSquares[i][j].x &&
+                  this.squares[2].y + GRID_SIZE === deadSquares[i][j].y ||
+                  this.squares[3].x + GRID_SIZE === deadSquares[i][j].x &&
+                  this.squares[3].y + GRID_SIZE * 2 === deadSquares[i][j].y) {
+                return;
+              }
+            }
+          }
+          
+          // prevent going off the edges
+          if (this.squares[0].x - GRID_SIZE * 2 < 0 ||
+              this.squares[0].y - GRID_SIZE < 0 ||
+              this.squares[1].x - GRID_SIZE < 0 ||  
+              this.squares[2].y + GRID_SIZE >= canvas.height ||
+              this.squares[3].x + GRID_SIZE >= canvas.width ||
+              this.squares[3].y + GRID_SIZE * 2 >= canvas.height) {
+            return;
+          }
+          
+          // tests passed, do the rotation
+          this.squares[0].x -= GRID_SIZE * 2;
+          this.squares[0].y -= GRID_SIZE;
+          this.squares[1].x -= GRID_SIZE;
+          this.squares[2].y += GRID_SIZE;
+          this.squares[3].x += GRID_SIZE;
+          this.squares[3].y += GRID_SIZE * 2;
+          this.stage = 0;
+        }
+      }; // end rod rotateCW func
+
+      this.rotateCCW = function () {
+        this.rotateCW();
+      }
+    break;  // end rod type
+    
+  /*
+  // L pattern
+  else if (choice === 2) {
+    var color = "rgb(127, 127, 0)";
+    return [ new Square(INIT_X, INIT_Y, color), 
+             new Square(INIT_X + GRID_SIZE, INIT_Y, color), 
+             new Square(INIT_X, INIT_Y + GRID_SIZE, color), 
+             new Square(INIT_X, INIT_Y + GRID_SIZE * 2, color) ];
+  }*/
+  } // end type switch
+
 }; // end Block class
 
 // initialize a game
@@ -143,38 +338,17 @@ function init() {
   nextBlock = new Block(getPattern());
   newActiveBlock();
   score = 0;
+  level = 1;
 }
 
 // returns a pattern for making a tetris block
 function getPattern() {
-  var choice = Math.floor(Math.random() * 2);
-  
-  // square pattern
-  if (choice === 0) {
-    var color = "rgb(255, 0, 0)";
-    return [ new Square(INIT_X, INIT_Y, color), 
-             new Square(INIT_X, INIT_Y + GRID_SIZE, color), 
-             new Square(INIT_X, INIT_Y + GRID_SIZE * 2, color), 
-             new Square(INIT_X, INIT_Y + GRID_SIZE * 3, color) ];
+  var choice = Math.floor(Math.random() * 3);
+  switch (choice) {
+    case 0: return "square";
+    case 1: return "rod";
+    case 2: return "notch";
   }
-
-  // rod pattern
-  else if (choice === 1) {
-    var color = "rgb(127, 0, 127)";
-    return [ new Square(INIT_X, INIT_Y, color), 
-             new Square(INIT_X, INIT_Y + GRID_SIZE, color), 
-             new Square(INIT_X - GRID_SIZE, INIT_Y, color), 
-             new Square(INIT_X - GRID_SIZE, INIT_Y + GRID_SIZE, color) ];
-  }
-  /*
-  // L pattern
-  else if (choice === 2) {
-    var color = "rgb(127, 127, 0)";
-    return [ new Square(INIT_X, INIT_Y, color), 
-             new Square(INIT_X + GRID_SIZE, INIT_Y, color), 
-             new Square(INIT_X, INIT_Y + GRID_SIZE, color), 
-             new Square(INIT_X, INIT_Y + GRID_SIZE * 2, color) ];
-  }*/
 }
 
 // generates a new nextBlock and makes old nextBlock the activeBlock
@@ -190,16 +364,20 @@ function isGameOver() {
   return deadSquares[0].length > 0;
 }
 
-// checks for filled rows
+// checks for filled rows, collapses them and returns a count
 function checkCollapse() {
+  var lines = 0;
+  
   for (var i = 0; i < deadSquares.length; i++) {
     if (deadSquares[i].length >= GRID_SIZE / 2) {
       collapseRow(i);
+      lines++;
     }
   }
+  return lines
 }
 
-// removes a filled row and shifts rows above downward
+// removes a filled row and shifts rows above it downward
 function collapseRow(row) {
   
   //debug:
@@ -220,14 +398,12 @@ function collapseRow(row) {
   }
   
   // this seems to prevent a bug where the column was overflowing
-  // during a call to dropActiveBlock()
+  // during a call to dropActiveBlock() (and possibly during
+  // normal calls to collapseRow)
   deadSquares[0] = [];
-  
-  // increment score
-  score++;
 }  
 
-// detects collisions
+// detects collisions where an activeBlock should be killed
 function collision() {
     
   // check if active block touched a dead square
@@ -253,11 +429,22 @@ function collision() {
   return false; // no collisions
 }
 
+// updates score based on number of lines cleared
+function scoreUpdate(lines) {
+  switch (lines) {
+    case 1: score += 40 * level;   break;
+    case 2: score += 100 * level;  break;
+    case 3: score += 300 * level;  break;
+    case 4: score += 1200 * level; break;
+  }
+}
+
+// turns activeBlock's squares into deadSquares
 function killBlock(block) {
   
   // add squares from dying block to deadSquares array
   for (var i = 0; i < block.size; i++) {
-    deadSquares[block.squares[i].y / GRID_SIZE]
+    deadSquares[Math.abs(block.squares[i].y / GRID_SIZE)]
                .push(block.squares[i]);
   }
 
@@ -340,14 +527,15 @@ var update = function () {
   // clear canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   
-  checkCollapse();
+  // count lines collapsed and update the score with that number
+  scoreUpdate(checkCollapse());
+  
+  // check rotations
+  if (kbd.up) activeBlock.rotateCW();
   
   // redraw stuff
   drawActiveBlock();
   drawDeadSquares();
-
-  // check rotations
-  
   
   // check for drops
   if (kbd.down) dropActiveBlock();
