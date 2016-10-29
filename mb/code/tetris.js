@@ -1,9 +1,9 @@
 /* In progress!
   Todos:
-   - add block classes for all types
-   - add rotation methods
-   - implement scores and add speed increases/levels:
-     http://stackoverflow.com/questions/1280263/changing-the-interval-of-setinterval-while-its-running
+   - add CCW rotation methods
+   - add soft drop
+   - add "next piece" display
+   - add score display
    - http://tetris.wikia.com/wiki/Tetris_Guideline
 */
 
@@ -15,6 +15,9 @@ var ctx = canvas.getContext("2d");
 var GRID_SIZE = canvas.width / 10;
 var INIT_X = canvas.width / 2;
 var INIT_Y = -GRID_SIZE;
+var FRAMERATE = 80;
+var STEP_AMOUNT = 20;
+var INIT_STEP_SPEED = 500;
 
 // game variables
 var activeBlock;
@@ -22,10 +25,12 @@ var nextBlock;
 var deadSquares = [];
 var score = 0;
 var level = 1;
+var levelCounter = 0;
 
 // interval variables
 var frameInterval;
 var stepInterval;
+var stepSpeed = INIT_STEP_SPEED;
 
 // keyboard
 var kbd = function () {
@@ -692,7 +697,7 @@ var Block = function (type) {
         kbd.up = false;
         this.rotateCW();
       }
-    
+      this.rotateCW();// todo remove
     break;  // end rod type
   } // end type switch
 }; // end Block class
@@ -706,8 +711,10 @@ function init() {
   
   nextBlock = new Block(getPattern());
   newActiveBlock();
+  stepSpeed = INIT_STEP_SPEED;
   score = 0;
   level = 1;
+  levelCounter = 0;
 }
 
 // returns a pattern for making a tetris block
@@ -729,7 +736,7 @@ function newActiveBlock() {
   activeBlock = nextBlock;
   nextBlock = new Block(getPattern());
   
-  if (isGameOver()) init();
+  if (isGameOver()) start();
 }
 
 // check if any dead squares are at the top of the screen
@@ -745,9 +752,21 @@ function checkCollapse() {
     if (deadSquares[i].length >= GRID_SIZE / 2) {
       collapseRow(i);
       lines++;
+      levelHandler();
     }
   }
   return lines
+}
+
+// increments level and handles speed increases, call on each line clear
+function levelHandler() {
+  levelCounter++;
+  
+  if (levelCounter === 10) {
+    increaseSpeed();
+    levelCounter = 0;
+    level++;
+  }
 }
 
 // removes a filled row and shifts rows above it downward
@@ -809,7 +828,7 @@ function scoreUpdate(lines) {
     case 2: score += 100 * level;  break;
     case 3: score += 300 * level;  break;
     case 4: score += 1200 * level; break;
-  }
+  }  
 }
 
 // turns activeBlock's squares into deadSquares
@@ -823,11 +842,6 @@ function killBlock(block) {
 
   newActiveBlock();
 }
-
-
-
-
-
 
 // render active block on screen
 function drawActiveBlock() {
@@ -935,14 +949,23 @@ function dropActiveBlock() {
   kbd.down = false;
 }
 
+// speeds the game up
+function increaseSpeed() {
+  stepSpeed -= STEP_AMOUNT;
+  clearInterval(stepInterval);
+  stepInterval = setInterval(moveDown, stepSpeed);
+}
+
 // start game
 function start() {
   init();
+  clearInterval(stepInterval);
+  clearInterval(frameInterval);
   
   /* Main timers with update function and 
      interval duration as parameters */
-  stepInterval = setInterval(moveDown, 400);
-  frameInterval = setInterval(update, 80);
+  stepInterval = setInterval(moveDown, stepSpeed);
+  frameInterval = setInterval(update, FRAMERATE);
 }
 
 start(); // go!
