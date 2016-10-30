@@ -10,6 +10,9 @@
 // get canvas and context from DOM
 var canvas = document.getElementById("tetriscanvas");
 var ctx = canvas.getContext("2d");
+var sidebar = document.getElementById("tetriscanvas2");
+var sidebarCtx = sidebar.getContext("2d");
+
 
 // constants
 var GRID_SIZE = canvas.width / 10;
@@ -613,12 +616,12 @@ var Block = function (type) {
       } 
     break;  // end z type
     
-    case "rod":  // todo: make horizontal at spawn!!!
+    case "rod":
       var color = "rgb(255, 255, 255)";
       this.squares = [ new Square(INIT_X, INIT_Y, color), 
-        new Square(INIT_X, INIT_Y + GRID_SIZE, color), 
-        new Square(INIT_X, INIT_Y + GRID_SIZE * 2, color), 
-        new Square(INIT_X, INIT_Y + GRID_SIZE * 3, color) ];
+        new Square(INIT_X - GRID_SIZE, INIT_Y, color), 
+        new Square(INIT_X - GRID_SIZE * 2, INIT_Y, color), 
+        new Square(INIT_X + GRID_SIZE, INIT_Y, color) ];
         
       this.rotateCW = function () {
         kbd.up = false;
@@ -627,33 +630,27 @@ var Block = function (type) {
           // collision check
           for (var i = 0; i < deadSquares.length; i++) {
             for (var j = 0; j < deadSquares[i].length; j++) {
-              if (this.squares[0].x + GRID_SIZE * 2 === deadSquares[i][j].x &&
-                  this.squares[0].y + GRID_SIZE * 2 === deadSquares[i][j].y ||
-                  this.squares[1].x + GRID_SIZE === deadSquares[i][j].x &&
-                  this.squares[1].y + GRID_SIZE === deadSquares[i][j].y ||
-                  this.squares[3].x - GRID_SIZE === deadSquares[i][j].x &&
-                  this.squares[3].y - GRID_SIZE === deadSquares[i][j].y) {
+              if (this.squares[1].x + GRID_SIZE === deadSquares[i][j].x &&
+                  this.squares[1].y + GRID_SIZE * 2 === deadSquares[i][j].y ||
+                  this.squares[2].x + GRID_SIZE * 2 === deadSquares[i][j].x &&
+                  this.squares[2].y + GRID_SIZE === deadSquares[i][j].y ) {
                 return;
               }
             }
           }
           
           // prevent going off the edges
-          if (this.squares[0].x + GRID_SIZE * 2 >= canvas.width ||
-              this.squares[1].x + GRID_SIZE >= canvas.width ||   
-              this.squares[3].x - GRID_SIZE < 0 ||
-              this.squares[0].y + GRID_SIZE * 2 >= canvas.height ||
-              this.squares[1].y + GRID_SIZE >= canvas.height) {
+          if (this.squares[1].y + GRID_SIZE * 2 >= canvas.height) {
             return;
           }
           
           // tests passed, do the rotation
-          this.squares[0].x += GRID_SIZE * 2;
-          this.squares[0].y += GRID_SIZE * 2;
-          this.squares[1].x += GRID_SIZE;   
-          this.squares[1].y += GRID_SIZE;
+          this.squares[0].y -= GRID_SIZE;
+          this.squares[1].x += GRID_SIZE;
+          this.squares[1].y += GRID_SIZE * 2;
+          this.squares[2].x += GRID_SIZE * 2;
+          this.squares[2].y += GRID_SIZE;
           this.squares[3].x -= GRID_SIZE;
-          this.squares[3].y -= GRID_SIZE;
           this.stage = 1; 
         }
         else if (this.stage === 1) {
@@ -661,36 +658,32 @@ var Block = function (type) {
           // collision check
           for (var i = 0; i < deadSquares.length; i++) {
             for (var j = 0; j < deadSquares[i].length; j++) {
-              if (this.squares[0].x - GRID_SIZE * 2 === deadSquares[i][j].x &&
-                  this.squares[0].y - GRID_SIZE < 0 === deadSquares[i][j].y ||
-                  this.squares[1].x - GRID_SIZE < 0 === deadSquares[i][j].x &&
-                  this.squares[1].y === deadSquares[i][j].y ||
-                  this.squares[2].x === deadSquares[i][j].x &&
-                  this.squares[2].y + GRID_SIZE === deadSquares[i][j].y ||
+              if (this.squares[0].x === deadSquares[i][j].x &&
+                  this.squares[0].y + GRID_SIZE === deadSquares[i][j].y ||
+                  this.squares[1].x - GRID_SIZE === deadSquares[i][j].x &&
+                  this.squares[1].y - GRID_SIZE * 2 === deadSquares[i][j].y ||
+                  this.squares[2].x - GRID_SIZE * 2 === deadSquares[i][j].x &&
+                  this.squares[2].y - GRID_SIZE === deadSquares[i][j].y ||
                   this.squares[3].x + GRID_SIZE === deadSquares[i][j].x &&
-                  this.squares[3].y + GRID_SIZE * 2 === deadSquares[i][j].y) {
+                  this.squares[3].y === deadSquares[i][j].y) {
                 return;
               }
             }
           }
           
           // prevent going off the edges
-          if (this.squares[0].x - GRID_SIZE * 2 < 0 ||
-              this.squares[0].y - GRID_SIZE < 0 ||
-              this.squares[1].x - GRID_SIZE < 0 ||  
-              this.squares[2].y + GRID_SIZE >= canvas.height ||
-              this.squares[3].x + GRID_SIZE >= canvas.width ||
-              this.squares[3].y + GRID_SIZE * 2 >= canvas.height) {
+          if (this.squares[2].x - GRID_SIZE * 2 < 0 ||
+              this.squares[3].x + GRID_SIZE >= canvas.width) {
             return;
           }
           
           // tests passed, do the rotation
-          this.squares[0].x -= GRID_SIZE * 2;
-          this.squares[0].y -= GRID_SIZE;
+          this.squares[0].y += GRID_SIZE;
           this.squares[1].x -= GRID_SIZE;
-          this.squares[2].y += GRID_SIZE;
+          this.squares[1].y -= GRID_SIZE * 2;
+          this.squares[2].x -= GRID_SIZE * 2;
+          this.squares[2].y -= GRID_SIZE;
           this.squares[3].x += GRID_SIZE;
-          this.squares[3].y += GRID_SIZE * 2;
           this.stage = 0;
         }
       }; // end rod rotateCW func
@@ -699,7 +692,6 @@ var Block = function (type) {
         kbd.up = false;
         this.rotateCW();
       }
-      this.rotateCW();// todo remove
     break;  // end rod type
   } // end type switch
 }; // end Block class
@@ -733,11 +725,10 @@ function getPattern() {
   }
 }
 
-// generates a new nextBlock and makes old nextBlock the activeBlock
+// generates a new activeBlock and nextBlock and checks for end of game
 function newActiveBlock() {
-  activeBlock = nextBlock;
+  activeBlock = new Block(nextBlock.type);
   nextBlock = new Block(getPattern());
-  
   if (isGameOver()) start();
 }
 
@@ -887,6 +878,30 @@ function drawDeadSquares() {
   }
 }
 
+// draws the next block in the sidebar
+function drawNextBlock() {
+  for (var i = 0; i < nextBlock.size; i++) {
+    sidebarCtx.beginPath();
+    sidebarCtx.fillRect(nextBlock.squares[i].x - GRID_SIZE * 2, 
+                 nextBlock.squares[i].y + GRID_SIZE * 2, 
+                 GRID_SIZE, GRID_SIZE);
+    sidebarCtx.fillStyle = nextBlock.squares[i].color;
+    sidebarCtx.fill();
+    sidebarCtx.closePath();
+    
+    sidebarCtx.rect(nextBlock.squares[i].x - GRID_SIZE * 2, 
+             nextBlock.squares[i].y + GRID_SIZE * 2, 
+             GRID_SIZE, GRID_SIZE);
+    sidebarCtx.stroke();
+  }     
+}
+
+// draws scores to the screen
+function drawScores() {
+  document.getElementById("out").innerHTML = "Score: " + score +
+    "<br>Level: " + level;
+}
+
 // keyevent listeners to track arrow key actions
 document.addEventListener("keydown", function (e) {
   if (e.keyCode === 39 || e.keyCode === 68) {
@@ -916,22 +931,25 @@ var update = function () {
   // lets browser set fps
   requestAnimationFrame(update);
   
-  // clear canvas
+  // clear canvases
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
-  // count lines collapsed and update the score with that number
-  scoreUpdate(checkCollapse());
+  sidebarCtx.clearRect(0, 0, sidebar.width, sidebar.height);
   
   // check rotations
   if (kbd.up) activeBlock.rotateCW();
   
-  // redraw stuff
-  drawActiveBlock();
-  drawDeadSquares();
-  
   // check for drops
   if (kbd.down) dropActiveBlock();
   else activeBlock.move();
+  
+  // count lines collapsed and update the score with that number
+  scoreUpdate(checkCollapse());
+  
+  // redraw stuff
+  drawActiveBlock();
+  drawDeadSquares();
+  drawNextBlock();
+  drawScores();
 };
 
 // call every "tick" to check collisions and step activeBlock down
