@@ -2,8 +2,7 @@
   Todos:
    - add CCW rotation methods
    - add soft drop
-   - add "next piece" display
-   - add score display
+   - fix color bug or add image textures
    - http://tetris.wikia.com/wiki/Tetris_Guideline
 */
 
