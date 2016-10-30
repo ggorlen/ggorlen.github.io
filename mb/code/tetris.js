@@ -64,6 +64,7 @@ var Block = function (type) {
   // moves Block to the left or right if legal
   this.move = function () {
     if (kbd.left) {
+	  kbd.left = false;
       for (var i = 0; i < this.size; i++) {         
         
         // prevent block from moving over the left side of the screen
@@ -89,6 +90,7 @@ var Block = function (type) {
     } // end if (kbd.left)
     
     if (kbd.right) {
+	  kbd.right = false;
       for (var i = 0; i < this.size; i++) {         
         
         // prevent block from moving over the right side of the screen
@@ -910,7 +912,10 @@ document.addEventListener("keyup", function (e) {
 
 // call every frame to refresh screen
 var update = function () {
-    
+  
+  // lets browser set fps
+  requestAnimationFrame(update);
+  
   // clear canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   
@@ -965,7 +970,8 @@ function start() {
   /* Main timers with update function and 
      interval duration as parameters */
   stepInterval = setInterval(moveDown, stepSpeed);
-  frameInterval = setInterval(update, FRAMERATE);
+  //frameInterval = setInterval(update, FRAMERATE);
+  update();
 }
 
 start(); // go!
