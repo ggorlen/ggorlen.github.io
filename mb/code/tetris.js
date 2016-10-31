@@ -1,9 +1,11 @@
 /* In progress!
   Todos:
+   - clean up or refactor rotation functions
+   - check for optimizing begin/endPath() calls
    - add CCW rotation methods
    - add soft drop
    - add images to subfolder
-   - save best scores to file
+   - save names/best scores to database
    - http://tetris.wikia.com/wiki/Tetris_Guideline
 */
 
@@ -607,8 +609,8 @@ var Block = function (type) {
             for (var j = 0; j < deadSquares[i].length; j++) {
               if (this.squares[3].x - GRID_SIZE * 2 === deadSquares[i][j].x &&
                   this.squares[3].y === deadSquares[i][j].y ||
-                  this.squares[2].y + GRID_SIZE * 2 === deadSquares[i][j].x &&
-                  this.squares[2].x === deadSquares[i][j].y) {
+                  this.squares[2].x === deadSquares[i][j].x &&
+                  this.squares[2].y + GRID_SIZE * 2 === deadSquares[i][j].y) {
                 return;
               }
             }
@@ -861,8 +863,6 @@ function killBlock(block) {
 // render active block on screen
 function drawActiveBlock() {
   for (var i = 0; i < activeBlock.size; i++) {
-
-    // fill
     ctx.beginPath();
     ctx.drawImage(activeBlock.squares[i].img, 
     activeBlock.squares[i].x, activeBlock.squares[i].y);
@@ -873,9 +873,7 @@ function drawActiveBlock() {
 // render dead squares on screen
 function drawDeadSquares() {
   for (var i = 0; i < deadSquares.length; i++) {
-    for (var j = 0; j < deadSquares[i].length; j++) {  
-
-      // fill
+    for (var j = 0; j < deadSquares[i].length; j++) { 
       ctx.beginPath();
       ctx.drawImage(deadSquares[i][j].img, 
       deadSquares[i][j].x, deadSquares[i][j].y);
@@ -888,8 +886,6 @@ function drawDeadSquares() {
 function drawNextBlock() {
   sidebarCtx.beginPath();
   for (var i = 0; i < nextBlock.size; i++) {
-    
-    // fill
     sidebarCtx.drawImage(nextBlock.squares[i].img, 
     nextBlock.squares[i].x - GRID_SIZE * 2, 
     nextBlock.squares[i].y + GRID_SIZE * 2);
@@ -900,7 +896,7 @@ function drawNextBlock() {
 // draws scores to the screen
 function drawScores() {
   document.getElementById("out").innerHTML = "Score: " + score +
-    "<br>Level: " + level + "<br>Best score: " + bestScore;
+    "<br>Level: " + level + "<br>Best : " + bestScore;
 }
 
 // keyevent listeners to track arrow key actions
