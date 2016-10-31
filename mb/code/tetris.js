@@ -14,19 +14,19 @@ var sidebarCtx = sidebar.getContext("2d");
 
 // images
 var squareImg = new Image();
-squareImg.src = "./tetrominoes/square.png";
+squareImg.src = "tetrominoes/square.png";
 var rodImg = new Image();
-rodImg.src = "./tetrominoes/rod.png";
+rodImg.src = "tetrominoes/rod.png";
 var notchImg = new Image();
 notchImg.src = "./tetrominoes/notch.png";
 var sImg = new Image();
-sImg.src = "./tetrominoes/s.png";
+sImg.src = "tetrominoes/s.png";
 var zImg = new Image();
-zImg.src = "./tetrominoes/z.png";
+zImg.src = "tetrominoes/z.png";
 var lImg = new Image();
-lImg.src = "./tetrominoes/l.png";
+lImg.src = "tetrominoes/l.png";
 var jImg = new Image();
-jImg.src = "./tetrominoes/j.png";
+jImg.src = "tetrominoes/j.png";
 
 // constants
 var GRID_SIZE = canvas.width / 10;
