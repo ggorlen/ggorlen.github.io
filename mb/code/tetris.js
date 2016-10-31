@@ -2,7 +2,8 @@
   Todos:
    - add CCW rotation methods
    - add soft drop
-   - fix color bug or add image textures
+   - add images to subfolder
+   - save best scores to file
    - http://tetris.wikia.com/wiki/Tetris_Guideline
 */
 
@@ -41,6 +42,7 @@ var activeBlock;
 var nextBlock;
 var deadSquares = [];
 var score = 0;
+var bestScore = 0;
 var level = 1;
 var levelCounter = 0;
 
@@ -743,7 +745,13 @@ function getPattern() {
 function newActiveBlock() {
   activeBlock = new Block(nextBlock.type);
   nextBlock = new Block(getPattern());
-  if (isGameOver()) start();
+  if (isGameOver()) {
+      
+    // update bestScore
+    if (score > bestScore) bestScore = score;
+    
+    start();
+  }
 }
 
 // check if any dead squares are at the top of the screen
@@ -835,7 +843,7 @@ function scoreUpdate(lines) {
     case 2: score += 100 * level;  break;
     case 3: score += 300 * level;  break;
     case 4: score += 1200 * level; break;
-  }  
+  }
 }
 
 // turns activeBlock's squares into deadSquares
@@ -892,7 +900,7 @@ function drawNextBlock() {
 // draws scores to the screen
 function drawScores() {
   document.getElementById("out").innerHTML = "Score: " + score +
-    "<br>Level: " + level;
+    "<br>Level: " + level + "<br>Best score: " + bestScore;
 }
 
 // keyevent listeners to track arrow key actions
