@@ -9,9 +9,24 @@
 // get canvas and context from DOM
 var canvas = document.getElementById("tetriscanvas");
 var ctx = canvas.getContext("2d");
-var sidebar = document.getElementById("tetriscanvas2");
+var sidebar = document.getElementById("tetriscanvassidebar");
 var sidebarCtx = sidebar.getContext("2d");
 
+// images
+var squareImg = new Image();
+squareImg.src = "./tetrominoes/square.png";
+var rodImg = new Image();
+rodImg.src = "./tetrominoes/rod.png";
+var notchImg = new Image();
+notchImg.src = "./tetrominoes/notch.png";
+var sImg = new Image();
+sImg.src = "./tetrominoes/s.png";
+var zImg = new Image();
+zImg.src = "./tetrominoes/z.png";
+var lImg = new Image();
+lImg.src = "./tetrominoes/l.png";
+var jImg = new Image();
+jImg.src = "./tetrominoes/j.png";
 
 // constants
 var GRID_SIZE = canvas.width / 10;
@@ -43,10 +58,10 @@ var kbd = function () {
 };
 
 // square class
-var Square = function(x, y, color) {
+var Square = function(x, y, img) {
   this.x = x;
   this.y = y;
-  this.color = color;
+  this.img = img;
 };
 
 // block class
@@ -121,21 +136,21 @@ var Block = function (type) {
   // set method behavior based on block type
   switch (type) {
     case "square":
-      var color = "rgb(255, 255, 255)";
-      this.squares = [ new Square(INIT_X, INIT_Y, color), 
-        new Square(INIT_X, INIT_Y + GRID_SIZE, color), 
-        new Square(INIT_X - GRID_SIZE, INIT_Y, color), 
-        new Square(INIT_X - GRID_SIZE, INIT_Y + GRID_SIZE, color) ];
+      var img = squareImg;
+      this.squares = [ new Square(INIT_X, INIT_Y, img), 
+        new Square(INIT_X, INIT_Y + GRID_SIZE, img), 
+        new Square(INIT_X - GRID_SIZE, INIT_Y, img), 
+        new Square(INIT_X - GRID_SIZE, INIT_Y + GRID_SIZE, img) ];
       this.rotateCW = function () { kbd.up = false; };
       this.rotateCCW = function () { kbd.up = false; };
     break;  // end square type
     
     case "notch":
-      var color = "rgb(255, 255, 255)";
-      this.squares = [ new Square(INIT_X - GRID_SIZE, INIT_Y, color), 
-        new Square(INIT_X, INIT_Y, color), 
-        new Square(INIT_X, INIT_Y + GRID_SIZE, color), 
-        new Square(INIT_X + GRID_SIZE, INIT_Y, color) ];
+      var img = notchImg;
+      this.squares = [ new Square(INIT_X - GRID_SIZE, INIT_Y, img), 
+        new Square(INIT_X, INIT_Y, img), 
+        new Square(INIT_X, INIT_Y + GRID_SIZE, img), 
+        new Square(INIT_X + GRID_SIZE, INIT_Y, img) ];
        
       this.rotateCW = function () {
         kbd.up = false;
@@ -221,10 +236,10 @@ var Block = function (type) {
           
           // tests passed, do the rotation
           this.squares = [ new Square(this.squares[3].x - GRID_SIZE, 
-                              this.squares[3].y + GRID_SIZE, color), 
-            new Square(this.squares[1].x, this.squares[1].y, color), 
-            new Square(this.squares[0].x, this.squares[0].y, color), 
-            new Square(this.squares[2].x, this.squares[2].y, color) ];
+                              this.squares[3].y + GRID_SIZE, img), 
+            new Square(this.squares[1].x, this.squares[1].y, img), 
+            new Square(this.squares[0].x, this.squares[0].y, img), 
+            new Square(this.squares[2].x, this.squares[2].y, img) ];
           this.stage = 0;
         }
       }; // end notch rotateCW func
@@ -236,11 +251,11 @@ var Block = function (type) {
     break;  // end notch type
     
     case "s":
-      var color = "rgb(255, 255, 255)";
-      this.squares = [ new Square(INIT_X, INIT_Y, color), 
-        new Square(INIT_X, INIT_Y + GRID_SIZE, color), 
-        new Square(INIT_X - GRID_SIZE, INIT_Y + GRID_SIZE, color), 
-        new Square(INIT_X + GRID_SIZE, INIT_Y, color) ];
+      var img = sImg;
+      this.squares = [ new Square(INIT_X, INIT_Y, img), 
+        new Square(INIT_X, INIT_Y + GRID_SIZE, img), 
+        new Square(INIT_X - GRID_SIZE, INIT_Y + GRID_SIZE, img), 
+        new Square(INIT_X + GRID_SIZE, INIT_Y, img) ];
         
       this.rotateCW = function () {
         kbd.up = false;
@@ -296,11 +311,11 @@ var Block = function (type) {
     break;  // end s type
     
     case "l":
-      var color = "rgb(255, 255, 255)";
-      this.squares = [ new Square(INIT_X, INIT_Y, color), 
-        new Square(INIT_X + GRID_SIZE, INIT_Y, color), 
-        new Square(INIT_X - GRID_SIZE, INIT_Y + GRID_SIZE, color), 
-        new Square(INIT_X - GRID_SIZE, INIT_Y, color) ];
+      var img = lImg;
+      this.squares = [ new Square(INIT_X, INIT_Y, img), 
+        new Square(INIT_X + GRID_SIZE, INIT_Y, img), 
+        new Square(INIT_X - GRID_SIZE, INIT_Y + GRID_SIZE, img), 
+        new Square(INIT_X - GRID_SIZE, INIT_Y, img) ];
         
       this.rotateCW = function () {
         kbd.up = false;
@@ -409,13 +424,13 @@ var Block = function (type) {
           
           // tests passed, do the rotation
           this.squares[0] = new Square(this.squares[0].x, 
-                            this.squares[0].y, color);
+                            this.squares[0].y, img);
           this.squares[1] = new Square(this.squares[0].x + GRID_SIZE, 
-                            this.squares[0].y, color);
+                            this.squares[0].y, img);
           this.squares[2] = new Square(this.squares[0].x - GRID_SIZE, 
-                            this.squares[0].y + GRID_SIZE, color);
+                            this.squares[0].y + GRID_SIZE, img);
           this.squares[3] = new Square(this.squares[0].x - GRID_SIZE, 
-                            this.squares[0].y, color);
+                            this.squares[0].y, img);
           this.stage = 0;
         }
       }; // end l rotateCW func
@@ -427,11 +442,11 @@ var Block = function (type) {
     break;  // end l type
     
     case "j":
-      var color = "rgb(255, 255, 255)";
-      this.squares = [ new Square(INIT_X, INIT_Y, color), 
-        new Square(INIT_X + GRID_SIZE, INIT_Y, color), 
-        new Square(INIT_X + GRID_SIZE, INIT_Y + GRID_SIZE, color), 
-        new Square(INIT_X - GRID_SIZE, INIT_Y, color) ];
+      var img = jImg;
+      this.squares = [ new Square(INIT_X, INIT_Y, img), 
+        new Square(INIT_X + GRID_SIZE, INIT_Y, img), 
+        new Square(INIT_X + GRID_SIZE, INIT_Y + GRID_SIZE, img), 
+        new Square(INIT_X - GRID_SIZE, INIT_Y, img) ];
         
       this.rotateCW = function () {
         kbd.up = false;
@@ -538,13 +553,13 @@ var Block = function (type) {
           
           // tests passed, do the rotation
           this.squares[0] = new Square(this.squares[3].x, 
-                            this.squares[3].y, color);
+                            this.squares[3].y, img);
           this.squares[1] = new Square(this.squares[3].x + GRID_SIZE, 
-                            this.squares[3].y, color);
+                            this.squares[3].y, img);
           this.squares[2] = new Square(this.squares[3].x + GRID_SIZE, 
-                            this.squares[3].y + GRID_SIZE, color);
+                            this.squares[3].y + GRID_SIZE, img);
           this.squares[3] = new Square(this.squares[3].x - GRID_SIZE, 
-                            this.squares[3].y, color);
+                            this.squares[3].y, img);
           this.stage = 0;
         }
       }; // end j rotate CW func
@@ -556,11 +571,11 @@ var Block = function (type) {
     break;  // end j type
     
     case "z":
-      var color = "rgb(255, 255, 255)";
-      this.squares = [ new Square(INIT_X, INIT_Y, color), 
-        new Square(INIT_X, INIT_Y + GRID_SIZE, color), 
-        new Square(INIT_X + GRID_SIZE, INIT_Y + GRID_SIZE, color), 
-        new Square(INIT_X - GRID_SIZE, INIT_Y, color) ];
+      var img = zImg;
+      this.squares = [ new Square(INIT_X, INIT_Y, img), 
+        new Square(INIT_X, INIT_Y + GRID_SIZE, img), 
+        new Square(INIT_X + GRID_SIZE, INIT_Y + GRID_SIZE, img), 
+        new Square(INIT_X - GRID_SIZE, INIT_Y, img) ];
         
       this.rotateCW = function () {
         kbd.up = false;
@@ -616,11 +631,11 @@ var Block = function (type) {
     break;  // end z type
     
     case "rod":
-      var color = "rgb(255, 255, 255)";
-      this.squares = [ new Square(INIT_X, INIT_Y, color), 
-        new Square(INIT_X - GRID_SIZE, INIT_Y, color), 
-        new Square(INIT_X - GRID_SIZE * 2, INIT_Y, color), 
-        new Square(INIT_X + GRID_SIZE, INIT_Y, color) ];
+      var img = rodImg;
+      this.squares = [ new Square(INIT_X, INIT_Y, img), 
+        new Square(INIT_X - GRID_SIZE, INIT_Y, img), 
+        new Square(INIT_X - GRID_SIZE * 2, INIT_Y, img), 
+        new Square(INIT_X + GRID_SIZE, INIT_Y, img) ];
         
       this.rotateCW = function () {
         kbd.up = false;
@@ -841,18 +856,9 @@ function drawActiveBlock() {
 
     // fill
     ctx.beginPath();
-    ctx.fillRect(activeBlock.squares[i].x, 
-                 activeBlock.squares[i].y, 
-                 GRID_SIZE, GRID_SIZE);
-    ctx.fillStyle = activeBlock.squares[i].color;
-    ctx.fill();
+    ctx.drawImage(activeBlock.squares[i].img, 
+    activeBlock.squares[i].x, activeBlock.squares[i].y);
     ctx.closePath();
-    
-    //outline
-    ctx.rect(activeBlock.squares[i].x, 
-             activeBlock.squares[i].y, 
-             GRID_SIZE, GRID_SIZE);
-    ctx.stroke();
   }     
 }
 
@@ -860,39 +866,27 @@ function drawActiveBlock() {
 function drawDeadSquares() {
   for (var i = 0; i < deadSquares.length; i++) {
     for (var j = 0; j < deadSquares[i].length; j++) {  
-    
+
       // fill
       ctx.beginPath();
-      ctx.fillRect(deadSquares[i][j].x, deadSquares[i][j].y,
-                   GRID_SIZE, GRID_SIZE);
-      ctx.fillStyle = deadSquares[i][j].color;
-      ctx.fill();
-      ctx.closePath();    
-    
-      //outline
-      ctx.rect(deadSquares[i][j].x, deadSquares[i][j].y, 
-               GRID_SIZE, GRID_SIZE);
-      ctx.stroke();     
+      ctx.drawImage(deadSquares[i][j].img, 
+      deadSquares[i][j].x, deadSquares[i][j].y);
+      ctx.closePath(); 
     }
   }
 }
 
 // draws the next block in the sidebar
 function drawNextBlock() {
+  sidebarCtx.beginPath();
   for (var i = 0; i < nextBlock.size; i++) {
-    sidebarCtx.beginPath();
-    sidebarCtx.fillRect(nextBlock.squares[i].x - GRID_SIZE * 2, 
-                 nextBlock.squares[i].y + GRID_SIZE * 2, 
-                 GRID_SIZE, GRID_SIZE);
-    sidebarCtx.fillStyle = nextBlock.squares[i].color;
-    sidebarCtx.fill();
-    sidebarCtx.closePath();
     
-    sidebarCtx.rect(nextBlock.squares[i].x - GRID_SIZE * 2, 
-             nextBlock.squares[i].y + GRID_SIZE * 2, 
-             GRID_SIZE, GRID_SIZE);
-    sidebarCtx.stroke();
+    // fill
+    sidebarCtx.drawImage(nextBlock.squares[i].img, 
+    nextBlock.squares[i].x - GRID_SIZE * 2, 
+    nextBlock.squares[i].y + GRID_SIZE * 2);
   }     
+  sidebarCtx.closePath();
 }
 
 // draws scores to the screen

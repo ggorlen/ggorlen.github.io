@@ -4,15 +4,19 @@
     <title>Tetris</title>
 
     <style>
+      
+      body {
+        font-family: lucida console;
+      }
+
       #tetriscanvas {
         position: absolute;
         margin-top: 10px;
         margin-left: 10px;
         background: black;
-        z-index: -1; /* specifies bottom of the stack, below text, etc */
       }
       
-      #tetriscanvas2 {
+      #tetriscanvassidebar {
         position: absolute;
         margin-top: 10px;
         margin-left: 230px;
@@ -20,19 +24,21 @@
       }
       
       #out {
-        font-family: lucida console;
         position: absolute;
         margin-top: 100px;
         margin-left: 230px;
       }
+      
     </style>
 
   </head>
   <body>
-      
-    <canvas id="tetriscanvas" height="400" width="200"></canvas>  
-    <canvas id="tetriscanvas2" height="80" width="120"></canvas>
-    <span id="out"></span>
+    
+    <div id="tetriscontainer">
+      <canvas id="tetriscanvas" height="400" width="200"></canvas>  
+      <canvas id="tetriscanvassidebar" height="80" width="120"></canvas>
+      <span id="out"></span>
+    </div>
     
     <script src="tetris.js">
     </script>
