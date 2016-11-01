@@ -13,7 +13,8 @@
       */
     
       // objects as classes
-      var Player = function (name, score) {
+      // this function below is a constructor we'll use to make instances of the object
+      var Player = function (name, score) { 
       
         // "this" refers to instances of the object
         // which we'll create below
@@ -24,7 +25,7 @@
         this.toString = function () {
           return this.name + ": " + this.score;
         }
-      }; // added semicolon after func def when saving to var
+      };
       
       var p1 = new Player("Matt", 0);
       p1.score++;
@@ -35,14 +36,15 @@
       p1.lastName = "Smith";
       document.write("<br>" + p1.lastName);
       
+      // modify existing function for the object
       p1.toString = function () {
         return this.name + " " + this.lastName + ": " + this.score;
       }
       
-      // modify existing function for the object
       document.write("<br>" + p1.toString());
       
       /*******************************************/
+
       document.write("<br>------------------<br>");
       
       // objects as hashes, or key-value pairs
