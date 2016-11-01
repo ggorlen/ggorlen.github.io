@@ -1,11 +1,11 @@
 /* In progress!
   Todos:
-   - clean up or refactor rotation functions
-   - check for optimizing begin/endPath() calls
    - add CCW rotation methods
    - add soft drop
    - add images to subfolder
    - save names/best scores to database
+   - check for optimizing begin/endPath() calls
+   - clean up or refactor rotation functions
    - http://tetris.wikia.com/wiki/Tetris_Guideline
 */
 
@@ -85,7 +85,7 @@ var Block = function (type) {
   // moves Block to the left or right if legal
   this.move = function () {
     if (kbd.left) {
-	  kbd.left = false;
+      kbd.left = false;
       for (var i = 0; i < this.size; i++) {         
         
         // prevent block from moving over the left side of the screen
@@ -111,7 +111,7 @@ var Block = function (type) {
     } // end if (kbd.left)
     
     if (kbd.right) {
-	  kbd.right = false;
+      kbd.right = false;
       for (var i = 0; i < this.size; i++) {         
         
         // prevent block from moving over the right side of the screen
@@ -720,7 +720,6 @@ function init() {
   for (var i = 0; i < canvas.height / GRID_SIZE; i++) {
     deadSquares[i] = [];
   }
-  
   nextBlock = new Block(getPattern());
   newActiveBlock();
   stepSpeed = INIT_STEP_SPEED;
