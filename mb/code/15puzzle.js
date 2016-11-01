@@ -6,6 +6,7 @@ var board = [];
 function init() {
     board = makeBoard(SIDE_LENGTH);
     findOddRows();
+    display();
 }
 
 // finds indexes of odd rows
@@ -128,18 +129,17 @@ function move(square) {
 // returns true if a puzzle is solved, false otherwise
 function isFinished() {
     var temp = board.indexOf(EMPTY_SQUARE);
-    board[temp] = "";
+    board.splice(temp, 1);
     for (var i = 0; i < board.length; i++) {
         if (parseInt(board[i - 1]) > parseInt(board[i])) {
-            board[temp] = EMPTY_SQUARE;
+            board.splice(temp, 0, EMPTY_SQUARE);
             return false;
         }
     }
-    board[temp] = EMPTY_SQUARE;
+    board.splice(temp, 0, EMPTY_SQUARE);
     return true;
 }
 
 
 // start a game!
 init();
-display();
