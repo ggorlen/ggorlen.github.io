@@ -24,6 +24,12 @@
       // save the canvas and context in variables
       var canvas = document.getElementById("snakecanvas");
       var ctx = canvas.getContext("2d");
+      
+      // load images
+      var aImg = new Image();
+      var sImg = new Image();
+      aImg.src = "apple.png";
+      sImg.src = "snake.png";
 
       // declare constants
       var INIT_X = canvas.width / 2;
@@ -150,31 +156,28 @@
       }
       
       function drawSnake() {
-        for (var i = snakeLength; i > 0; i--) {
           ctx.beginPath();
+        for (var i = snakeLength; i > 0; i--) {
 
           // make a circle 
-          ctx.arc(snakeX[i], snakeY[i], CELL_SIZE / 2, 0, Math.PI * 2);
+          //ctx.arc(snakeX[i], snakeY[i], CELL_SIZE / 2, 0, Math.PI * 2);
       
           // set a color for the fill.  hex also works here
-          ctx.fillStyle = "rgb(0, 255, 0)";
+          ctx.drawImage(sImg, snakeX[i], snakeY[i]);
 
-          ctx.fill();
-          ctx.closePath(); 
         }
+          ctx.closePath(); 
       }
       
       function drawApple() {
         ctx.beginPath();
-        ctx.arc(appleX, appleY, CELL_SIZE / 2, 0, Math.PI * 2);
-        ctx.fillStyle = "rgb(255, 0, 0)";
-        ctx.fill();
+        ctx.drawImage(aImg, appleX, appleY);
         ctx.closePath(); 
       }
       
       // Draw score
       function drawScore() {
-        ctx.font = "12px lucida console";
+        ctx.font = "11px lucida console";
         ctx.fillStyle = "rgb(255, 255, 255)";
         ctx.fillText("munched: " + (snakeLength - 3), 5, 15);
       }

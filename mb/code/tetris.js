@@ -861,12 +861,12 @@ function killBlock(block) {
 
 // render active block on screen
 function drawActiveBlock() {
-  for (var i = 0; i < activeBlock.size; i++) {
     ctx.beginPath();
+  for (var i = 0; i < activeBlock.size; i++) {
     ctx.drawImage(activeBlock.squares[i].img, 
     activeBlock.squares[i].x, activeBlock.squares[i].y);
-    ctx.closePath();
   }     
+    ctx.closePath();
 }
 
 // render dead squares on screen
