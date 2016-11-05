@@ -1,0 +1,136 @@
+<html>
+  <head>
+    <title>Canvas Hello World</title>
+    <style>
+      
+      /* we can style our canvas here in our stylesheet.  
+       * this is a good place to add a static background 
+       * or background image. */
+         
+      canvas {
+        background-color: black;
+      }
+      
+    </style>
+  </head>
+  <body>
+
+    <!-- create a canvas in HTML -->
+    <canvas id="myCanvas" height="500" width="500"></canvas>
+  
+    <!-- begin JS -->
+    <script>
+
+        // create a canvas object using document's getElementById method
+        // to select the div's id
+        var canvas = document.getElementById("myCanvas");
+        
+        // use our newly created canvas object to return its 2d context
+        // we'll use the ctx variable to manipulate our canvas
+        var ctx = canvas.getContext("2d");
+        
+        // create some constants
+        var INIT_X = canvas.width / 2;  // middle of screen
+        var INIT_Y = canvas.height / 2;
+        var GRID_SIZE = 10;
+        var BLOB_SIZE = 40;
+        var INIT_DX = GRID_SIZE;  // DX is the direction or velocity of our blob.
+        var INIT_DY = GRID_SIZE;
+        var NUM_BLOBS = 4;  // the number of blobs to create
+        var GAME_SPEED = 30; // the frame tick delay in milliseconds
+        
+        // create variables
+        var blobs = [];  // an array to hold all our blobs
+      
+        // create image object using the new Image() constructor call.
+        var bImg = new Image();
+        bImg.src = "blob.png";  // src is a property of our bImg object.
+        
+        /* create a class called Blob and give it a constructor
+         * which will create objects.  this constructor takes
+         * 5 parameters and uses them to create objects with
+         * 5 properties and a function. 
+         */
+        var Blob = function (x, y, dx, dy, img) {
+          this.x = x;
+          this.y = y;
+          this.dx = dx;
+          this.dy = dy;
+          this.img = img;
+          
+          // this is called every frame to update the position of a blob
+          this.move = function () { 
+            this.x += this.dx; // use the "this" keyword to access 
+            this.y += this.dy; // instance variables for each object
+          }
+        };
+      
+        // initialization function to reset all our variables and create new objects
+        function init() {
+        
+          blobs = [];   // reset the blobs array
+          
+          // for each blob...
+          for (var i = 0; i < NUM_BLOBS; i++) {
+            blobs.push(new Blob((i + 1) * GRID_SIZE * 6, GRID_SIZE, // offset each blob's x coordinate 
+                           INIT_DX, INIT_DY, bImg)); // call the Blob constructor
+          }
+        }
+        
+        /* call this function each frame to detect any 
+           collisions in the game and respond accordingly */
+        function collisionDetection() {
+        
+          // for each blob on screen...
+          for (var i = 0; i < blobs.length; i++) {
+            if (blobs[i].x >= canvas.width - BLOB_SIZE ||  // right side of screen
+                blobs[i].y >= canvas.height - BLOB_SIZE || // bottom of screen
+                blobs[i].x <= 0 ||             // left side of screen
+                blobs[i].y <= 0) {             // top of screen
+              blobs[i].dx = -blobs[i].dx; // reverse direction
+              blobs[i].dy = -blobs[i].dy;
+            }
+          }
+        }
+      
+        // renders our blobs to the canvas
+        function drawBlobs() {
+        
+          // for each blob...
+          for (var i = 0; i < blobs.length; i++) {
+
+            // call drawImage for that blob using our canvas context
+            ctx.drawImage(blobs[i].img, blobs[i].x, blobs[i].y); 
+          }
+        }
+        
+        // called multiple times a second to create each frame
+        var update = function () {
+          
+          // clears screen -- (0, 0) is the top left,
+          // and canvas.width, canvas.height is the bottom right.
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          
+          // check for any collisions
+          collisionDetection();
+
+          // move all our blobs using their respective move() methods
+          for (var i = 0; i < blobs.length; i++) {
+            blobs[i].move();
+          }
+
+          // draw all blobs in their new locations
+          drawBlobs();
+        };
+        
+        // start!!
+        init(); // initialize game
+        setInterval(update, GAME_SPEED); // pass our update function to setInterval
+                                         // it will be called inside setInterval every
+                                         // GAME_SPEED milliseconds
+          
+    </script>
+    <!-- end JS -->
+    
+  </body>
+</html>
