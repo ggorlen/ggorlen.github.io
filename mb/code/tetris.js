@@ -1,10 +1,10 @@
 /* In progress!
   Todos:
-   - add CCW rotation methods
-   - add images to subfolder
    - save names/best scores to database
-   - check for optimizing begin/endPath() calls
+   - improve lazy CCW rotation methods for notch, l, j
    - clean up or refactor rotation functions
+   - add images to subfolder
+   - check for optimizing begin/endPath() calls
    - http://tetris.wikia.com/wiki/Tetris_Guideline
 */
 
@@ -60,12 +60,14 @@ var Kbd = function () {
   this.right = false;
   this.p = false;
   this.ctrl = false;
+  this.e = false;
 };
 
 // stops keydowns
 Kbd.prototype.stop = function () {
   this.p = this.left = this.ctrl = false;
   this.right = this.down = this.up = false;
+  this.e = false;
 }; 
 
 kbd = new Kbd();
@@ -155,7 +157,7 @@ var Block = function (type) {
         new Square(INIT_X - GRID_SIZE, INIT_Y, img), 
         new Square(INIT_X - GRID_SIZE, INIT_Y + GRID_SIZE, img) ];
       this.rotateCW = function () { kbd.up = false; };
-      this.rotateCCW = function () { kbd.up = false; };
+      this.rotateCCW = function () { kbd.e = false; };
     break;  // end square type
     
     case "notch":
@@ -248,8 +250,9 @@ var Block = function (type) {
           } 
           
           // tests passed, do the rotation
-          this.squares = [ new Square(this.squares[3].x - GRID_SIZE, 
-                              this.squares[3].y + GRID_SIZE, img), 
+          this.squares = [ 
+            new Square(this.squares[3].x - GRID_SIZE, 
+                       this.squares[3].y + GRID_SIZE, img), 
             new Square(this.squares[1].x, this.squares[1].y, img), 
             new Square(this.squares[0].x, this.squares[0].y, img), 
             new Square(this.squares[2].x, this.squares[2].y, img) ];
@@ -258,7 +261,9 @@ var Block = function (type) {
       }; // end notch rotateCW func
 
       this.rotateCCW = function () {
-        kbd.up = false;
+        kbd.e = false;
+        this.rotateCW();
+        this.rotateCW();
         this.rotateCW();
       }
     break;  // end notch type
@@ -318,7 +323,7 @@ var Block = function (type) {
       }; // end s rotateCW func
 
       this.rotateCCW = function () {
-        kbd.up = false;
+        kbd.e = false;
         this.rotateCW();
       } 
     break;  // end s type
@@ -449,7 +454,9 @@ var Block = function (type) {
       }; // end l rotateCW func
 
       this.rotateCCW = function () {
-        kbd.up = false;
+        kbd.e = false;
+        this.rotateCW();
+        this.rotateCW();
         this.rotateCW();
       } 
     break;  // end l type
@@ -578,7 +585,9 @@ var Block = function (type) {
       }; // end j rotate CW func
 
       this.rotateCCW = function () {
-        kbd.up = false;
+        kbd.e = false;
+        this.rotateCW();
+        this.rotateCW();
         this.rotateCW();
       } 
     break;  // end j type
@@ -638,7 +647,7 @@ var Block = function (type) {
       }; // end z rotateCW func
 
       this.rotateCCW = function () {
-        kbd.up = false;
+        kbd.e = false;
         this.rotateCW();
       } 
     break;  // end z type
@@ -716,7 +725,7 @@ var Block = function (type) {
       }; // end rod rotateCW func
 
       this.rotateCCW = function () {
-        kbd.up = false;
+        kbd.e = false;
         this.rotateCW();
       }
     break;  // end rod type
@@ -925,6 +934,9 @@ document.addEventListener("keydown", function (e) {
   else if (e.keyCode === 17 || e.keyCode === 81) {
     kbd.ctrl = true;
   }
+  else if (e.keyCode === 69) {
+    kbd.e = true;
+  }
   else if (e.keyCode === 80) {
     kbd.p = true;
   }
@@ -951,6 +963,7 @@ var update = function () {
   
   // check rotations
   else if (kbd.up) activeBlock.rotateCW();
+  else if (kbd.e) activeBlock.rotateCCW();
   
   // check for drops
   else if (kbd.down) { // soft drop
@@ -1010,7 +1023,8 @@ function pause() {
   fillScreen();
   
   var waiting = setInterval(function() { 
-    if (kbd.p || kbd.up || kbd.down || kbd.left || kbd.right) {
+    if (kbd.p || kbd.up || kbd.down || 
+        kbd.left || kbd.right) {
       kbd.stop();
       clearInterval(waiting);
 
@@ -1042,9 +1056,9 @@ function fillScreen() {
       y -= GRID_SIZE;
       x = canvas.width - GRID_SIZE;
     }
-  }, 1);
+  });
 }
 
-zImg.onload = function() {
+onload = function() {
   init();
 };
