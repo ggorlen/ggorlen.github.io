@@ -1,7 +1,6 @@
 /* In progress!
   Todos:
    - add CCW rotation methods
-   - add soft drop
    - add images to subfolder
    - save names/best scores to database
    - check for optimizing begin/endPath() calls
@@ -49,17 +48,27 @@ var level = 1;
 var levelCounter = 0;
 
 // interval variables
-var frameInterval;
+var animFrame;
 var stepInterval;
 var stepSpeed = INIT_STEP_SPEED;
 
 // keyboard
-var kbd = function () {
+var Kbd = function () {
   this.left = false;
   this.up = false;
   this.down = false;
   this.right = false;
+  this.p = false;
+  this.ctrl = false;
 };
+
+// stops keydowns
+Kbd.prototype.stop = function () {
+  this.p = this.left = this.ctrl = false;
+  this.right = this.down = this.up = false;
+}; 
+
+kbd = new Kbd();
 
 // square class
 var Square = function(x, y, img) {
@@ -714,24 +723,29 @@ var Block = function (type) {
   } // end type switch
 }; // end Block class
 
-// initialize a game
+// initialize a new game
 function init() {
-  deadSquares = [];
-  for (var i = 0; i < canvas.height / GRID_SIZE; i++) {
-    deadSquares[i] = [];
-  }
-  nextBlock = new Block(getPattern());
-  newActiveBlock();
+  drawScores();
+  pause();
+
+  // reset game variables
   stepSpeed = INIT_STEP_SPEED;
   score = 0;
   level = 1;
   levelCounter = 0;
+
+  deadSquares = [];
+  for (var i = 0; i < canvas.height / GRID_SIZE; i++) {
+    deadSquares[i] = [];
+  }
+
+  nextBlock = new Block(getPattern());
+  newActiveBlock();
 }
 
 // returns a pattern for making a tetris block
 function getPattern() {
-  var choice = Math.floor(Math.random() * 7);
-  switch (choice) {
+  switch (Math.floor(Math.random() * 7)) {
     case 0: return "rod";
     case 1: return "square";
     case 2: return "l";
@@ -751,7 +765,7 @@ function newActiveBlock() {
     // update bestScore
     if (score > bestScore) bestScore = score;
     
-    start();
+    init();
   }
 }
 
@@ -787,10 +801,6 @@ function levelHandler() {
 
 // removes a filled row and shifts rows above it downward
 function collapseRow(row) {
-  
-  //debug:
-  //console.log("called collapserow()");
-
   rowAsGrid = (row + 1) * GRID_SIZE;
 
   // shift all block y coordinates above the row
@@ -840,9 +850,9 @@ function collision() {
 // updates score based on number of lines cleared
 function scoreUpdate(lines) {
   switch (lines) {
-    case 1: score += 40 * level;   break;
-    case 2: score += 100 * level;  break;
-    case 3: score += 300 * level;  break;
+    case 1: score += 40   * level; break;
+    case 2: score += 100  * level; break;
+    case 3: score += 300  * level; break;
     case 4: score += 1200 * level; break;
   }
 }
@@ -861,12 +871,12 @@ function killBlock(block) {
 
 // render active block on screen
 function drawActiveBlock() {
-    ctx.beginPath();
+  ctx.beginPath();
   for (var i = 0; i < activeBlock.size; i++) {
     ctx.drawImage(activeBlock.squares[i].img, 
     activeBlock.squares[i].x, activeBlock.squares[i].y);
   }     
-    ctx.closePath();
+  ctx.closePath();
 }
 
 // render dead squares on screen
@@ -912,30 +922,44 @@ document.addEventListener("keydown", function (e) {
   else if (e.keyCode === 40 || e.keyCode === 83) {
     kbd.down = true;
   }
+  else if (e.keyCode === 17 || e.keyCode === 81) {
+    kbd.ctrl = true;
+  }
+  else if (e.keyCode === 80) {
+    kbd.p = true;
+  }
 }, false);
 
 document.addEventListener("keyup", function (e) {
   if (e) {
-    kbd.right = kbd.up = kbd.down = kbd.left = false;
+    kbd.stop();
   }
 }, false);
-
 
 // call every frame to refresh screen
 var update = function () {
   
   // lets browser set fps
-  requestAnimationFrame(update);
+  animFrame = requestAnimationFrame(update);
   
   // clear canvases
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   sidebarCtx.clearRect(0, 0, sidebar.width, sidebar.height);
   
+  // check for pause
+  if (kbd.p) pause();
+  
   // check rotations
-  if (kbd.up) activeBlock.rotateCW();
+  else if (kbd.up) activeBlock.rotateCW();
   
   // check for drops
-  if (kbd.down) dropActiveBlock();
+  else if (kbd.down) { // soft drop
+    moveDown(); 
+    if (collision()) kbd.stop();
+  }
+  else if (kbd.ctrl) { // hard drop
+    dropActiveBlock();
+  }
   else activeBlock.move();
   
   // count lines collapsed and update the score with that number
@@ -960,12 +984,12 @@ var moveDown = function () {
 
 // instantly moves the block to the bottom
 function dropActiveBlock() {
+  kbd.stop();
   while (!collision()) {
     for (var i = 0; i < activeBlock.size; i++) {
       activeBlock.squares[i].y += GRID_SIZE;
     }
   }
-  kbd.down = false;
 }
 
 // speeds the game up
@@ -975,17 +999,52 @@ function increaseSpeed() {
   stepInterval = setInterval(moveDown, stepSpeed);
 }
 
-// start game
-function start() {
-  init();
+// pause for keyboard input
+function pause() {
+  kbd.stop();
+    
+  // clear any old intervals that may exist
+  cancelAnimationFrame(animFrame);
   clearInterval(stepInterval);
-  clearInterval(frameInterval);
+
+  fillScreen();
   
-  /* Main timers with update function and 
-     interval duration as parameters */
-  stepInterval = setInterval(moveDown, stepSpeed);
-  //frameInterval = setInterval(update, FRAMERATE);
-  update();
+  var waiting = setInterval(function() { 
+    if (kbd.p || kbd.up || kbd.down || kbd.left || kbd.right) {
+      kbd.stop();
+      clearInterval(waiting);
+
+      // start or restart the sequence of updates
+      stepInterval = setInterval(moveDown, stepSpeed);
+      update();
+    }
+  }, 50);
 }
 
-start(); // go!
+// fills the screen with random blocks
+function fillScreen() {
+  var x = canvas.width - GRID_SIZE;
+  var y = canvas.height - GRID_SIZE;
+  var fill = setInterval(function() {
+    switch (Math.floor(Math.random() * 7)) {
+      case 0: ctx.drawImage(rodImg, x, y);    break;
+      case 1: ctx.drawImage(squareImg, x, y); break;
+      case 2: ctx.drawImage(jImg, x, y);      break;
+      case 3: ctx.drawImage(sImg, x, y);      break;
+      case 4: ctx.drawImage(zImg, x, y);      break;
+      case 5: ctx.drawImage(notchImg, x, y);  break;
+      case 6: ctx.drawImage(lImg, x, y);      break;
+    }  
+    
+    x -= GRID_SIZE;
+    if (y === -GRID_SIZE) clearInterval(fill);
+    else if (x === -GRID_SIZE) {
+      y -= GRID_SIZE;
+      x = canvas.width - GRID_SIZE;
+    }
+  }, 1);
+}
+
+zImg.onload = function() {
+  init();
+};
