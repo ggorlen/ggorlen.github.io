@@ -734,6 +734,11 @@ var Block = function (type) {
 
 // initialize a new game
 function init() {
+  bestScore = localStorage["bestScore"];
+  if (bestScore === undefined || isNaN(bestScore)) {
+    bestScore = 0;
+  }
+    
   drawScores();
   pause();
 
@@ -772,8 +777,10 @@ function newActiveBlock() {
   if (isGameOver()) {
       
     // update bestScore
-    if (score > bestScore) bestScore = score;
-    
+    if (score > bestScore) {
+      bestScore = score;
+      localStorage["bestScore"] = bestScore;
+    }
     init();
   }
 }
