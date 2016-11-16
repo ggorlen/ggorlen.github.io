@@ -37,6 +37,8 @@
       var CELL_SIZE = 10;
       
       // declare variables
+      var interval;
+      var stepSpeed;
       var snakeX = [];
       var snakeY = [];
       var appleX = 0;
@@ -50,11 +52,13 @@
         this.left = false;
         this.right = false;
         this.up = false;
-        this.down = true;
+        this.down = false;
+        this.p = true;
       };
       
       // initialize game
       function init() {
+        stepSpeed = 70;
         snakeLength = 3;
         snakeX = new Array(snakeLength);
         snakeY = new Array(snakeLength);
@@ -62,9 +66,10 @@
         snakeY[0] = INIT_Y;
         xDirection = CELL_SIZE;
         yDirection = CELL_SIZE;
-        kbd.left = kbd.right = kbd.up = false;
-        kbd.down = true;
+        kbd.left = kbd.up = kbd.p = false;
+        kbd.down = kbd.right = false;
         newApple();
+        drawScore();
       }
       
       function newApple() {
@@ -97,28 +102,28 @@
       
         // left side
         if (snakeX[0] <= 0 + CELL_SIZE) {
-          init();
+          start();
         }
          
         // right side
         else if (snakeX[0] >= canvas.width - CELL_SIZE) {
-          init();
+          start();
         }
         
         // top of canvas
         else if (snakeY[0] <= 0 + CELL_SIZE) {
-          init();
+          start();
         }
 
         // bottom of screen
         else if (snakeY[0] >= canvas.height - CELL_SIZE) {
-          init();
+          start();
         }
         
         // tail
         for (var i = 2; i < snakeLength; i++) {
           if (snakeX[0] === snakeX[i] && snakeY[0] === snakeY[i]) {
-            init();
+            start();
           }
         }
       }
@@ -188,6 +193,9 @@
         // clear canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
+        // check for pause
+        if (kbd.p) pause();
+        
         // check for collisions
         collisionDetection();
         
@@ -203,30 +211,63 @@
       // add keyevent listener to track arrow key actions
       document.addEventListener("keydown", function (e) {
         if ((e.keyCode === 39 || e.keyCode === 68) && !kbd.left) {
+          kbd.up = kbd.down = kbd.p = false;
           kbd.right = true;
-          kbd.up = kbd.down = false;
         }
         else if ((e.keyCode === 38 || e.keyCode === 87) && !kbd.down) {
+          kbd.left = kbd.right = kbd.p = false;
           kbd.up = true;
-          kbd.left = kbd.right = false;
         }
         else if ((e.keyCode === 37 || e.keyCode === 65) && !kbd.right) {
+          kbd.up = kbd.down = kbd.p = false;
           kbd.left = true;
-          kbd.up = kbd.down = false;
         }
         else if ((e.keyCode === 40 || e.keyCode === 83) && !kbd.up) {
+          kbd.left = kbd.right = kbd.p = false;
           kbd.down = true;
-          kbd.left = kbd.right = false;
+        }
+        else if (e.keyCode === 80) {
+          kbd.p = true;
         }
       }, false);
-
-      function start() {
-        init();
-
-        /* Main timer with update function and 
-           interval duration as parameters */
-        setInterval(update, 70);
+      
+      function pause() {
+        kbd.p = false;
+          
+        // clear old interval
+        clearInterval(interval);
+        
+        var waiting = setInterval(function() { 
+          if (kbd.p) {
+            kbd.p = false;
+            clearInterval(waiting);
+  
+            // start or restart the sequence of updates
+            interval = setInterval(update, stepSpeed);
+          }
+        }, 50);
       }
+ 
+      function start() {
+
+        // clear old interval
+        clearInterval(interval);
+          
+        init();
+        
+        var waiting = setInterval(function() { 
+          if (kbd.p || kbd.down || kbd.up ||
+              kbd.right || kbd.left) {
+            kbd.p = false;
+            clearInterval(waiting);
+  
+            /* Main timer with update function and 
+               interval duration as parameters */
+            interval = setInterval(update, stepSpeed);
+          }
+        }, 50);
+      }
+
       
       start(); // go!
       
