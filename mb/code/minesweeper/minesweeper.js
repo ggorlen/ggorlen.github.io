@@ -50,7 +50,11 @@ var Board = function (height, width, numMines) {
     
     // redirect mouse clicks on grid
     $('.mstile').mousedown(function (e) {
-      if (gameOver) newGame();
+      if (gameOver) {
+        newGame();
+        return;
+      }
+
       if (e.button == 0) mark($(this).attr('id'), "reveal");
       if (e.button == 2) mark($(this).attr('id'), "flag");
     });
@@ -92,8 +96,7 @@ function rand(lo, hi) {
 }
 
 // marks a tile according to left/right click event
-function mark(loc, action) {
-  checkGameOver();
+function mark(loc, action) {  
   var x = loc.split("-")[0];
   var y = loc.split("-")[1];
   
@@ -115,17 +118,17 @@ function mark(loc, action) {
 }
 
 // checks for win conditions
-function checkGameOver() {
+function isWon() {
   for (var i = 0; i < board.height; i++) {
     for (var j = 0; j < board.width; j++) {
       if (!board.tiles[i][j].mined && 
-          !board.tiles[i][j].revealed) {
-        gameOver = false;
-        return;
+          !board.tiles[i][j].revealed &&
+          !board.tiles[i][j].flagged) {
+        return false;
       }
     }
   }
-  gameOver = true;
+  return true;
 }
 
 // recursively reveals unmined tiles
@@ -178,7 +181,7 @@ function getNeighbors(tile) {
 // start a new game
 function newGame() {
   gameOver = false;
-  board = new Board(side, side, 10);
+  board = new Board(side, side, numMines);
   board.print();
 }
 
