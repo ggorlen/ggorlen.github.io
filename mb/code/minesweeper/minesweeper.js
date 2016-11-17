@@ -119,6 +119,8 @@ function mark(loc, action) {
         board.tiles[x][y].flagged ? false : true;
   }
   
+  if (isWon()) gameOver = true;
+  
   // re-print board
   board.print(gameOver);
 }
