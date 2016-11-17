@@ -1,3 +1,9 @@
+/* TODO:
+ * add clock/score
+ * add ?
+ * add n-size 
+ */
+
 // declare variables
 var side = 8;
 var numMines = 10;
