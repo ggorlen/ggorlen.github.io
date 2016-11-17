@@ -75,14 +75,14 @@ function makeBoard(SIDE_LENGTH) {
 
 // shuffles an array
 function shuffleArray(arr) {
-  var i = arr.length;
-  while (--i > 0) {
-    var r = Math.floor(Math.random() * i);
-    var temp = arr[r];
-    arr[r] = arr[i];
-    arr[i] = temp;
-  }
-  return arr;
+    var i = arr.length;
+    while (--i > 0) {
+        var r = Math.floor(Math.random() * i);
+        var temp = arr[r];
+        arr[r] = arr[i];
+        arr[i] = temp;
+    }
+    return arr;
 }
 
 // displays board in html document
