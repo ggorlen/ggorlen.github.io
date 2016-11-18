@@ -1,14 +1,12 @@
 /* TODO:
  * add clock/score
  * add ? option
- * add n-size 
  */
 
 // declare variables
-var side = 8;
-var numMines = 10;
+var gameOver;
 var board;
-var gameOver = false;
+var clockInterval;
 
 // represents a tile
 var Tile = function (x, y) {
@@ -19,13 +17,13 @@ var Tile = function (x, y) {
   this.y = y;
 
   this.getImg = function (isOver) {
-    if (isOver && this.mined) return "<img src='mine.png'></img>";
-    if (this.flagged) return "<img src='flag.png'></img>";
     if (this.revealed) {
       var numMines = countMines(this);
       if (numMines === 0) return "<img src='revealed.png'></img>";
       else return "<img src='" + numMines + ".png'></img>";
     }
+    if (this.flagged) return "<img src='flag.png'></img>";
+    if (isOver && this.mined) return "<img src='mine.png'></img>";
     else return "<img src='hidden.png'></img>";
   };
 }; // end Tile class
@@ -38,9 +36,9 @@ var Board = function (height, width, numMines) {
 
   this.print = function (isOver) {
     var s = "<table id='mscontainer'>";
-    for (var i = 0; i < board.height; i++) {
+    for (var i = 0; i < this.width; i++) {
       s += "<tr>";
-      for (var j = 0; j < board.width; j++) {
+      for (var j = 0; j < this.height; j++) {
         s += "<td class='mstile' id='" + i + '-' + j + "'>" + 
           this.tiles[i][j].getImg(isOver) + "</td>";
       }
@@ -54,7 +52,7 @@ var Board = function (height, width, numMines) {
       return false;
     });
     
-    // redirect mouse clicks on grid
+    // handle mouse clicks on grid
     $('.mstile').mousedown(function (e) {
       if (gameOver) newGame();
       else if (e.button == 0) mark($(this).attr('id'), "reveal");
@@ -64,9 +62,9 @@ var Board = function (height, width, numMines) {
 
   // initializes a new board
   this.init = function () {
-    for (var i = 0; i < this.height; i++) {
+    for (var i = 0; i < this.width; i++) {
       this.tiles.push(new Array());
-      for (var j = 0; j < this.width; j++) {
+      for (var j = 0; j < this.height; j++) {
         this.tiles[i].push(new Tile(i, j));
       }
     }
@@ -80,8 +78,8 @@ var Board = function (height, width, numMines) {
     for (var i = 0; i < numMines;) {
       var rh = rand(0, this.height);
       var rw = rand(0, this.width);
-      if (!this.tiles[rh][rw].mined) {
-        this.tiles[rh][rw].mined = true;
+      if (!this.tiles[rw][rh].mined) {
+        this.tiles[rw][rh].mined = true;
         i++;
       }
     }
@@ -91,11 +89,6 @@ var Board = function (height, width, numMines) {
   this.init();
 
 }; // end Board class
-
-// generate a random int between two bounds
-function rand(lo, hi) {
-  return Math.floor(Math.random() * (hi - lo)) + lo;
-}
 
 // marks a tile according to left/right click event
 function mark(loc, action) {  
@@ -116,6 +109,7 @@ function mark(loc, action) {
   }
   
   if (isWon()) gameOver = true;
+  if (gameOver) stopClock();
   
   // re-print board
   board.print(gameOver);
@@ -123,8 +117,8 @@ function mark(loc, action) {
 
 // checks for win conditions
 function isWon() {
-  for (var i = 0; i < board.height; i++) {
-    for (var j = 0; j < board.width; j++) {
+  for (var i = 0; i < board.width; i++) {
+    for (var j = 0; j < board.height; j++) {
       if (!board.tiles[i][j].mined && 
           !board.tiles[i][j].revealed &&
           !board.tiles[i][j].flagged) {
@@ -166,27 +160,67 @@ function countMines(tile) {
 // neighbor of a coordinate parameter
 function getNeighbors(tile) {
   var dirs = [[-1, -1], [-1, 1], [1, -1], [-1, 0], 
-              [0,  -1], [0,  1], [1,  0], [1,  1]];
+              [ 0, -1], [ 0, 1], [1,  0], [ 1, 1]];
   var neighbors = [];
-  
+
   for (var i = 0; i < dirs.length; i++) {
     if (tile.x + dirs[i][0] >= 0 && 
         tile.y + dirs[i][1] >= 0 &&
         tile.x + dirs[i][0] < board.width && 
         tile.y + dirs[i][1] < board.height) {
-      neighbors.push(board.tiles[tile.x + dirs[i][0]]
-                                [tile.y + dirs[i][1]]);
+      neighbors.push(board.tiles[tile.x + dirs[i][0]][tile.y + dirs[i][1]]);
     }
   }
   
   return neighbors;
 }
 
+// generate a random int between two bounds
+function rand(lo, hi) {
+  return Math.floor(Math.random() * (hi - lo)) + lo;
+}
+
 // start a new game
 function newGame() {
+  boardHeight = parseInt(document.forms['sizeinput'].elements['h'].value); 
+  boardWidth = parseInt(document.forms['sizeinput'].elements['w'].value); 
+  numMines = parseInt(document.forms['sizeinput'].elements['n'].value);
+  
+  if (isNaN(boardHeight) || boardHeight < 4 || boardHeight > 80) {
+    boardHeight = 8;
+    document.forms['sizeinput'].elements['h'].value = boardHeight; 
+  }
+  if (isNaN(boardWidth) || boardWidth < 4 || boardWidth > 80) {
+    boardWidth = 8;
+    document.forms['sizeinput'].elements['w'].value = boardWidth;
+  }
+  if (isNaN(numMines) || numMines >= boardHeight * boardWidth) {
+    numMines = 10;
+    document.forms['sizeinput'].elements['n'].value = numMines; 
+  }
+  
   gameOver = false;
-  board = new Board(side, side, numMines);
+  board = new Board(boardHeight, boardWidth, numMines);
   board.print();
+  startClock();
+}
+
+// game clock
+function startClock() {
+  var duration = 0;
+  stopClock();
+  clockInterval = setInterval(function () {
+    document.getElementById('clock').innerHTML = 
+    Math.floor(duration / 600) + "h : " + 
+    Math.floor(duration / 60) + "m : " + 
+    Math.floor(duration % 60) + "s";
+    duration++;
+  }, 1000);
+}
+
+// reset game clock
+function stopClock() {
+  clearInterval(clockInterval);;
 }
 
 newGame();

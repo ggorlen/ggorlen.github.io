@@ -4,31 +4,107 @@
     <title>Minesweeper</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js">
     </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     
     <style>
 
-      #mscontainer {
-        border-spacing: 0px;
-        border-collapse: collapse;
+      body {
+        margin-top: 40px;
+        font-family: "lucida console", "courier new";
+        font-size: 11px;
+        width: 95%;
+        overflow-y: scroll; /* force scrollbar always */
+        background: url("wallpaper.png");
+      }
+      
+      .center {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
       }
       
       .mstile {
         padding-top: 0px;
         padding-bottom: 0px;
       }
+     
+      #mscontainer {
+        margin-left: auto;
+        margin-right: auto;
+        border-spacing: 0px;
+        border-collapse: collapse;
+      }
+      
+      #msheader {
+        margin-left: auto;
+        margin-right: auto;
+        width: 290px; 
+      }
+      
+      #preload {
+        background: url(1.png), url(2.png),
+                    url(3.png), url(4.png),
+                    url(6.png), url(5.png),
+                    url(7.png), url(8.png),
+                    url(mine.png), url(revealed.png),
+                    url(hidden.png), url(flag.png);
+      }
       
     </style>
   </head>
   <body>
-    <div id="mscontainer"></div>
-    <br><span title='Welcome to Minesweeper!  
-      Click to reveal a tile.  Right-click to place a flag indicating 
-      you suspect a mine exists at that tile.  Numbers indicate the count of 
-      adjacent mines to a tile.  The game is won when all tiles are revealed 
-      and all mine tiles are flagged.  The game is lost when a mined tile 
-      is revealed.'>?</span>
+    <div id="msheader">
   
+      <div class="center">
+      <h5>Minesweeper</h5>
+      
+      <a class="center" href="#" title="Options menu" data-toggle="collapse" 
+        data-target="#options"><img src="help.png"></img></a>
+      </div>
+
+      <div id="options" class="collapse">
+        <div>  
+        Click a tile to reveal it.  Right-click a tile to place a flag indicating 
+        you suspect a mine exists there.  Numbers represent the count of 
+        adjacent mines to a tile.  The game is won when all unmined tiles have
+        been revealed.  The game is lost when a mined tile is revealed.
+        </div>
+        
+        <p></p>
+      
+        <form id="sizeinput">
+          # of mines: <input type="text" size="2" name="n" value="10">
+          h: <input type="text" size="2" name="h" value="8">
+          w: <input type="text" size="2" name="w" value="8">
+          <input type="submit" value="New Game" data-toggle="collapse" 
+            data-target="#options" onclick="newGame();">
+        </form>  
+
+        <p></p>
+        
+        <div class="center" id="clock"></div>
+        
+      </div>
+    </div>
+    
+    <p></p>
+    <div id="mscontainer"></div>
+
     <script src="minesweeper.js">
+    </script>
+    
+    <!-- jQuery script to prevent forms from refreshing the page on submit -->
+    <script>
+    
+      $(document).ready(function() {
+        $(function() {
+          $("form").submit(function() { return false; });
+        });
+      });
     </script>
   </body>
 </html>
