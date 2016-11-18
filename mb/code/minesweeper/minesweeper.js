@@ -1,6 +1,6 @@
 /* TODO:
  * add clock/score
- * add ?
+ * add ? option
  * add n-size 
  */
 
@@ -56,13 +56,9 @@ var Board = function (height, width, numMines) {
     
     // redirect mouse clicks on grid
     $('.mstile').mousedown(function (e) {
-      if (gameOver) {
-        newGame();
-        return;
-      }
-
-      if (e.button == 0) mark($(this).attr('id'), "reveal");
-      if (e.button == 2) mark($(this).attr('id'), "flag");
+      if (gameOver) newGame();
+      else if (e.button == 0) mark($(this).attr('id'), "reveal");
+      else if (e.button == 2) mark($(this).attr('id'), "flag");
     });
   };
 

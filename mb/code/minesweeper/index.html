@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <title>Minesweeper</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js">
     </script>
-    <title>Minesweeper</title>
+    
     <style>
-      
+
       #mscontainer {
         border-spacing: 0px;
         border-collapse: collapse;
@@ -20,6 +21,12 @@
   </head>
   <body>
     <div id="mscontainer"></div>
+    <br><span title='Welcome to Minesweeper!  
+      Click to reveal a tile.  Right-click to place a flag indicating 
+      you suspect a mine exists at that tile.  Numbers indicate the count of 
+      adjacent mines to a tile.  The game is won when all tiles are revealed 
+      and all mine tiles are flagged.  The game is lost when a mined tile 
+      is revealed.'>?</span>
   
     <script src="minesweeper.js">
     </script>
