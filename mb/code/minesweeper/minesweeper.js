@@ -1,5 +1,6 @@
 /* TODO:
  * optimize for larger board sizes
+ * is image preload actually working?
  */
 
 // declare variables
@@ -101,7 +102,7 @@ var Board = function (height, width, numMines) {
                 this.width + " " + this.numMines];
     if (bestScore === undefined) bestScore = 0;
     document.getElementById("score").innerHTML = "Quickest -> " +
-    Math.floor(bestScore / 600) + "h : " + 
+    Math.floor(bestScore / 3600) + "h : " + 
     Math.floor(bestScore / 60) + "m : " + 
     Math.floor(bestScore % 60) + "s";;
   };
@@ -273,7 +274,7 @@ function startClock() {
   stopClock();
   clockInterval = setInterval(function () {
     document.getElementById('clock').innerHTML = 
-    Math.floor(duration / 600) + "h : " + 
+    Math.floor(duration / 3600) + "h : " + 
     Math.floor(duration / 60) + "m : " + 
     Math.floor(duration % 60) + "s";
     duration++;
