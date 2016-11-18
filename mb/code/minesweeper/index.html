@@ -13,7 +13,7 @@
     <style>
 
       body {
-        margin-top: 40px;
+        margin-top: 30px;
         font-family: "lucida console", "courier new";
         font-size: 11px;
         width: 95%;
@@ -40,6 +40,7 @@
       }
       
       #msheader {
+        padding: 5px;
         margin-left: auto;
         margin-right: auto;
         width: 290px; 
@@ -51,19 +52,25 @@
                     url(6.png), url(5.png),
                     url(7.png), url(8.png),
                     url(mine.png), url(revealed.png),
-                    url(hidden.png), url(flag.png);
+                    url(hidden.png), url(flag.png),
+                    url(question.png);
+      }
+      
+      a, a:hover, a:visited, a:active {
+        color: #000;
+        text-decoration: none !important;
       }
       
     </style>
   </head>
-  <body>
+  <body onload="newGame();">
     <div id="msheader">
   
       <div class="center">
-      <h5>Minesweeper</h5>
+        <h5>Minesweeper</h5>
       
-      <a class="center" href="#" title="Options menu" data-toggle="collapse" 
-        data-target="#options"><img src="help.png"></img></a>
+        <a class="center" href="#" title="Options menu" data-toggle="collapse" 
+          data-target="#options">&nbsp;?&nbsp;</a>
       </div>
 
       <div id="options" class="collapse">
@@ -77,14 +84,14 @@
         <p></p>
       
         <form id="sizeinput">
-          mines: <input type="text" size="2" name="n" value="10">
-          h: <input type="text" size="2" name="h" value="8">
-          w: <input type="text" size="2" name="w" value="8">
-          <input type="submit" value="New Game" data-toggle="collapse" 
-            data-target="#options" onclick="newGame();">
+          mines: <input type="text" size="3" name="n" value="10">
+          h: <input type="text" size="3" name="h" value="8">
+          w: <input type="text" size="3" name="w" value="8">
+          <input type="submit" value="New Game" onclick="newGame();">
         </form>  
 
         <p></p>
+        <div class="center" id="score"></div>
         
         <div class="center" id="clock"></div>
         
@@ -92,10 +99,8 @@
     </div>
     
     <p></p>
+    
     <div id="mscontainer"></div>
-
-    <script src="minesweeper.js">
-    </script>
     
     <!-- jQuery script to prevent forms from refreshing the page on submit -->
     <script>
@@ -105,6 +110,9 @@
           $("form").submit(function() { return false; });
         });
       });
+    </script>
+
+    <script src="minesweeper.js">
     </script>
   </body>
 </html>

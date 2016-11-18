@@ -1,28 +1,32 @@
 /* TODO:
- * add clock/score
- * add ? option
+ * optimize for larger board sizes
  */
 
 // declare variables
 var gameOver;
 var board;
 var clockInterval;
+var duration;
+var bestScore;
 
 // represents a tile
 var Tile = function (x, y) {
   this.flagged = false;
   this.mined = false;
   this.revealed = false;
+  this.question = false;
   this.x = x;
   this.y = y;
+  this.neighbors = [];
+  this.numMines;
 
   this.getImg = function (isOver) {
     if (this.revealed) {
-      var numMines = countMines(this);
-      if (numMines === 0) return "<img src='revealed.png'></img>";
-      else return "<img src='" + numMines + ".png'></img>";
+      if (this.numMines === 0) return "<img src='revealed.png'></img>";
+      else return "<img src='" + this.numMines + ".png'></img>";
     }
     if (this.flagged) return "<img src='flag.png'></img>";
+    if (this.question) return "<img src='question.png'></img>";
     if (isOver && this.mined) return "<img src='mine.png'></img>";
     else return "<img src='hidden.png'></img>";
   };
@@ -33,7 +37,9 @@ var Board = function (height, width, numMines) {
   this.tiles = [];
   this.height = height;
   this.width = width;
+  this.numMines = numMines;
 
+  // sends board to HTML div
   this.print = function (isOver) {
     var s = "<table id='mscontainer'>";
     for (var i = 0; i < this.width; i++) {
@@ -59,9 +65,53 @@ var Board = function (height, width, numMines) {
       else if (e.button == 2) mark($(this).attr('id'), "flag");
     });
   };
+  
+  // counts number of mines adjacent to a tile
+  this.countMines = function(tile) {
+    var neighbors = tile.neighbors;
+    
+    var mineCount = 0;
+    for (var i = 0; i < neighbors.length; i++) {
+      if (neighbors[i].mined) mineCount++;
+    }
+  
+    return mineCount;
+  };
+  
+  // returns x/y coordinate arrays for each 
+  // neighbor of a coordinate parameter
+  this.setNeighbors = function (tile) {
+    var dirs = [[-1, -1], [-1, 1], [1, -1], [-1, 0], 
+                [ 0, -1], [ 0, 1], [1,  0], [ 1, 1]];
+  
+    for (var i = 0; i < dirs.length; i++) {
+      if (tile.x + dirs[i][0] >= 0 && 
+          tile.y + dirs[i][1] >= 0 &&
+          tile.x + dirs[i][0] < this.width && 
+          tile.y + dirs[i][1] < this.height) {
+        tile.neighbors.push(this.tiles[tile.x + dirs[i][0]]
+                                      [tile.y + dirs[i][1]]);
+      }
+    }
+  };
 
+  this.addScore = function() {
+    // grab bestScore for this boards' parameters from local storage
+    bestScore = localStorage[this.height + " " + 
+                this.width + " " + this.numMines];
+    if (bestScore === undefined) bestScore = 0;
+    document.getElementById("score").innerHTML = "Quickest -> " +
+    Math.floor(bestScore / 600) + "h : " + 
+    Math.floor(bestScore / 60) + "m : " + 
+    Math.floor(bestScore % 60) + "s";;
+  };
+  
   // initializes a new board
   this.init = function () {
+    this.addScore();
+    
+    document.getElementById("mscontainer").innerHTML = "";
+    
     for (var i = 0; i < this.width; i++) {
       this.tiles.push(new Array());
       for (var j = 0; j < this.height; j++) {
@@ -69,13 +119,14 @@ var Board = function (height, width, numMines) {
       }
     }
     
-    // add mines randomly
-    if (numMines >= this.height * this.width ||
-        numMines < 1) {
+    // validate proposed mine quantity
+    if (this.numMines >= this.height * this.width ||
+        this.numMines < 1) {
       throw "Invalid number of mines specified";
     } 
 
-    for (var i = 0; i < numMines;) {
+    // add mines randomly
+    for (var i = 0; i < this.numMines;) {
       var rh = rand(0, this.height);
       var rw = rand(0, this.width);
       if (!this.tiles[rw][rh].mined) {
@@ -83,9 +134,24 @@ var Board = function (height, width, numMines) {
         i++;
       }
     }
+    
+    // set neighbor array for each tile
+    for (var i = 0; i < this.width; i++) {
+      for (var j = 0; j < this.height; j++) {
+        this.setNeighbors(this.tiles[i][j]);
+      }
+    }
+    
+    // count mines for each tile
+    for (var i = 0; i < this.width; i++) {
+      for (var j = 0; j < this.height; j++) {
+        this.tiles[i][j].numMines = 
+          this.countMines(this.tiles[i][j]);
+      }
+    }
   };
   
-  // call init function  
+  // call init function
   this.init();
 
 }; // end Board class
@@ -104,15 +170,41 @@ function mark(loc, action) {
     }
   }
   else if (action === "flag") {
-      board.tiles[x][y].flagged = 
-        board.tiles[x][y].flagged ? false : true;
+    if (!board.tiles[x][y].flagged && 
+        !board.tiles[x][y].question) {
+      board.tiles[x][y].flagged = true;
+    }
+    else if (board.tiles[x][y].flagged) {
+      board.tiles[x][y].flagged = false;
+      board.tiles[x][y].question = true;
+    }
+    else if (board.tiles[x][y].question) {
+      board.tiles[x][y].question = false;
+    }
+    
+    document.getElementById(x + '-' + y).innerHTML = 
+      board.tiles[x][y].getImg();
+  }
+
+  if (isWon()) {
+    var storage = parseInt(localStorage[board.height +
+                " " + board.width + " " + board.numMines]);
+    console.log(duration);
+    console.log(storage);
+    if (isNaN(storage) || duration < storage) {
+        
+        localStorage[board.height + " " + board.width + 
+                " " + board.numMines] = duration;
+        console.log(localStorage[board.height + 
+                " " + board.width + " " + board.numMines]);
+    }
+    gameOver = true;
   }
   
-  if (isWon()) gameOver = true;
-  if (gameOver) stopClock();
-  
-  // re-print board
-  board.print(gameOver);
+  if (gameOver) {
+    stopClock();
+    board.print(gameOver);
+  }
 }
 
 // checks for win conditions
@@ -120,8 +212,7 @@ function isWon() {
   for (var i = 0; i < board.width; i++) {
     for (var j = 0; j < board.height; j++) {
       if (!board.tiles[i][j].mined && 
-          !board.tiles[i][j].revealed &&
-          !board.tiles[i][j].flagged) {
+          !board.tiles[i][j].revealed) {
         return false;
       }
     }
@@ -134,45 +225,16 @@ function reveal(tile) {
   if (!tile.mined && !tile.flagged && 
       !tile.revealed) {
     tile.revealed = true;
+    document.getElementById(tile.x + '-' + tile.y)
+      .innerHTML = tile.getImg();
     
-    if (!countMines(tile)) {
-      var neighbors = getNeighbors(tile);
+    if (!tile.numMines) {
+      var neighbors = tile.neighbors;
       for (var i = 0; i < neighbors.length; i++) {
         reveal(neighbors[i]);
       }
     }
   }
-}
-
-// counts number of mines adjacent to a tile
-function countMines(tile) {
-  var neighbors = getNeighbors(tile);
-  
-  var mineCount = 0;
-  for (var i = 0; i < neighbors.length; i++) {
-    if (neighbors[i].mined) mineCount++;
-  }
-
-  return mineCount;
-}
-
-// returns x/y coordinate arrays for each 
-// neighbor of a coordinate parameter
-function getNeighbors(tile) {
-  var dirs = [[-1, -1], [-1, 1], [1, -1], [-1, 0], 
-              [ 0, -1], [ 0, 1], [1,  0], [ 1, 1]];
-  var neighbors = [];
-
-  for (var i = 0; i < dirs.length; i++) {
-    if (tile.x + dirs[i][0] >= 0 && 
-        tile.y + dirs[i][1] >= 0 &&
-        tile.x + dirs[i][0] < board.width && 
-        tile.y + dirs[i][1] < board.height) {
-      neighbors.push(board.tiles[tile.x + dirs[i][0]][tile.y + dirs[i][1]]);
-    }
-  }
-  
-  return neighbors;
 }
 
 // generate a random int between two bounds
@@ -205,9 +267,9 @@ function newGame() {
   startClock();
 }
 
-// game clock
+// start game clock
 function startClock() {
-  var duration = 0;
+  duration = 0;
   stopClock();
   clockInterval = setInterval(function () {
     document.getElementById('clock').innerHTML = 
@@ -218,9 +280,7 @@ function startClock() {
   }, 1000);
 }
 
-// reset game clock
+// stop game clock
 function stopClock() {
   clearInterval(clockInterval);;
 }
-
-newGame();
