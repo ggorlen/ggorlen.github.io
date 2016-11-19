@@ -19,6 +19,7 @@
         text-align:center;
         background: black;
         background: url(garden.png);
+        border: 5px solid #222;
       }
       
     </style>
@@ -82,7 +83,7 @@
         localStorage['snakescore'] = 
           Math.max(storage, snakeLength - 3); 
         
-        stepSpeed = 70;
+        stepSpeed = 65;
         snakeLength = 3;
         snakeX = new Array(snakeLength);
         snakeY = new Array(snakeLength);
@@ -93,6 +94,8 @@
         kbd.left = kbd.up = kbd.p = false;
         kbd.down = kbd.right = false;
         newApple();
+        drawSnake();
+        drawApple();
         drawScore();
       }
       
