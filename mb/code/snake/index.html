@@ -6,8 +6,11 @@
     <style>
     
       body {
+        font-family: "lucida console", "courier new";
+        font-size: 12px;
         background: url(wallpaper.png);
         width: 95%;
+        margin-top: 30px;
       }
       
       canvas {
@@ -15,18 +18,21 @@
         margin-left: auto;
         text-align:center;
         background: black;
-        z-index: -1;  /* specifies bottom of the stack, below text, etc */
+        background: url(garden.png);
       }
       
     </style>
     
   </head>
-  <body>
+  <body onload="start();">
 
     <div style="text-align: center;">
+      <h3>Snake</h3>
   
       <!-- create a canvas object -->
       <canvas id="snakecanvas" height="500" width="500"></canvas>
+      <p></p>
+      <div id="score"></div>
     
     </div>
     
@@ -69,6 +75,13 @@
       
       // initialize game
       function init() {
+      
+        // update best score
+        var storage = parseInt(localStorage['snakescore']);
+        if (isNaN(storage)) storage = 0;
+        localStorage['snakescore'] = 
+          Math.max(storage, snakeLength - 3); 
+        
         stepSpeed = 70;
         snakeLength = 3;
         snakeX = new Array(snakeLength);
@@ -107,8 +120,9 @@
         
         // munch an apple
         if (snakeX[0] === appleX && snakeY[0] === appleY) {
-          newApple();
           snakeLength++;
+          newApple();
+          drawScore();
         }
       
         // left side
@@ -172,30 +186,20 @@
       }
       
       function drawSnake() {
-          ctx.beginPath();
         for (var i = snakeLength; i > 0; i--) {
-
-          // make a circle 
-          //ctx.arc(snakeX[i], snakeY[i], CELL_SIZE / 2, 0, Math.PI * 2);
-      
-          // set a color for the fill.  hex also works here
           ctx.drawImage(sImg, snakeX[i], snakeY[i]);
-
         }
-          ctx.closePath(); 
       }
       
       function drawApple() {
-        ctx.beginPath();
         ctx.drawImage(aImg, appleX, appleY);
-        ctx.closePath(); 
       }
       
       // Draw score
       function drawScore() {
-        ctx.font = "11px lucida console";
-        ctx.fillStyle = "rgb(255, 255, 255)";
-        ctx.fillText("munched: " + (snakeLength - 3), 5, 15);
+        document.getElementById("score").innerHTML = 
+          "Munched : " + (snakeLength - 3) + "<br>" +
+          "Most : " + localStorage['snakescore'];
       }
       
       // update will be called each frame
@@ -216,7 +220,6 @@
         // draw stuff
         drawSnake();
         drawApple();
-        drawScore();
       };
       
       // add keyevent listener to track arrow key actions
@@ -263,7 +266,7 @@
 
         // clear old interval
         clearInterval(interval);
-          
+        
         init();
         
         var waiting = setInterval(function() { 
@@ -278,10 +281,6 @@
           }
         }, 50);
       }
-
-      
-      start(); // go!
-      
     </script>
   </body>
 </html>
