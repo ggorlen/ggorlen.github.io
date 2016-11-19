@@ -103,7 +103,7 @@ var Board = function (height, width, numMines) {
     if (bestScore === undefined) bestScore = 0;
     document.getElementById("score").innerHTML = "Quickest -> " +
     Math.floor(bestScore / 3600) + "h : " + 
-    Math.floor(bestScore / 60) + "m : " + 
+    Math.floor(bestScore % 3600 / 60) + "m : " + 
     Math.floor(bestScore % 60) + "s";;
   };
   
@@ -275,7 +275,7 @@ function startClock() {
   clockInterval = setInterval(function () {
     document.getElementById('clock').innerHTML = 
     Math.floor(duration / 3600) + "h : " + 
-    Math.floor(duration / 60) + "m : " + 
+    Math.floor(duration % 3600 / 60) + "m : " + 
     Math.floor(duration % 60) + "s";
     duration++;
   }, 1000);
