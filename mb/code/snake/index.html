@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -38,6 +39,11 @@
     </div>
     
     <script>
+
+      /* TODO
+       *
+       * allow editing of step speed
+       */
       
       // save the canvas and context in variables
       var canvas = document.getElementById("snakecanvas");
@@ -86,7 +92,10 @@
         if (isNaN(storage)) storage = 0;
         localStorage['snakescore'] = 
           Math.max(storage, snakeLength - 3); 
-        
+
+        kbd.left = kbd.up = false;
+        kbd.down = kbd.right = false;
+        kbd.p = true;
         stepSpeed = 65;
         snakeLength = 3;
         snakeX = new Array(snakeLength);
@@ -95,9 +104,6 @@
         snakeY[0] = INIT_Y;
         xDirection = CELL_SIZE;
         yDirection = CELL_SIZE;
-        kbd.left = kbd.up = false;
-        kbd.down = kbd.right = false;
-        kbd.p = true;
         newApple();
         drawScore();
       }
@@ -267,7 +273,7 @@
         interval = setInterval(update, stepSpeed);
       }
 
-      // goofy      
+      // goofy visual effect
       function cascade() {
         for (var i = 0; i < canvas.width; i++) {
           if (Math.random() > .9995) {
