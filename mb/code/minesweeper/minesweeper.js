@@ -41,9 +41,9 @@ var Tile = function (x, y) {
       if (this.numMines === 0) return "<img src='revealed.png'></img>";
       else return "<img src='" + this.numMines + ".png'></img>";
     }
+    if (getMined) return "<img src='mine.png'></img>";
     if (this.flagged) return "<img src='flag.png'></img>";
     if (this.question) return "<img src='question.png'></img>";
-    if (getMined) return "<img src='mine.png'></img>";
     else return "<img src='hidden.png'></img>";
   };
   
