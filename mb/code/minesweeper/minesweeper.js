@@ -1,9 +1,6 @@
 /* TODO:
  * add variants
-<<<<<<< HEAD
  * refactor board into 1-d array
-=======
->>>>>>> 0e8ee95900ddadfd226be6e50fd96df1395a890d
  * optimize board creation speed for large boards http://stackoverflow.com/questions/714942/how-to-stop-intense-javascript-loop-from-freezing-the-browser
  */
 
