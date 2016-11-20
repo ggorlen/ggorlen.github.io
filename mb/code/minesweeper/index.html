@@ -25,6 +25,10 @@
         overflow-y: scroll; /* force scrollbar always */
         background: url("wallpaper.png");
       }
+      
+      input { 
+        text-align: right; 
+      }
 
       .center {
         text-align: center;
@@ -81,7 +85,7 @@
         <p></p>
       
         <form id="sizeinput">
-          mines: <input type="text" size="3" name="n" value="10">
+          mines: <input type="text" size="4" name="n" value="10">
           h: <input type="text" size="3" name="h" value="8">
           w: <input type="text" size="3" name="w" value="8">
           <input type="submit" value="New Game" onclick="newGame();">

@@ -1,6 +1,6 @@
 /* TODO:
  * add variants
- * optimize board creation speed for large boards
+ * optimize board creation speed for large boards http://stackoverflow.com/questions/714942/how-to-stop-intense-javascript-loop-from-freezing-the-browser
  */
 
 // preload images
