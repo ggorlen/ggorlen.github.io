@@ -1,7 +1,21 @@
 /* TODO:
- * optimize for larger board sizes
- * is image preload actually working?
+ * add variants
+ * optimize board creation speed for large boards
  */
+
+// preload images
+if (document.images) {
+  var images = ["1.png", "2.png", "3.png",
+                "4.png", "5.png", "6.png",
+                "7.png", "8.png", "mine.png",
+                "revealed.png", "hidden.png",
+                "flag.png", "question.png"];
+
+  for (var i = 0; i < images.length; i++) {
+    var img = new Image();
+    img.src = images[i];
+  }
+}
 
 // declare variables
 var gameOver;
@@ -108,8 +122,7 @@ var Board = function (height, width, numMines) {
     return mineCount;
   };
   
-  /* sets x/y coordinate arrays for each * 
-   * neighbor of a coordinate parameter  */
+  // determines neighbors for each tile in the board
   this.setNeighbors = function (tile) {
     var dirs = [[-1, -1], [-1, 1], [1, -1], [-1, 0], 
                 [ 0, -1], [ 0, 1], [1,  0], [ 1, 1]];
@@ -264,11 +277,11 @@ function newGame() {
   numMines = parseInt(document.forms['sizeinput'].elements['n'].value);
   
   // revert to default parameters if necessary
-  if (isNaN(boardHeight) || boardHeight < 4 || boardHeight > 80) {
+  if (isNaN(boardHeight) || boardHeight < 4 || boardHeight > 200) {
     boardHeight = 8;
     document.forms['sizeinput'].elements['h'].value = boardHeight; 
   }
-  if (isNaN(boardWidth) || boardWidth < 4 || boardWidth > 80) {
+  if (isNaN(boardWidth) || boardWidth < 4 || boardWidth > 200) {
     boardWidth = 8;
     document.forms['sizeinput'].elements['w'].value = boardWidth;
   }
@@ -300,18 +313,4 @@ function startClock() {
 // stops game clock
 function stopClock() {
   clearInterval(clockInterval);;
-}
-
-// preload images
-if (document.images) {
-  var images = ["1.png", "2.png", "3.png",
-                "4.png", "5.png", "6.png",
-                "7.png", "8.png", "mine.png",
-                "revealed.png", "hidden.png",
-                "flag.png", "question.png"];
-
-  for (var i = 0; i < images.length; i++) {
-    var img = new Image();
-    img.src = images[i];
-  }
 }
