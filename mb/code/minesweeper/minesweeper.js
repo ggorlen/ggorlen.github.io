@@ -270,6 +270,7 @@ function rand(lo, hi) {
 
 // starts a new game
 function newGame() {
+  document.getElementById("clock").innerHTML = "loading...";
     
   // collect user's board parameters
   boardHeight = parseInt(document.forms['sizeinput'].elements['h'].value); 
@@ -277,11 +278,11 @@ function newGame() {
   numMines = parseInt(document.forms['sizeinput'].elements['n'].value);
   
   // revert to default parameters if necessary
-  if (isNaN(boardHeight) || boardHeight < 4 || boardHeight > 200) {
+  if (isNaN(boardHeight) || boardHeight < 4 || boardHeight > 150) {
     boardHeight = 8;
     document.forms['sizeinput'].elements['h'].value = boardHeight; 
   }
-  if (isNaN(boardWidth) || boardWidth < 4 || boardWidth > 200) {
+  if (isNaN(boardWidth) || boardWidth < 4 || boardWidth > 150) {
     boardWidth = 8;
     document.forms['sizeinput'].elements['w'].value = boardWidth;
   }
