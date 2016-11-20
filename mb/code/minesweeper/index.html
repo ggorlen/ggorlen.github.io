@@ -2,10 +2,15 @@
 <html lang="en">
   <head>
     <title>Minesweeper</title>
+    
+    <!-- include jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js">
     </script>
+    
+    <!-- include Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
-      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
+    </script>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
       integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -13,7 +18,7 @@
     <style>
       
       body {
-        margin-top: 30px;
+        margin: 20px;
         font-family: "lucida console", "courier new";
         font-size: 11px;
         width: 95%;
@@ -21,16 +26,8 @@
         background: url("wallpaper.png");
       }
       
-      /* preload images */
-      body:after {
-        content: url(1.png), url(2.png),
-                 url(3.png), url(4.png),
-                 url(6.png), url(5.png),
-                 url(7.png), url(8.png),
-                 url(mine.png), url(revealed.png),
-                 url(hidden.png), url(flag.png),
-                 url(question.png);
-        display: none; 
+      input { 
+        text-align: right; 
       }
 
       .center {
@@ -64,10 +61,12 @@
       }
       
     </style>
+    
   </head>
-  <body onload="newGame();">
-    <div id="msheader">
   
+  <body onload="newGame();">
+  
+    <div id="msheader">
       <div class="center">
         <h5>Minesweeper</h5>
       
@@ -86,7 +85,7 @@
         <p></p>
       
         <form id="sizeinput">
-          mines: <input type="text" size="3" name="n" value="10">
+          mines: <input type="text" size="4" name="n" value="10">
           h: <input type="text" size="3" name="h" value="8">
           w: <input type="text" size="3" name="w" value="8">
           <input type="submit" value="New Game" onclick="newGame();">
@@ -96,8 +95,7 @@
         <div class="center" id="score"></div>
         
         <div class="center" id="clock"></div>
-        
-      </div>
+      </div>  <!-- end collapsible -->
     </div>
     
     <p></p>
@@ -116,5 +114,6 @@
 
     <script src="minesweeper.js">
     </script>
+    
   </body>
 </html>
