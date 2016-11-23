@@ -45,10 +45,13 @@ var Building = function (x, y, height, width, speed, color) {
     this.speed = speed;
     this.color = color;
     
+    // Updates the position of this building
     this.move = function () {
     
         // Check if platform crossed left side of screen
         if (this.x + this.width < 0) {
+            
+            // Find the index of this building
             var index = bldgs.indexOf(this);
             
             // Check for index out of bounds
@@ -56,8 +59,10 @@ var Building = function (x, y, height, width, speed, color) {
                 
                 // Remove this object from bldgs array
                 bldgs.splice(index, 1);
+                
+                // Push (add) a new building to the bldgs array
+                bldgs.push(makeBuilding());
             }
-            bldgs.push(makeBuilding());
         }
         else this.x += this.speed;  // Update building position
     };
@@ -105,6 +110,11 @@ function makeBuilding() {
         game.canvas.height - height, height, width, -speed, color);
 }
 
+// Generates a random integer between two bounds
+function rand(lo, hi) {
+    return Math.floor(Math.random() * (hi - lo)) + lo;
+}
+
 // Generates a random color hexadecimal string
 function randColor() {
     var color = "#";
@@ -123,21 +133,17 @@ function randColor() {
     return color;
 }
 
-// Generates a random integer between two bounds
-function rand(lo, hi) {
-    return Math.floor(Math.random() * (hi - lo)) + lo;
-}
-
 // Refreshes the screen
 function update() {
     
-    // Call animation recursively -- more efficient than setTimeout
+    /* Call animation recursively -- This is more 
+     * efficient than setTimeout which is also OK */
     requestAnimationFrame(update); 
 
     // Clears screen of previous frames
     game.clear();
 
-    // Move and redraw stuff
+    // Move and redraw all buildings
     for (var i = 0; i < bldgs.length; i++) {
         bldgs[i].move();
         bldgs[i].draw();
