@@ -145,6 +145,10 @@ function update() {
     game.clear();
 
     // Move and redraw all buildings
+    /* Use this reverse loop instead to create a "rotation" 
+     * sensation where buildings in the back move faster
+     * than those in the front:
+     * for (var i = bldgs.length - 1; i > 0 ; i--) */
     for (var i = 0; i < bldgs.length; i++) {
         bldgs[i].move();
         bldgs[i].draw();
