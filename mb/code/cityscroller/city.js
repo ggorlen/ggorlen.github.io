@@ -25,7 +25,8 @@ var game = {
 game.start(); // Canvas not created until this function is called    
 
 // Constants
-var NUM_BLDGS = 10;
+var MIN_BLDGS = 20;
+var MAX_BLDGS = 100;
 var MIN_BLDG_SPEED = 2;
 var MAX_BLDG_SPEED = 6;
 var MIN_BLDG_HEIGHT = 40;
@@ -88,7 +89,7 @@ var Building = function (x, y, height, width, speed, color) {
 function start() {
     
     // Populate the bldgs array
-    for (var i = 0; i < NUM_BLDGS; i++) {
+    for (var i = 0; i < rand(MIN_BLDGS, MAX_BLDGS); i++) {
         bldgs.push(makeBuilding());
     }
     
