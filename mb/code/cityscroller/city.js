@@ -49,7 +49,7 @@ var Building = function (x, y, height, width, speed, color) {
     // Updates the position of this building
     this.move = function () {
     
-        // Check if platform crossed left side of screen
+        // Check if building crossed left side of screen
         if (this.x + this.width < 0) {
             
             // Find the index of this building
@@ -148,8 +148,8 @@ function update() {
     /* Use this reverse loop instead to create a "rotation" 
      * sensation where buildings in the back move faster
      * than those in the front:
-     * for (var i = bldgs.length - 1; i > 0 ; i--) */
-    for (var i = 0; i < bldgs.length; i++) {
+     * for (var i = bldgs.length - 1; i >= 0 ; i--) */
+    for (var i = 0; i < bldgs.length ; i++) {
         bldgs[i].move();
         bldgs[i].draw();
     }
