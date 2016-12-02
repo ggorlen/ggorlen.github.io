@@ -76,9 +76,9 @@ var Person = function (x, y, frame, imgs) {
 };
 
 // keyboard handler
-var kbd = function () {
-  this.left = false;
-  this.right = false;
+var kbd = {
+  left  : false,
+  right : false
 };
 
 // keyevent listeners to track arrow key actions
