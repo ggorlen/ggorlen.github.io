@@ -16,9 +16,10 @@ var INIT_FRAME = 0;
 var INIT_X = canvas.width / 2;
 var INIT_Y = canvas.height - PERSON_HEIGHT;
 var PLAYER_IMAGE_FILES = [ "standing.png", "left1.png", 
-                           "left2.png", "left3.png",  
-                           "right1.png", "right2.png", 
-                           "right3.png" ];
+                           "left2.png", "left3.png", 
+                           "left4.png", "right1.png", 
+                           "right2.png", "right3.png", 
+                           "right4.png" ];
 
 // declare variables
 var player;
@@ -50,7 +51,7 @@ var Person = function (x, y, frame, imgs) {
       this.x -= STEP_SIZE;
       
       // check to see if we need to reset person's frame
-      if (this.frame >= 3 || this.frame < 1) {
+      if (this.frame >= 4 || this.frame < 1) {
         this.frame = 1;
       }
     }
@@ -60,8 +61,8 @@ var Person = function (x, y, frame, imgs) {
       this.x += STEP_SIZE;
       
       // check to see if we need to reset person's frame
-      if (this.frame >= 6 || this.frame < 4) {
-        this.frame = 4;
+      if (this.frame >= 7 || this.frame < 5) {
+        this.frame = 5;
       }
     }
     else { // no keyboard input; person is standing
