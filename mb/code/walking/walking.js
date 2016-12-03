@@ -8,7 +8,7 @@ var canvas = document.getElementById("walkingcanvas");
 var ctx = canvas.getContext("2d");
 
 // declare constants
-var FRAMERATE = 50;
+var FRAMERATE = 70;
 var PERSON_WIDTH = 7;
 var PERSON_HEIGHT = 20;
 var STEP_SIZE = 5;
