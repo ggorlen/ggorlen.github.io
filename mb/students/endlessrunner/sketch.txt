@@ -1,0 +1,39 @@
+
+
+0,0
+
+
+    
+     x, y               x + width, y 
+    |----------------------|
+    |                      |
+    |                      |                     canvas.width
+... |----------------------| ..........
+   x, y + height      x + width, y + height              
+       
+       
+       
+       canvas.height            
+       
+       var GRID_SIZE = 10;
+       var PLATFORM_HEIGHT = 150;
+       var PLATFORM_WIDTH = 400;
+       var INIT_X = myGameArea.canvas.width;
+       var INIT_Y = myGameArea.canvas.height - PLATFORM_HEIGHT;
+
+       var NUM_PLATFORMS = 3;
+       var platforms = [];
+       
+       // initialization function:
+       for (var i = 0; NUM_PLATFORMS; i++) {
+         platforms.push(new Platform(INIT_X, INIT_Y, PLATFORM_WIDTH, PLATFORM_HEIGHT, "green"));
+       }
+       
+       platform1 = new Platform(INIT_X, INIT_Y, PLATFORM_WIDTH, PLATFORM_HEIGHT, "green");
+       platform2 = new Platform(INIT_X, INIT_Y, PLATFORM_WIDTH, PLATFORM_HEIGHT, "green");
+       platform3 = new Platform(INIT_X, INIT_Y, PLATFORM_WIDTH, PLATFORM_HEIGHT, "green");
+            
+            
+            
+            
+            
