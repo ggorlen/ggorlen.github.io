@@ -22,7 +22,7 @@ function preload() {
 function create() { 
     //  This creates the scoreboard
     scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });
-    highScoreText = game.add.text(200, 16, 'High Score: ' + highscore, { fontSize: '32px', fill: '#fff' });
+    highScoreText = game.add.text(200, 16, 'High Score: ' + highScore, { fontSize: '32px', fill: '#fff' });
 
 
     //  Our player ship
