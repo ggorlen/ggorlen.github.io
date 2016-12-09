@@ -7,8 +7,7 @@ var bullets;
 var fireRate = 270;
 var nextFire = 0;
 var score = 0;
-var highscore = 0;
-var highScoreText;
+var highScore = 0;
 
 function preload() {
     game.load.image('spaceship', 'spaceship.gif');
@@ -23,7 +22,6 @@ function preload() {
 function create() { 
     //  This creates the scoreboard
     scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });
-    scoreText.
     highScoreText = game.add.text(200, 16, 'High Score: ' + highscore, { fontSize: '32px', fill: '#fff' });
 
 
@@ -151,8 +149,8 @@ function checkBulletCollision() {
                 makeAsteroids(1);
                 score++;
                 scoreText.text = 'Score: ' + score;
-                if (score > highscore){
-                    highscore = score;
+                if (score > highScore){
+                    highScore = score;
                     highScoreText.text  = 'High Score: ' + score;    
                 }
             }
