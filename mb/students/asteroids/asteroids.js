@@ -8,6 +8,7 @@ var fireRate = 270;
 var nextFire = 0;
 var score = 0;
 var highscore = 0;
+var highScoreText;
 
 function preload() {
     game.load.image('spaceship', 'spaceship.gif');
