@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Object demonstration</title>
+  </head>
+
+  <body>
+    <script>
+    
+      /* JS object/hash resources:
+       * http://javascript.info/tutorial/objects
+       * http://stackoverflow.com/questions/1208222/how-do-i-implement-a-dictionary-or-hashtable-in-javascript
+       */
+      
+      document.write("<p style='font-family: lucida console'>" +
+                     "<strong>Objects as classes:</strong> <br>");
+    
+      /* Objects in JS can be used as classes.  Classes are blueprints 
+       * which can contain properties (variables) and methods (functions).
+       * Objects made using the constructor method you specify are called 
+       * instances of a class.  Each object that is an instance of a class
+       * will have unique individual values for their properties and methods.
+       * Refer to individual values of an object with the "this" keyword.
+       * Invoke the constructor method to make a new object using the "new"
+       * keyword.  The function below is a class constructor we'll use to 
+       * make instances of the object.  Capitalize class names to distinguish
+       * them from regular functions.  Classes are useful when you'd like to
+       * make many objects with similar properties, such as "player" objects
+       * representing players in a game.  All players share properties like
+       * score, hitpoints, and name but each player has their own value for 
+       * these properties.  The same is true for methods--some methods will
+       * be the same for all objects in a class, called static methods, while
+       * instance methods will be unique to each item.
+       */
+      var Player = function (name, score) {  // constructor method
+                                             // with parameters
+        // properties
+        this.name = name;
+        this.score = score;
+        
+        // methods
+        this.toString = function () {
+          return this.name + ": " + this.score;
+        }
+      };
+
+      // Add a static method to the Player class
+      Player.prototype.jump = function (distance) {
+        return this.name + " jumped " + 
+                       distance + " squares";
+      };
+      
+      // make a new instance of the Player class
+      var mario = new Player("Mario", 0);
+      
+      // change the value of a property
+      mario.score++;
+      
+      // call a method of this object
+      document.write("<br>" + mario.toString());
+      
+      // print the type of the object
+      document.write("<br>Type of \"mario\" : " + 
+                                   typeof(mario));
+      
+      // call the jump function from an object
+      document.write("<br>" + mario.jump(5));
+      
+      // create a new property for the object
+      // and print it out
+      mario.lastName = "Smith";
+      document.write("<br>" + mario.lastName);
+      
+      // modify existing method for the object
+      mario.toString = function () {
+        return this.name + " " + this.lastName + 
+                                ": " + this.score;
+      }
+      
+      // call the updated method for the object
+      document.write("<br>" + mario.toString());
+
+      // change the value of a property again
+      mario.score = 600;
+      
+      // make another object using the Player class
+      var luigi = new Player("Luigi", 300);
+      
+      // print both objects
+      document.write("<br>" + mario.toString());
+      document.write("<br>" + luigi.toString());
+      
+      // end demonstration of classes
+      document.write("<br><br>------------------<br>");
+      document.write("<br><strong>" +
+                    "Objects as associative arrays: </strong><br>");
+      
+      /* Objects in JS can also be used to simulate hashes,
+       * which are associative arrays.  Associative arrays
+       * are like normal arrays in that they store a number of
+       * values, but for each value, or key, there is a second 
+       * value that corresponds to it.  Keys must be unique,
+       * and no guarantee of order is available.  The example
+       * below allows an age number to be retrieved for 
+       * student names.  Like arrays, keys can be passed in
+       * brackets after the object name to retrieve a value.
+       */
+      var students = {
+        "Greg": 30,
+        "Emily": 26,
+        "Brian": 43,
+        "Mary": 5,
+        "Charlie": 28
+      };
+      
+      // use a key to look up a value in the object
+      document.write("<br>Look up Brian's age: " + 
+                     students["Brian"]);
+      
+      // add a new key-value pair to the object
+      students["Jackie"] = 52;
+      
+      // delete a key-value pair from the object 
+      // using the "delete" keyword
+      delete students["Charlie"];
+
+      // print the object and its properties 
+      // with the "enhanced" for loop
+      for (var key in students) {
+      
+        // use the key to look up the values in the hash
+        document.write("<br>Name: " + key + 
+                       ", Age: " + students[key]);
+      }
+      
+    </script>
+  </body>
+</html>

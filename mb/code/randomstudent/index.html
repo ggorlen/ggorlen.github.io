@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Random student</title>
+  </head>
+  <body>
+  
+    <div style="font-size: 32px; font-family: helvetica;">
+    
+      Random student: 
+      
+      <!-- div to hold the output of the script -->
+      <div id="output"></span>
+      
+    </div>
+      
+    <p>
+      <a href="../../material.html">Return to course material</a>
+    </p>
+    
+    <script>
+    
+      /* This array holds all student names as strings.  
+       * Comment out any absent students or run the script 
+       * again if a student is absent. 
+       */
+      var students = [ "Amara", "Anthony", "Caitlin", "Elisa", 
+                       "Fadil", "Faisal", "Hannah", "Jayden", 
+                       "Joseph", "Kyle", "Liam", "Lila", "Lynelle", 
+                       /*"Manuel", "Maria", "Mark", "Marley",*/
+                       "Nushan", "Sam", "Willie", "Christian", "Jason" ];
+         
+      // Choose a random index between 0 and the array length
+      var randomIndex = Math.floor(Math.random() * students.length);
+      
+      // Write the student string located at the random index to the document
+      document.getElementById("output").innerHTML = students[randomIndex];
+  
+    </script>
+  </body>
+</html>

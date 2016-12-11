@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Timer</title>
+  </head>
+  <body>
+  
+    <div style="text-align: center; font-family: helvetica; padding: 30px;">
+  
+      <!-- User input form -->
+      <form name="input">
+        <p>Enter number of minutes:</p>
+        <input type="text" size="10" name="duration">
+        
+        <!-- These buttons call functions inside our timer.js script -->
+        <input type="button" onclick="start();" value="Start">
+        <input type="button" onclick="stop();" value="Stop">
+        
+      </form>
+      <!-- end input form -->
+      
+      <!-- div to display timer output -->
+      <div style="font-size: 80px; font-family: courier;" id="output">
+        <br>
+      </div>
+      <!-- end output div -->
+      
+      <p><a href="../../material.html">Return to course material</a></p>
+      
+    </div>
+    
+    <!-- link to the Javascript code -->
+    <script src="timer.js"></script>
+    
+  </body>
+</html>

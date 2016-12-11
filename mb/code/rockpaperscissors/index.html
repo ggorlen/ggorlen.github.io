@@ -6,7 +6,8 @@
     <!-- import jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
-    <!-- jQuery script to prevent forms from refreshing the page and routing image clicks -->
+    <!-- jQuery script to prevent forms from refreshing the page 
+         and routing image clicks to the correct function parameter -->
     <script>
     
       $(document).ready(function() {
@@ -44,19 +45,18 @@
   </head>
   <body>
 
-    <!-- These images are the user interface -->
-    
-    <img src="../assets/rock-paper-scissors.jpg" width="702" height="380" 
+    <!-- This image is the user interface -->
+    <img src="rock-paper-scissors.jpg" width="702" height="380" 
       alt="rock, paper, scissors icons" usemap="#map" />
 
+    <!-- This map defines clickable coordinates in the image -->
     <map name="map">
       <area shape="rect" coords="55,69,230,287" id="rock" alt="rock icon">
       <area shape="rect" coords="260,80,471,292" id="paper" alt="paper icon">
       <area shape="rect" coords="473,25,663,302" id="scissors" alt="scissors icon">
     </map>
 
-    <!-- our JS script will send return 
-         HTML to this div element -->
+    <!-- our JS script will send return HTML to this div element -->
     <div id="output"><br></div>
 
     <!-- Here's the link to our JavaScript file.
@@ -65,5 +65,6 @@
          before the script loads. -->
     <script src="rockpaperscissors.js">
     </script>
+    
   </body>
 </html>
