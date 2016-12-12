@@ -1,20 +1,23 @@
 # EndlessRunner
+Recently added:<br>
+-Added simple visual Pause screen (will add on and update)<br>
+-Added new simple background (will update)<br>
+-Raised kill boundary to when Player touches ocean/water<br>
+
 To do list:<br>
-PRIORITY<br>
+FUNCTIONS<br>
 -multiple platform spawning<br>
-  -> spawns randomly<br>
-    -> Concsistent heights for platforms, no randomly high platforms <br>
-  -> spawns with random x and y values that don't have them overlap at any point<br>
--player interacts with platforms<br>
-  -> same way as player doesn't fall through ground<br>
-  -> can jump up while on platform <br>
-  -> player gets pushed to left of screen if player hasn't jumped on platform<br>
+-Enemies???<br>
+  
 <br>
 <br>
-NOT PRIORITY RIGHT NOW<br>
--endless background design<br>
--player design<br>
+DESIGNS<br>
+Background<br>
+-Endless scrolling (loop BG) <br>
+Player<br>
+-Fill square to avoid air collisions<br>
 <br>
+-Water/Lava on ground??<br>
 <br>
 <br>
 Random References<br>

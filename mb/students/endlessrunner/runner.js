@@ -9,7 +9,7 @@ var bgImage = new Image();
 bgImage.onload = function () {
 	bgReady = true;
 };
-bgImage.src = "imgs/backdrop.png";
+bgImage.src = "imgs/background.png";
 
 // Creates Game Canvas with properties
 var game = {
@@ -19,17 +19,14 @@ var game = {
         this.canvas.height = 270;
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        //this.frameNo = 0;
         this.interval = setInterval(updateGameArea, 20);
-		/*if (bgReady) {
-		ctx.drawImage(bgImage, 0, 0);
-		}*/
     },
     
     // Clears canvas
     clear : function () {
+		this.context.globalAlpha = 1;
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-		this.context.drawImage(bgImage, 0, 0, this.canvas.width, this.canvas.height)
+		this.context.drawImage(bgImage, 0, 0, this.canvas.width, this.canvas.height);
     }
 }; // End Game object
 
@@ -67,13 +64,15 @@ game.start(); // canvas not created until this function is called
 var ROCK_BOTTOM = game.canvas.height;
 var GRID_SIZE = 10;
 
+//Base Platform Height and Width
 var PLATFORM_HEIGHT = 10;
+var PLATFORM_WIDTH = 100;
+
 var MAX_PLAT_HEIGHT = 0;
 var MIN_PLAT_HEIGHT = game.canvas.height - PLATFORM_HEIGHT;
 
 var MAX_PLAT_WIDTH = 75;
 var MIN_PLAT_WIDTH = 125;
-var PLATFORM_WIDTH = 100;
 
 var PLATFORM_SPEED = 3;
 
@@ -82,8 +81,6 @@ var INIT_X = game.canvas.width;
 var INIT_Y = game.canvas.height - PLATFORM_HEIGHT;
 var MIN_PLAT_Y = 160;
 var MAX_PLAT_Y = 220;
-
-//var PLAYER_IMG = "imgs/download.png"
 
 var NUM_PLATFORMS = 1;
 
@@ -94,9 +91,13 @@ var count;
 
 // load images
 var playerImg = new Image();
+playerImg.src = "imgs/Joker.png";
+
 var platformImg = new Image();
-playerImg.src = "imgs/Batman.png";
-platformImg.src = "";
+platformImg.src = "imgs/platform1.png";
+
+var platform2Img = new Image();
+platformImg.src = "imgs/platform2.png";
 
 // Platform class
 var Platform = function (x, y, height, width, color) {   
@@ -142,6 +143,7 @@ var Platform = function (x, y, height, width, color) {
         ctx = game.context;
         ctx.fillStyle = color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
+		ctx.drawImage(platformImg, this.x, this.y, this.width, this.height);
     }
 
 };
@@ -174,7 +176,6 @@ function Player(width, height, color, x, y) {
     this.jumpCounter = 0;
     this.width = width;
     this.height = height;
-    //this.speedX = 0;
     this.speedY = 0;
     this.gravity = 5;
     this.x = x;
@@ -257,14 +258,10 @@ function Player(width, height, color, x, y) {
 		}
         
         // check for colliding with bottom of screen
-        if (this.y >= game.canvas.height - this.height) {
-            this.y = game.canvas.height - this.height;
+        if (this.y >= game.canvas.height - this.height - 10) {
+            this.y = game.canvas.height - this.height - 10;
             startGame();
         }
-        
-        /*else {
-            this.landed = false;
-        }*/
     }
 }
 
@@ -281,6 +278,19 @@ function updateGameArea() {
 		
 		clearInterval(game.interval);
 		
+		// Creates Visible Pause Screen
+		game.context.font = "50px Arial";
+		game.context.fillStyle = "black";
+		game.context.textAlign = "center";
+		game.context.fillText("Game Paused", game.canvas.width / 2, game.canvas.height / 2);
+		game.context.font = "20px Comic Sans MS";
+		game.context.fillText("Press P to continue", game.canvas.width / 2, game.canvas.height / 2 + 30);
+		game.context.font = "15px Comic Sans MS";
+		game.context.fillText("(In development)", game.canvas.width / 2, game.canvas.height / 2 + 60);
+		game.context.globalAlpha = 0.5;
+		game.context.fillStyle = "#004487";
+		game.context.fillRect(0,0,480,270);
+		
 		// wait for pause button to be pressed again
 		var w = setInterval (function() {
 			if (kbd.up || kbd.p) {
@@ -291,22 +301,19 @@ function updateGameArea() {
 			}
 		}, 20);
 	}
-    
-    // Handle collision detection
-    //player.collisionDetect();
+	
+	// Move stuff
+	player.move();
 
-    // Move stuff
-    player.move();
-    
 	for (var i = 0; i < platforms.length; i++) {
-        platforms[i].move();
+		platforms[i].move();
 	}
 
-    // Draw images
-    player.update();
+	// Draw images
+	player.update();
 
 	for (var i = 0; i < platforms.length; i++) {
-        platforms[i].update();
+		platforms[i].update();
 	}
 }
 
@@ -314,7 +321,6 @@ function updateGameArea() {
 function rand(lo, hi) {
     return Math.floor(Math.random() * (hi - lo)) + lo;
 }
-
 
 // was running into problems with body onload, so I added this:   -greg
 startGame();

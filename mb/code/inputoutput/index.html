@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  
+    <title>Input/output demonstration</title>
+    
+    <style>
+    
+      ul .hide {
+        list-style: none;
+      }
+      
+    </style>
+    
+  </head>
+  
+  <body>
+    
+    <h1>Input/output demonstration</h1>
+
+    <!-- Use the oncclick attribute to call a line of JS
+         code when a user clicks something -->
+    <ul>
+      <li>Method 1: Use the onclick attribute to execute JS code
+  
+        <ul class="hide">
+          <li>
+            Click your favorite fruit and check the console:
+            <ul>
+              <li><a href="#" onclick="console.log('Apples!')">Apples</a></li>
+              <li><a href="#" onclick="console.log('Oranges!')">Oranges</a></li>
+              <li><a href="#" onclick="console.log('Bananas!')">Bananas</a></li>
+            </ul>
+          </li>
+        </ul>
+        
+      </li>
+    </ul>
+    
+    <!-- Generate a dialog box to get text from the user -->
+    <!-- Use the oncclick attribute to call a JS function
+         when a user clicks something -->
+    <ul>
+      <li>Method 2: Dialog box prompt
+  
+        <ul class="hide">
+          <li><input type="button" 
+            onclick="getInputFromPrompt('Enter something:');" 
+            value="Open an input dialog" />
+          </li>
+        </ul>
+        
+      </li>
+    </ul>
+
+    <!-- Forms can contain multiple input boxes and can be retrieved
+         in the script either in a hash (see "objects" demo to learn
+         about hashes) or by id tags -->
+    <ul>
+      <li>Method 3: Forms
+   
+        <ul class="hide">
+          <li>
+          
+            <!-- Create a form and give it a few input boxes and 
+                 buttons.  Don't forget to add name attributes 
+                 or id attributes so we can retrieve the data in 
+                 our script. -->
+            <form name="formtest" onreset="console.log('Form reset!')">
+              Name: <input type="text" name="name" />
+              <br>
+              
+              Age: &nbsp; &nbsp;<input type="number" name="age" />
+              <br>
+              
+              <input type="button" onclick="processForm();" value="Submit" />
+              <input type="reset" />
+            </form>
+            
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    
+    <script>
+    
+      /* This script demonstrates some basic ways to 
+       * collect input from a user and display output.
+       */
+      
+      // Creates a dialog box pop up with a text input box
+      function getInputFromPrompt(message) {
+      
+        // Save user's input in a string
+        var promptedStr = prompt(message);
+        
+        // Display the user's input in another dialog
+        if (typeof promptedStr === "string" && 
+            promptedStr.length > 0) {
+          alert("You entered: " + promptedStr);
+        }
+      }
+      
+      // Processes a form that has been filled out by a user
+      function processForm() {
+      
+        // Retrieve the data for the specified form from the document
+        var name = document.forms["formtest"].elements["name"].value;
+        var age = document.forms["formtest"].elements["age"].value;
+        
+        // Validate and output the results of the form input to a dialog box
+        if (name && age) {
+          alert("Hello " + name + ", age " + age);
+        }
+        else {
+          alert("Invalid input; try again!");
+        }
+      }
+      
+      
+      
+    </script>
+    
+  </body>
+</html>
