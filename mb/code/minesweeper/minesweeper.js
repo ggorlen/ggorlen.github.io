@@ -1,7 +1,11 @@
 /* TODO:
  * add variants
  * refactor board into 1-d array
+ * add numMoves
  * optimize board creation speed for large boards http://stackoverflow.com/questions/714942/how-to-stop-intense-javascript-loop-from-freezing-the-browser
+ * awesome resources!! http://www.chiark.greenend.org.uk/~sgtatham/puzzles/
+ * https://en.wikipedia.org/wiki/Board_puzzles_with_algebra_of_binary_variables
+ * https://en.wikipedia.org/wiki/Minesweeper_(video_game)
  */
 
 // preload images
