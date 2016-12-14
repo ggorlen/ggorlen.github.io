@@ -12,7 +12,7 @@ var highScore = 0;
 function preload() {
     game.load.image('spaceship', 'spaceship.gif');
     game.load.image('asteroid', 'asteroid.gif');
-    game.load.image('bullet', 'laser2.png');
+    game.load.image('bullet', 'laser3.png');
   
     
     kbd = game.input.keyboard.createCursorKeys();
@@ -189,11 +189,11 @@ function fire() {
 
         var bullet = bullets.getFirstDead();
         
-        bullet.reset(spaceship.x - 8, spaceship.y - 8);
+        bullet.reset(spaceship.x, spaceship.y);
 
         //game.physics.arcade.moveToPointer(bullet, 300);
         bullet.rotation = spaceship.rotation;
-            game.physics.arcade.velocityFromRotation(spaceship.rotation, 400, bullet.body.velocity);
+        game.physics.arcade.velocityFromRotation(spaceship.rotation, 400, bullet.body.velocity);
     }
 
 }
