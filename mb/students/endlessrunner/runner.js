@@ -99,6 +99,9 @@ platformImg.src = "imgs/platform1.png";
 var platform2Img = new Image();
 platformImg.src = "imgs/platform2.png";
 
+var numScore = 0;
+var highScore = 0;
+
 // Platform class
 var Platform = function (x, y, height, width, color) {   
     this.x = x;
@@ -150,7 +153,15 @@ var Platform = function (x, y, height, width, color) {
 
 // initializes a new game
 function startGame() {
+
+    // update high score if necessary
+    if (numScore > highScore) {
+        highScore = numScore;
+    }
 	
+    // reset score
+    numScore = 0;
+
     // pause the game
     kbd.p = true;
     
@@ -160,6 +171,8 @@ function startGame() {
     // width, height, color, x, y
 	// TO-DO: Create constants for number values
     player = new Player(30, 30, "red", 50, 120);
+	
+	drawScore();
 }
 
 // generates a new Platform
@@ -199,6 +212,7 @@ function Player(width, height, color, x, y) {
         // Check if jump button is pressed
         if (kbd.up && this.landed) {
             this.jumping = true;
+            this.landed = false;
         }
         
         // Smooth jumping
@@ -223,18 +237,25 @@ function Player(width, height, color, x, y) {
     // Checks collisions between player and ground/platforms
     this.collisionDetect = function() {
 		
-		this.landed = false;
         
 		for (var i = 0; i < platforms.length; i++) {
 			var platform = platforms[i];
+            
 			// check for platform contact
-			if (this.x >= platforms[i].x - this.width
-				&& this.x <= platforms[i].x + platforms[i].width
-				&& this.y >= platforms[i].y - this.height
-				&& this.y <= platforms[i].y) {
+			if (this.x >= platform.x - this.width
+				&& this.x <= platform.x + platform.width
+				&& this.y >= platform.y - this.height
+				&& this.y <= platform.y) {
 				
 				if (this.y + this.height <= platform.y + platform.height) {
-					this.y = platforms[i].y - this.height;
+					this.y = platform.y - this.height;
+                    
+                    // if landed is false, the player is making first 
+                    // contact with this platform
+                    if (!this.landed) {
+                        numScore++;
+                    }
+                    
 					this.landed = true;
 				}
 				
@@ -242,6 +263,7 @@ function Player(width, height, color, x, y) {
 				else if (this.x + this.width <= platform.x + PLATFORM_SPEED) {
 					// Reset game
 					if (this.x <= 0) {
+                        
 						startGame();
 					}
 					
@@ -315,6 +337,8 @@ function updateGameArea() {
 	for (var i = 0; i < platforms.length; i++) {
 		platforms[i].update();
 	}
+	
+	drawScore();
 }
 
 // Generates a random integer between two bounds
@@ -322,5 +346,13 @@ function rand(lo, hi) {
     return Math.floor(Math.random() * (hi - lo)) + lo;
 }
 
-// was running into problems with body onload, so I added this:   -greg
-startGame();
+function drawScore () {
+	game.context.fillStyle = "black";
+	game.context.globalAlpha = 1;
+	game.context.fillText("Score : " + numScore, game.canvas.width - 110, game.canvas.height - 250);
+	
+	game.context.fillStyle = "black";
+	game.context.globalAlpha = 1;
+	game.context.fillText("High Score : " + highScore, game.canvas.width - 96, game.canvas.height - 230);
+}
+
