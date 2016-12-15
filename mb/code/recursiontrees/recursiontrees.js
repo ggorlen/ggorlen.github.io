@@ -18,6 +18,8 @@ var drawLine = function(x, y, distance, angle, delay) {
         x += angle;
         y -= distance;
         
+        // lighten stroke color here?
+        
         // move the pen and finish the line
         ctx.lineTo(x, y);
         ctx.stroke();
@@ -27,20 +29,21 @@ var drawLine = function(x, y, distance, angle, delay) {
         delayRight = rand(200, 8000);
 
         // add conditionals here, e.g., (if distance % 2 === 0 ). ...
-        setTimeout(drawLine, delayLeft, x, y, (distance - 1) * Math.random(), angle - 1, delayLeft);
-        setTimeout(drawLine, delayRight, x, y, (distance - 1) * Math.random(), angle + 1, delayRight);
+        setTimeout(drawLine, delayLeft, x, y, 
+            (distance - 1) * Math.random(), angle - 1, delayLeft);
+        setTimeout(drawLine, delayRight, x, y, 
+            (distance - 1) * Math.random(), angle + 1, delayRight);
     }
 };
 
 function start() {
-  var spread = rand(3, 10);
   
   for (var x = 0; x < canvas.width; x += rand(1, 5)) {
-    var angleFactor = Math.random() * 10 - 5;
+    var angleFactor = rand(-5, 5);
     var delay = rand(200, 8000);
     
-    // start the animation          /*-->         arguments for the drawLine function         <--*/
-    setTimeout(drawLine, delay, x, canvas.height, Math.random() * 50, 0, angleFactor, delay);
+    // start the animation      /*-->   arguments for the drawLine function    <--*/
+    setTimeout(drawLine, delay, x, canvas.height, rand(1, 50), 0, angleFactor, delay);
   }
 }
 
@@ -49,4 +52,7 @@ function rand(lo, hi) {
   return Math.floor((hi - lo) * Math.random()) + lo;
 }
 
-start();
+// generate a random float between two bounds
+function randFloat(lo, hi) {
+  return (hi - lo) * Math.random() + lo;
+}
