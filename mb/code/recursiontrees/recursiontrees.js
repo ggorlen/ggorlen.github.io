@@ -42,8 +42,10 @@ function start() {
     var angleFactor = rand(-5, 5);
     var delay = rand(200, 8000);
     
-    // start the animation      /*-->   arguments for the drawLine function    <--*/
-    setTimeout(drawLine, delay, x, canvas.height, rand(1, 50), 0, angleFactor, delay);
+    // start the animation      
+    setTimeout(drawLine, delay, 
+        /*-->   arguments for the drawLine function    <--*/
+        x, canvas.height, rand(1, 50), 0, angleFactor, delay);
   }
 }
 
