@@ -40,7 +40,7 @@ function start() {
   
   for (var x = 0; x < canvas.width; x += rand(1, 5)) {
     var angleFactor = rand(-5, 5);
-    var delay = rand(200, 8000);
+    var delay = rand(200, 80000);
     
     // start the animation      
     setTimeout(drawLine, delay, 
@@ -54,7 +54,9 @@ function rand(lo, hi) {
   return Math.floor((hi - lo) * Math.random()) + lo;
 }
 
+/*
 // generate a random float between two bounds
 function randFloat(lo, hi) {
   return (hi - lo) * Math.random() + lo;
 }
+*/
