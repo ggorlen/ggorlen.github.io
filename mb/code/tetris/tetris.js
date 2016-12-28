@@ -1063,7 +1063,7 @@ function fillScreen() {
       y -= GRID_SIZE;
       x = canvas.width - GRID_SIZE;
     }
-  });
+  }, 1);
 }
 
 onload = function() {
