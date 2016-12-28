@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Maze generator</title>
+  </head>
+
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+
+    td {
+      border: 1px solid black;
+      height: 5px;
+      width: 5px;
+      background-color: white;
+    }
+
+    td.n {
+      border-top: 1px solid white;
+    }
+
+    td.s {
+      border-bottom: 1px solid white;
+    }
+
+    td.e {
+      border-right: 1px solid white;
+    }
+
+    td.w {
+      border-left: 1px solid white;
+    }
+
+  </style>
+
+  <body>
+    <div id="mazeout"></div>
+    
+    <script>
+    
+      // declare variables
+      var width = 70;
+      var height = 70;
+      var maze = [];
+
+      // represents a maze cell
+      var Cell = function (x, y, n, s, e, w) {
+        this.x = x;
+        this.y = y;
+        this.n = n;
+        this.s = s;
+        this.e = e;
+        this.w = w;
+        this.visited = false;
+    
+        // prepares cell for HTML output
+        this.toString = function () {
+          var output = "<td class='";
+    
+          if (this.n) output += "n";
+          if (this.s) output += " s";
+          if (this.e) output += " e";
+          if (this.w) output += " w";
+    
+          output += "'>";
+          output += "</td>";
+    
+          return output;
+        }
+      };
+
+      // initialize a new maze
+      function init() {
+      
+        // make a new 2d maze array
+        maze = new Array(height);
+    
+        for (var i = 0; i < maze.length; i++) {
+          maze[i] = new Array(width);
+        }
+    
+        // add cells to maze array
+        for (var i = 0; i < maze.length; i++) {
+          for (var j = 0; j < maze[i].length; j++) {
+            maze[i][j] = new Cell(i, j, false, false, false, false);
+          }
+        }
+      }
+
+      // puts the maze on the screen
+      function print() {
+        var s = "<table>";
+        for (var i = 0; i < maze.length; i++) {
+          s += "<tr>";
+          for (var j = 0; j < maze[i].length; j++) {
+            s += maze[i][j];
+          }
+          s += "</tr>";
+        }
+        
+        s += "</table>";
+        document.getElementById("mazeout").innerHTML = s;
+      }
+  
+      // recursively draw maze
+      function makePath(cell) {
+        
+        // mark this cell visited
+        cell.visited = true;
+        
+        // get this cell's neighbors in random order
+        var neighbors = getNeighbors(cell);
+        var randomNeighbors = shuffle(getNeighbors(cell));
+        
+        for (var i = 0; i < randomNeighbors.length; i++) {
+          
+          // make a path between current cell and an unvisited neighbor
+          if (randomNeighbors[i] && !randomNeighbors[i].visited) {
+            
+            switch (neighbors.indexOf(randomNeighbors[i])) {
+              case 0:
+                cell.w = true;
+                randomNeighbors[i].e = true;
+                break;
+              case 1:
+                cell.e = true;
+                randomNeighbors[i].w = true;
+                break;
+              case 2:
+                cell.s = true;
+                randomNeighbors[i].n = true;
+                break;
+              case 3:
+                cell.n = true;
+                randomNeighbors[i].s = true;
+                break;
+              default: console.log("error");
+            }
+            
+            makePath(randomNeighbors[i]);
+          }
+        }
+      }
+      
+      // determines neighbors for a maze cell
+      function getNeighbors(cell) {
+        var dirs = [[0, -1], [0, 1], [1, 0], [-1, 0]];
+        var neighbors = [];
+      
+        for (var i = 0; i < dirs.length; i++) {
+          if (cell.x + dirs[i][0] >= 0 && 
+              cell.y + dirs[i][1] >= 0 &&
+              cell.x + dirs[i][0] < height && 
+              cell.y + dirs[i][1] < width) {
+            neighbors.push(
+              maze[cell.x + dirs[i][0]][cell.y + dirs[i][1]]);
+          }
+          else {
+            neighbors.push(null);
+          }
+        }
+        
+        return neighbors;
+      }
+      
+      // shuffles an array
+      function shuffle(arr) {
+        var i = arr.length;
+        while (--i > 0) {
+          var r = Math.floor(Math.random() * i);
+          var temp = arr[r];
+          arr[r] = arr[i];
+          arr[i] = temp;
+        }
+        return arr;
+      }
+      
+      init();
+      makePath(maze[0][0]);
+      maze[0][0].n = true;
+      maze[height - 1][width - 1].s = true;
+      
+      print();
+    
+    </script>
+  </body>
+</html>
