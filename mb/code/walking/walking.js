@@ -8,7 +8,7 @@ var canvas = document.getElementById("walkingcanvas");
 var ctx = canvas.getContext("2d");
 
 // declare constants
-var FRAMERATE = 70;
+var FRAMERATE = 80;
 var PERSON_WIDTH = 7;
 var PERSON_HEIGHT = 20;
 var STEP_SIZE = 5;
@@ -110,7 +110,7 @@ function init() {
       personImgs.push(pImg);
   }
   
-  // create a new person
+  // create a new player
   player = new Person(INIT_X, INIT_Y, INIT_FRAME, personImgs);
   
   // start the animation

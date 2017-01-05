@@ -1030,7 +1030,7 @@ function pause() {
   fillScreen();
   
   var waiting = setInterval(function() { 
-    if (kbd.p || kbd.up || kbd.down || 
+    if (kbd.p || kbd.up ||
         kbd.left || kbd.right) {
       kbd.stop();
       clearInterval(waiting);
