@@ -8,10 +8,28 @@
       body {
         font-family: lucida console;
         font-size: 14px;
-        width: 95%;
+        width: 99%;
         background: url("wallpaper.png");
       }
-
+      
+      .outer {
+        display: table;
+        position: absolute;
+        height: 30%;
+        width: 99%;
+      }
+  
+      .middle {
+        display: table-cell;
+        vertical-align: middle;
+      }
+  
+      .inner {
+        margin-left: auto;
+        margin-right: auto; 
+        width: 360px;
+      }
+  
       #tetriscanvas {
         position: absolute;
         margin-top: 10px;
@@ -26,8 +44,9 @@
         background: black;
       }
       
-      #out {
+      #score {
         position: absolute;
+        font-size: 13px;
         margin-top: 100px;
         margin-left: 230px;
       }
@@ -36,11 +55,17 @@
 
   </head>
   <body>
-    
-    <div id="tetriscontainer">
-      <canvas id="tetriscanvas" height="400" width="200"></canvas>  
-      <canvas id="tetriscanvassidebar" height="80" width="120"></canvas>
-      <span id="out"></span>
+
+    <div class="outer">
+      <div class="middle">
+        <div class="inner">
+          <div id="tetriscontainer">
+            <canvas id="tetriscanvas" height="400" width="200"></canvas>  
+            <canvas id="tetriscanvassidebar" height="80" width="120"></canvas>
+            <span id="score"></span>
+          </div>
+        </div>
+      </div>
     </div>
     
     <script src="tetris.js">

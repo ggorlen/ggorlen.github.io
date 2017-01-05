@@ -920,7 +920,7 @@ function drawNextBlock() {
 
 // draws scores to the screen
 function drawScores() {
-  document.getElementById("out").innerHTML = "Score: " + score +
+  document.getElementById("score").innerHTML = "Score: " + score +
     "<br>Level: " + level + "<br>Best : " + bestScore;
 }
 
@@ -1047,23 +1047,23 @@ function fillScreen() {
   var x = canvas.width - GRID_SIZE;
   var y = canvas.height - GRID_SIZE;
   var fill = setInterval(function() {
-    switch (Math.floor(Math.random() * 7)) {
-      case 0: ctx.drawImage(rodImg, x, y);    break;
-      case 1: ctx.drawImage(squareImg, x, y); break;
-      case 2: ctx.drawImage(jImg, x, y);      break;
-      case 3: ctx.drawImage(sImg, x, y);      break;
-      case 4: ctx.drawImage(zImg, x, y);      break;
-      case 5: ctx.drawImage(notchImg, x, y);  break;
-      case 6: ctx.drawImage(lImg, x, y);      break;
-    }  
-    
-    x -= GRID_SIZE;
-    if (y === -GRID_SIZE) clearInterval(fill);
-    else if (x === -GRID_SIZE) {
-      y -= GRID_SIZE;
-      x = canvas.width - GRID_SIZE;
+    while (x >= -GRID_SIZE) {
+      switch (Math.floor(Math.random() * 7)) {
+        case 0: ctx.drawImage(rodImg, x, y);    break;
+        case 1: ctx.drawImage(squareImg, x, y); break;
+        case 2: ctx.drawImage(jImg, x, y);      break;
+        case 3: ctx.drawImage(sImg, x, y);      break;
+        case 4: ctx.drawImage(zImg, x, y);      break;
+        case 5: ctx.drawImage(notchImg, x, y);  break;
+        case 6: ctx.drawImage(lImg, x, y);      break;
+      }
+      x -= GRID_SIZE;
+      
     }
-  }, 1);
+    if (y === -GRID_SIZE) clearInterval(fill);
+    x = canvas.width - GRID_SIZE;
+    y -= GRID_SIZE;
+  }, 15);
 }
 
 onload = function() {
