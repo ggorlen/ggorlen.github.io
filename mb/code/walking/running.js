@@ -4,22 +4,18 @@
  */
 
 // create canvas object and context
-var canvas = document.getElementById("walkingcanvas");
+var canvas = document.getElementById("runningcanvas");
 var ctx = canvas.getContext("2d");
 
 // declare constants
-var FRAMERATE = 70;
+var FRAMERATE = 50;
 var PERSON_WIDTH = 7;
-var PERSON_HEIGHT = 20;
-var STEP_SIZE = 5;
+var PERSON_HEIGHT = 50;
+var STEP_SIZE = 4;
 var INIT_FRAME = 0;
 var INIT_X = canvas.width / 2;
 var INIT_Y = canvas.height - PERSON_HEIGHT;
-var PLAYER_IMAGE_FILES = [ "standing.png", "left1.png", 
-                           "left2.png", "left3.png", 
-                           "left4.png", "right1.png", 
-                           "right2.png", "right3.png", 
-                           "right4.png" ];
+var PLAYER_IMAGE_FILES = [ "right_01bad.png" ];
 
 // declare variables
 var player;
@@ -45,7 +41,7 @@ var Person = function (x, y, frame, imgs) {
     // increment person's frame
     this.frame++;
     
-    if (kbd.left) {
+    if (false) {
       
       // decrement person's x position
       this.x -= STEP_SIZE;
@@ -55,14 +51,14 @@ var Person = function (x, y, frame, imgs) {
         this.frame = 1;
       }
     }
-    else if (kbd.right) {
+    else if (true) {
       
       // increment person's x position
       this.x += STEP_SIZE;
       
       // check to see if we need to reset person's frame
-      if (this.frame >= 7 || this.frame < 5) {
-        this.frame = 5;
+      if (this.frame > 2) {
+        this.frame=0;
       }
     }
     else { // no keyboard input; person is standing
@@ -72,7 +68,9 @@ var Person = function (x, y, frame, imgs) {
   
   // redraw person to the canvas
   this.draw = function () {
-    ctx.drawImage(this.imgs[this.frame], this.x, this.y);
+  console.log(this.frame);
+    ctx.drawImage(this.imgs[0], 30 * this.frame, 0, 30, 50, this.x, this.y, 30, 50);
+    //ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
   };
 };
 
@@ -110,7 +108,7 @@ function init() {
       personImgs.push(pImg);
   }
   
-  // create a new person
+  // create a new player
   player = new Person(INIT_X, INIT_Y, INIT_FRAME, personImgs);
   
   // start the animation
