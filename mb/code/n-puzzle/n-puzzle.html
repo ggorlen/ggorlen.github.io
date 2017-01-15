@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>15 puzzle</title>
+    <style>
+    
+      body {
+        font-family: lucida console, courier new, monospace;
+        font-size: 12px;
+        background: url(wallpaper.png);
+        width: 95%;
+        overflow-y: scroll; /* force scrollbar always */
+        margin: 40px;
+      }
+
+      #puzzlecontainer {
+        font-size: 20px;
+        color: #000;
+        table-layout: fixed;
+      }
+
+      #puzzlecontainer table {
+        background: rgba(0, 0, 0, 0.05);
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        border-collapse: collapse;
+      }
+
+      #puzzlecontainer td {
+        border: 1px solid #aaa;
+        width: 50px;
+        height: 50px;
+      }
+      
+      .center {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      
+      input { 
+        text-align: right; 
+      }
+      
+    </style>
+  </head>
+  <body>
+    <div>
+      <br>
+      <h3 class="center">n-puzzle</h3>
+      <div id="puzzlecontainer"></div>
+      <br>
+      <div class="center" id="output">
+      </div>
+    </div>
+    
+    <script src="n-puzzle.js"></script>
+  </body>
+</html>
