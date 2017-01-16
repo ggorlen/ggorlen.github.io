@@ -3,21 +3,34 @@
  * todos:
  * -cut up a picture
  * -add mouse support
+ * -optimize display by only displaying changed squares
+ * -animate movements
  */
- 
+
+// declare variables and constants
 var EMPTY_SQUARE = " "
 var sideLength;
 var board;
 var numMoves;
 var gameOver;
+var bestScore;
 
-// initialize a new puzzle
+// initializes a new puzzle
 function init(size) {
-  sideLength = parseInt(size) || 3;
-  numMoves = 0;
-  gameOver = false;
-  board = makeBoard(sideLength);
-  display();
+  size = parseInt(size);
+  
+  if (!isNaN(size) && size >= 2 && size <= 15) {
+
+    sideLength = size;
+    
+    // grab the best score from localStorage object
+    bestScore = parseInt(localStorage["npuzzleBestScore" + sideLength]) || "n/a";
+
+    numMoves = 0;
+    gameOver = false;
+    board = makeBoard(sideLength);
+    display();
+  }
 }
 
 // finds indexes of odd rows in a board
@@ -45,7 +58,7 @@ function makeBoard(side) {
     board.push((i).toString());
   }
   board.push(EMPTY_SQUARE);
-  
+
   // find the odd rows for this board size
   var oddRows = findOddRows(board);
     
@@ -98,17 +111,22 @@ function shuffleArray(arr) {
   return arr;
 }
 
-// displays board in html document
+// displays board in an html document
 function display() {
   var output = "<table>";
   for (var i = 0; i < board.length; i++) {
     if (i % sideLength === 0) {
       output += "</tr><tr>"
     }
-    output += "<td>" + board[i] + "</td>";
+    output += "<td id='npuzzle" + board[i] + "'>" + board[i] + "</td>";
   }
   document.getElementById("puzzlecontainer").innerHTML = output;
-  document.getElementById("output").innerHTML = "moves: " + numMoves;
+  document.getElementById("output").innerHTML = "moves: " + numMoves + 
+      "<br>best: " + bestScore +
+      "<br><br>size: <input size=2 type='text' id='sizeInput' " + 
+      "value=" + sideLength + " /><br><br>" +
+      "<button onclick='init(document.getElementById(\"sizeInput\").value);'>" +
+      "New game</button</p>";
 }
 
 // returns whether a square is next to the empty square
@@ -117,28 +135,36 @@ function isAdjacentToEmpty(idx) {
            board[idx - 1] === EMPTY_SQUARE && idx % sideLength !== 0 ||
            board[idx - sideLength] === EMPTY_SQUARE ||
            board[idx + sideLength] === EMPTY_SQUARE;
-    
 }
 
 // returns true if a puzzle is solved, false otherwise
 function isFinished() {
   var temp = board.indexOf(EMPTY_SQUARE);
+  
+  // remove the empty square from the board
   board.splice(temp, 1);
+  
+  // check that the board array is sorted sequentially
   for (var i = 0; i < board.length; i++) {
     if (parseInt(board[i - 1]) > parseInt(board[i])) {
+        
+      // board is not solved, re-add the empty square
       board.splice(temp, 0, EMPTY_SQUARE);
       return false;
     }
   }
+  
+  // board is solved, re-add the empty square
   board.splice(temp, 0, EMPTY_SQUARE);
   return true;
 }
 
-// moves a square adjacent to the empty square
+// moves a square adjacent to the empty square if valid
 function move(direction) {
   var emptySquareIdx = board.indexOf(EMPTY_SQUARE);
   var candidateIdx = emptySquareIdx;
   
+  // determine the candidate square based on direction
   switch (direction) {
     case "down"  : candidateIdx += sideLength; break;
     case "up"    : candidateIdx -= sideLength; break;
@@ -146,9 +172,12 @@ function move(direction) {
     case "right" : candidateIdx += 1;          break;
     default      : console.log("invalid direction in move function");
   }
-    
+
+  // check to ensure this is a valid move
   if (candidateIdx >= 0 && candidateIdx < board.length && 
       isAdjacentToEmpty(candidateIdx)) {
+          
+    // valid move--swap the two squares and increment numMoves
     board[emptySquareIdx] = board[candidateIdx];
     board[candidateIdx] = EMPTY_SQUARE;
     numMoves++;
@@ -156,14 +185,24 @@ function move(direction) {
   
   display();
   
+  // check if the move solved the puzzle
   if (isFinished()) {
     gameOver = true;
+    
+    // store the new best score in localStorage if necessary
+    if (numMoves < bestScore || isNaN(bestScore)) {
+      bestScore = numMoves;
+      localStorage["npuzzleBestScore" + sideLength] = bestScore;
+    }
+    
+    // display a victory message
     document.getElementById("output").innerHTML = 
-      "Solved in " + numMoves + " moves!<br><p>" +
-      "Board size: <input required size=2 default=3 type='number' " +
-      "min='2' max='20' id='size' /><br><br>" +
-      "<button onclick='init(document.getElementById(\"size\").value);'>" +
-      "New game</button</p>";
+      "solved in " + numMoves + " moves!<br>" + 
+      "best: " + bestScore +
+      "<br><br>size: <input size=2 type='text' id='sizeInput' " + 
+      "value=" + sideLength + " /><br><br>" +
+      "<button onclick='init(document.getElementById(\"sizeInput\").value);'>" +
+      "New game</button>";
   }
 }
 
@@ -183,8 +222,11 @@ document.addEventListener("keydown", function (e) {
       move("down");
     }
   }
+  if (e.keyCode === 13) {
+    init(document.getElementById("sizeInput").value);
+  }
 }, false);
 
 onload = function() {
-  init();
+  init(3);
 };
