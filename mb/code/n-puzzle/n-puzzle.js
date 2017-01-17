@@ -124,7 +124,7 @@ function display() {
   document.getElementById("output").innerHTML = "moves: " + numMoves + 
       "<br>best: " + bestScore +
       "<br><br>size: <input size=2 type='text' id='sizeInput' " + 
-      "value=" + sideLength + " /><br><br>" +
+      "value=" + sideLength + " /> " +
       "<button onclick='init(document.getElementById(\"sizeInput\").value);'>" +
       "New game</button</p>";
 }
@@ -200,7 +200,7 @@ function move(direction) {
       "solved in " + numMoves + " moves!<br>" + 
       "best: " + bestScore +
       "<br><br>size: <input size=2 type='text' id='sizeInput' " + 
-      "value=" + sideLength + " /><br><br>" +
+      "value=" + sideLength + " /> " +
       "<button onclick='init(document.getElementById(\"sizeInput\").value);'>" +
       "New game</button>";
   }
