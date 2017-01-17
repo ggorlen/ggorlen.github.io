@@ -87,13 +87,15 @@ function makeBoard(side) {
        and EMPTY_SQUARE is in an odd row from the bottom */
     else if (side % 2 === 0 && inversionCount % 2 === 0 &&
              oddRows.includes(board.indexOf(EMPTY_SQUARE))) {
+      console.log("#2 inv: " + inversionCount);
       return board;
     }
     
     /* or check that the number of inversions are odd and 
        EMPTY_SQUARE is on an even row from the bottom */
     else if (side % 2 === 0 && inversionCount % 2 !== 0 &&
-             !(oddRows.includes(board.indexOf(EMPTY_SQUARE)))) {
+             !oddRows.includes(board.indexOf(EMPTY_SQUARE))) {
+      console.log("#3 inv: " + inversionCount);
       return board;
     }
   }
