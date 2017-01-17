@@ -78,7 +78,7 @@ function makeBoard(side) {
       }
     } 
     
-    // if sideLength is odd, number of inversions should be even
+    // if side length is odd, number of inversions should be even
     if (side % 2 !== 0 && inversionCount % 2 === 0) {
       return board;
     }
@@ -86,14 +86,14 @@ function makeBoard(side) {
     /* else, check that the number of inversions are even 
        and EMPTY_SQUARE is in an odd row from the bottom */
     else if (side % 2 === 0 && inversionCount % 2 === 0 &&
-             board.indexOf(EMPTY_SQUARE) in oddRows) {
+             oddRows.includes(board.indexOf(EMPTY_SQUARE))) {
       return board;
     }
     
     /* or check that the number of inversions are odd and 
        EMPTY_SQUARE is on an even row from the bottom */
     else if (side % 2 === 0 && inversionCount % 2 !== 0 &&
-             !(board.indexOf(EMPTY_SQUARE) in oddRows)) {
+             !(oddRows.includes(board.indexOf(EMPTY_SQUARE)))) {
       return board;
     }
   }
