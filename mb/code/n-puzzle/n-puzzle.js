@@ -212,16 +212,16 @@ function move(direction) {
 document.addEventListener("keydown", function (e) {
   if (!gameOver) {
     if (e.keyCode === 39 || e.keyCode === 68) {
-      move("right");
-    }
-    else if (e.keyCode === 38 || e.keyCode === 87) {
-      move("up");
-    }
-    else if (e.keyCode === 37 || e.keyCode === 65) {
       move("left");
     }
-    else if (e.keyCode === 40 || e.keyCode === 83) {
+    else if (e.keyCode === 38 || e.keyCode === 87) {
       move("down");
+    }
+    else if (e.keyCode === 37 || e.keyCode === 65) {
+      move("right");
+    }
+    else if (e.keyCode === 40 || e.keyCode === 83) {
+      move("up");
     }
   }
   if (e.keyCode === 13) {
