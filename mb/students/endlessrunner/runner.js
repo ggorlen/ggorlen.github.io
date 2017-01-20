@@ -9,7 +9,7 @@ var bgImage = new Image();
 bgImage.onload = function () {
 	bgReady = true;
 };
-bgImage.src = "imgs/background.png";
+bgImage.src = "";
 
 // Creates Game Canvas with properties
 var game = {
@@ -355,4 +355,3 @@ function drawScore () {
 	game.context.globalAlpha = 1;
 	game.context.fillText("High Score : " + highScore, game.canvas.width - 96, game.canvas.height - 230);
 }
-
