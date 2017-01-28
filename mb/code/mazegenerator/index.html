@@ -191,14 +191,17 @@
                 break;
               default: console.log("error");
             }
-
-            // animate
+            
+            // animate algorithm
             setTimeout(function() { cell.draw(); }, 1);
 
             // go to the next cell and repeat
             makePath(randomNeighbors[i]);
           }
         }
+        
+        // animate final cell
+        setTimeout(function() { cell.draw(); }, 1);
       }
       
       // determines neighbors for a maze cell
@@ -245,7 +248,7 @@
 
       // render the maze to the HTML document
       //print();
-      setTimeout(function() { draw(); }, 8000);
+      //setTimeout(function() { draw(); }, 8000);
     
     </script>
   </body>
