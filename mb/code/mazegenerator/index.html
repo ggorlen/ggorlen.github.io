@@ -49,7 +49,7 @@
     <div id="mazeout"></div>
     
     <script>
-      /* todo: fix x/y coordinates
+      /* todo: fix overdrawing walls, just draw N & E?
        * add solver
        * animate algorithm help:
        * http://stackoverflow.com/questions/17719662/animating-a-recursive-backtracking-algorithm-in-javascript
@@ -67,14 +67,29 @@
       var maze = [];
 
       // represents a maze cell
-      var Cell = function (x, y, n, s, e, w) {
+      var Cell = function (x, y) {
         this.x = x;
         this.y = y;
-        this.n = n;
-        this.s = s;
-        this.e = e;
-        this.w = w;
+        this.n = null;
+        this.s = null;
+        this.e = null;
+        this.w = null;
         this.visited = false;
+        
+        // sets the neighbors for this cell
+        this.setNeighbors = function () {
+          var dirs = [[0, -1], [0, 1], [1, 0], [-1, 0]];
+        
+          for (var i = 0; i < dirs.length; i++) {
+            if (tile.x + dirs[i][0] >= 0 && 
+                tile.y + dirs[i][1] >= 0 &&
+                tile.x + dirs[i][0] < this.height && 
+                tile.y + dirs[i][1] < this.width) {
+              tile.neighbors.push(
+                this.tiles[tile.x + dirs[i][0]][tile.y + dirs[i][1]]);
+            }
+          }
+        };
     
         // prepares cell for HTML output
         this.toHTML = function () {
@@ -88,8 +103,8 @@
         
         // renders maze to canvas
         this.draw = function () {
-          var x = this.y * grid + 1;
-          var y = this.x * grid + 1;
+          var x = this.x * grid + 1;
+          var y = this.y * grid + 1;
           
           ctx.beginPath();
           ctx.strokeStyle = "#000000";
@@ -136,10 +151,10 @@
         // add cells to maze array
         for (var i = 0; i < maze.length; i++) {
           for (var j = 0; j < maze[i].length; j++) {
-            maze[i][j] = 
-                new Cell(i, j, false, false, false, false);
+            maze[i][j] = new Cell(j, i);
           }
         }
+        
       }
 
       // renders the maze as a table
@@ -181,16 +196,16 @@
           if (randomNeighbors[i] && !randomNeighbors[i].visited) {
             switch (neighbors.indexOf(randomNeighbors[i])) {
               case 0:
-                cell.w = randomNeighbors[i].e = true;
+                cell.n = randomNeighbors[i].s = true; nfrq++;
                 break;
               case 1:
-                cell.e = randomNeighbors[i].w = true;
+                cell.s = randomNeighbors[i].n = true; sfrq++;
                 break;
               case 2:
-                cell.s = randomNeighbors[i].n = true;
+                cell.e = randomNeighbors[i].w = true; efrq++;
                 break;
               case 3:
-                cell.n = randomNeighbors[i].s = true;
+                cell.w = randomNeighbors[i].e = true; wfrq++;
                 break;
               default: console.log("error");
             }
@@ -209,16 +224,16 @@
       
       // determines neighbors for a maze cell
       function getNeighbors(cell) {
-        var dirs = [[0, -1], [0, 1], [1, 0], [-1, 0]];
+        var dirs = [[-1, 0], [1, 0], [0, 1], [0, -1]];
         var neighbors = [];
       
         for (var i = 0; i < dirs.length; i++) {
-          if (cell.x + dirs[i][0] >= 0 &&
-              cell.y + dirs[i][1] >= 0 &&
-              cell.x + dirs[i][0] < height &&
-              cell.y + dirs[i][1] < width) {
-            neighbors.push(maze[cell.x + dirs[i][0]]
-                               [cell.y + dirs[i][1]]);
+          if (cell.y + dirs[i][0] >= 0 &&
+              cell.x + dirs[i][1] >= 0 &&
+              cell.y + dirs[i][0] < height &&
+              cell.x + dirs[i][1] < width) {
+            neighbors.push(maze[cell.y + dirs[i][0]]
+                               [cell.x + dirs[i][1]]);
           }
           else {
             neighbors.push(null);
@@ -227,18 +242,23 @@
         return neighbors;
       }
       
+      var nfrq = 0;
+      var sfrq = 0;
+      var efrq = 0;
+      var wfrq = 0;
+      
       // shuffles an array using fisher-yates
       function shuffle(arr) {
         var i = arr.length;
-        while (--i > 0) {
-          var r = Math.floor(Math.random() * i);
+        while (i > 0) {
+          var r = Math.floor(Math.random() * i--);
           var temp = arr[r];
           arr[r] = arr[i];
           arr[i] = temp;
         }
         return arr;
       }
-      
+
       // initialize a new maze
       init();
       
@@ -251,8 +271,7 @@
 
       // render the maze to the HTML document
       //print();
-      //setTimeout(function() { draw(); }, 8000);
-    
+      
     </script>
   </body>
 </html>

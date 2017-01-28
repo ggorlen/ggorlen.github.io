@@ -101,11 +101,11 @@ function makeBoard(side) {
   }
 }
 
-// shuffles an array
+// shuffles an array using fisher-yates
 function shuffleArray(arr) {
   var i = arr.length;
-  while (--i > 0) {
-    var r = Math.floor(Math.random() * i);
+  while (i > 0) {
+    var r = Math.floor(Math.random() * i--);
     var temp = arr[r];
     arr[r] = arr[i];
     arr[i] = temp;
