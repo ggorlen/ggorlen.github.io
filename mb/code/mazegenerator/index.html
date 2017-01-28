@@ -5,7 +5,13 @@
   </head>
 
   <style>
+  
+    body {
+      width: 95%;
+    }
+    
     table {
+      background-color: #fff;
       border-collapse: collapse;
     }
 
@@ -31,17 +37,30 @@
     td.w {
       border-left: 1px solid white;
     }
+    
+    canvas {
+      background-color: #fff;
+    }
 
   </style>
 
   <body>
+    <canvas id="mazecanvas" width=1070 height=650></canvas>
     <div id="mazeout"></div>
     
     <script>
+      // todo: fix x/y coordinates
+      // add solver
+      // animate algorithms
+      
+      // grab canvas and context from DOM
+      var canvas = document.getElementById("mazecanvas");
+      var ctx = canvas.getContext("2d");
     
       // declare variables
-      var width = 70;
-      var height = 70;
+      var grid = 7;
+      var width = 150;
+      var height = 90;
       var maze = [];
 
       // represents a maze cell
@@ -55,27 +74,58 @@
         this.visited = false;
     
         // prepares cell for HTML output
-        this.toString = function () {
+        this.toHTML = function () {
           var output = "<td class='";
-    
           if (this.n) output += "n";
           if (this.s) output += " s";
           if (this.e) output += " e";
           if (this.w) output += " w";
-    
-          output += "'>";
-          output += "</td>";
-    
-          return output;
+          return output + "'></td>";
+        }
+        
+        // renders maze to canvas
+        this.draw = function () {
+          var x = this.y * grid + 1;
+          var y = this.x * grid + 1;
+          
+          ctx.beginPath();
+          ctx.strokeStyle = "#000000";
+          ctx.moveTo(x, y);   
+          
+          if (this.n) {
+            ctx.moveTo(x + grid, y);
+          }
+          else {
+            ctx.lineTo(x + grid, y);
+          }
+          if (this.e) {
+            ctx.moveTo(x + grid, y + grid);
+          }
+          else {
+            ctx.lineTo(x + grid, y + grid);
+          }
+          if (this.s) {
+            ctx.moveTo(x, y + grid);
+          }
+          else {
+            ctx.lineTo(x, y + grid);
+          }
+          if (this.w) {
+            ctx.moveTo(x, y);
+          }
+          else {
+            ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+          ctx.closePath();
         }
       };
-
-      // initialize a new maze
+      
+      // initializes a new maze
       function init() {
       
         // make a new 2d maze array
         maze = new Array(height);
-    
         for (var i = 0; i < maze.length; i++) {
           maze[i] = new Array(width);
         }
@@ -83,29 +133,38 @@
         // add cells to maze array
         for (var i = 0; i < maze.length; i++) {
           for (var j = 0; j < maze[i].length; j++) {
-            maze[i][j] = new Cell(i, j, false, false, false, false);
+            maze[i][j] = 
+                new Cell(i, j, false, false, false, false);
           }
         }
       }
 
-      // puts the maze on the screen
+      // renders the maze as a table
       function print() {
         var s = "<table>";
         for (var i = 0; i < maze.length; i++) {
           s += "<tr>";
           for (var j = 0; j < maze[i].length; j++) {
-            s += maze[i][j];
+            s += maze[i][j].toHTML();
           }
           s += "</tr>";
         }
-        
         s += "</table>";
         document.getElementById("mazeout").innerHTML = s;
       }
+      
+      // renders the maze to canvas
+      function draw() {
+        for (var i = 0; i < maze.length; i++) {
+          for (var j = 0; j < maze[i].length; j++) {
+            maze[i][j].draw();
+          }
+        }
+      }
   
-      // recursively draw maze
+      // recursively carve maze
       function makePath(cell) {
-        
+
         // mark this cell visited
         cell.visited = true;
         
@@ -117,27 +176,26 @@
           
           // make a path between current cell and an unvisited neighbor
           if (randomNeighbors[i] && !randomNeighbors[i].visited) {
-            
             switch (neighbors.indexOf(randomNeighbors[i])) {
               case 0:
-                cell.w = true;
-                randomNeighbors[i].e = true;
+                cell.w = randomNeighbors[i].e = true;
                 break;
               case 1:
-                cell.e = true;
-                randomNeighbors[i].w = true;
+                cell.e = randomNeighbors[i].w = true;
                 break;
               case 2:
-                cell.s = true;
-                randomNeighbors[i].n = true;
+                cell.s = randomNeighbors[i].n = true;
                 break;
               case 3:
-                cell.n = true;
-                randomNeighbors[i].s = true;
+                cell.n = randomNeighbors[i].s = true;
                 break;
               default: console.log("error");
             }
-            
+
+            // animate
+            setTimeout(function() { cell.draw(); }, 1);
+
+            // go to the next cell and repeat
             makePath(randomNeighbors[i]);
           }
         }
@@ -149,22 +207,21 @@
         var neighbors = [];
       
         for (var i = 0; i < dirs.length; i++) {
-          if (cell.x + dirs[i][0] >= 0 && 
+          if (cell.x + dirs[i][0] >= 0 &&
               cell.y + dirs[i][1] >= 0 &&
-              cell.x + dirs[i][0] < height && 
+              cell.x + dirs[i][0] < height &&
               cell.y + dirs[i][1] < width) {
-            neighbors.push(
-              maze[cell.x + dirs[i][0]][cell.y + dirs[i][1]]);
+            neighbors.push(maze[cell.x + dirs[i][0]]
+                               [cell.y + dirs[i][1]]);
           }
           else {
             neighbors.push(null);
           }
         }
-        
         return neighbors;
       }
       
-      // shuffles an array
+      // shuffles an array using fisher-yates
       function shuffle(arr) {
         var i = arr.length;
         while (--i > 0) {
@@ -176,12 +233,19 @@
         return arr;
       }
       
+      // initialize a new maze
       init();
+      
+      // start recursively carving out a maze
       makePath(maze[0][0]);
+
+      // add entry and exit
       maze[0][0].n = true;
       maze[height - 1][width - 1].s = true;
-      
-      print();
+
+      // render the maze to the HTML document
+      //print();
+      setTimeout(function() { draw(); }, 8000);
     
     </script>
   </body>
