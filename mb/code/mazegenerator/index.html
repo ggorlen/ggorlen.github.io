@@ -196,16 +196,16 @@
           if (randomNeighbors[i] && !randomNeighbors[i].visited) {
             switch (neighbors.indexOf(randomNeighbors[i])) {
               case 0:
-                cell.n = randomNeighbors[i].s = true; nfrq++;
+                cell.n = randomNeighbors[i].s = true;
                 break;
               case 1:
-                cell.s = randomNeighbors[i].n = true; sfrq++;
+                cell.s = randomNeighbors[i].n = true;
                 break;
               case 2:
-                cell.e = randomNeighbors[i].w = true; efrq++;
+                cell.e = randomNeighbors[i].w = true;
                 break;
               case 3:
-                cell.w = randomNeighbors[i].e = true; wfrq++;
+                cell.w = randomNeighbors[i].e = true;
                 break;
               default: console.log("error");
             }
@@ -241,11 +241,6 @@
         }
         return neighbors;
       }
-      
-      var nfrq = 0;
-      var sfrq = 0;
-      var efrq = 0;
-      var wfrq = 0;
       
       // shuffles an array using fisher-yates
       function shuffle(arr) {
