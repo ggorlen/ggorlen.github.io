@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Recursion demonstration</title>
+    
+    <style>
+      body {
+        font-family: "lucida console";
+      }
+    </style>
+  </head>
+  
+  <body>
+    <script>
+    
+      var MAX_DEPTH = 20;
+    
+      function recursiveFunction(depth) {
+        
+        // we need a base case or terminal case, otherwise the recursion
+        // continues on "forever", or until the stack size is reached
+        // and the program crashes.
+        if (depth === MAX_DEPTH) {
+          return;
+        }
+        else { // we haven't reached the maximum depth yet, keep calling...
+      
+          // on the way down the stack, print something showing where we are!
+          document.write((Array(depth).join("&nbsp;") + "We're at depth " + depth + "<br>"));
+          
+          // now, add one to depth and call this function inside itself!
+          depth++;
+          recursiveFunction(depth); // the recursive call!
+
+          // on the way back up the stack, print something showing where we are!
+          document.write((Array(depth).join("&nbsp;") + "We're at depth " + depth + "<br>"));
+
+        }
+      }
+      
+      // start the recursion off with an initial call at depth 0;
+      var initialDepth = 0;
+      recursiveFunction(initialDepth);
+      
+    </script>
+  </body>
+</html>
