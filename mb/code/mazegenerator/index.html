@@ -101,7 +101,7 @@
           return output + "'></td>";
         }
         
-        // renders maze to canvas
+        // renders cell to canvas
         this.draw = function () {
           var x = this.x * grid + 1;
           var y = this.y * grid + 1;
@@ -134,6 +134,7 @@
           else {
             ctx.lineTo(x, y);
           }
+          
           ctx.stroke();
           ctx.closePath();
         }
@@ -154,7 +155,6 @@
             maze[i][j] = new Cell(j, i);
           }
         }
-        
       }
 
       // renders the maze as a table
@@ -180,46 +180,49 @@
         }
       }
   
-      // recursively carve maze
-      function makePath(cell) {
-
-        // mark this cell visited
-        cell.visited = true;
+      // carve maze with a recursive backtracking algorithm
+      function makePath() {
+      
+        // start at a random cell
+        var stack = [maze[Math.floor(Math.random() * maze.length)]
+                         [Math.floor(Math.random() * maze[0].length)]];
         
-        // get this cell's neighbors in random order
-        var neighbors = getNeighbors(cell);
-        var randomNeighbors = shuffle(getNeighbors(cell));
+        while (stack.length > 0) {
         
-        for (var i = 0; i < randomNeighbors.length; i++) {
+          // make the top of the stack the current cell
+          var cell = stack[stack.length - 1];
           
-          // make a path between current cell and an unvisited neighbor
-          if (randomNeighbors[i] && !randomNeighbors[i].visited) {
-            switch (neighbors.indexOf(randomNeighbors[i])) {
-              case 0:
-                cell.n = randomNeighbors[i].s = true;
-                break;
-              case 1:
-                cell.s = randomNeighbors[i].n = true;
-                break;
-              case 2:
-                cell.e = randomNeighbors[i].w = true;
-                break;
-              case 3:
-                cell.w = randomNeighbors[i].e = true;
-                break;
-              default: console.log("error");
-            }
-            
-            // animate algorithm
-            setTimeout(function() { cell.draw(); }, 1);
-
-            // go to the next cell and repeat
-            makePath(randomNeighbors[i]);
-          }
-        }
+          // add this cell to the animation queue
+          animStates.push(cell);
         
-        // animate final cell
-        setTimeout(function() { cell.draw(); }, 1);
+          // mark this cell visited
+          cell.visited = true;
+          
+          // get this cell's neighbors in random order
+          var neighbors = getNeighbors(cell);
+          var randomNeighbors = shuffle(getNeighbors(cell));
+          
+          // find an unvisited neighbor
+          var pop = true;
+          for (var i = 0; i < randomNeighbors.length && pop; i++) {
+            if (randomNeighbors[i] && !randomNeighbors[i].visited) {
+              stack.push(randomNeighbors[i]);
+              pop = false;
+              
+              // make a path between current cell and unvisited neighbor                      
+              switch (neighbors.indexOf(randomNeighbors[i])) {
+                case 0: cell.n = randomNeighbors[i].s = true; break;
+                case 1: cell.s = randomNeighbors[i].n = true; break;
+                case 2: cell.e = randomNeighbors[i].w = true; break;
+                case 3: cell.w = randomNeighbors[i].e = true; break;
+                default: console.log("error");
+              }
+            }
+          }
+
+          // no valid neighbors were found, pop the stack
+          if (pop) stack.pop();
+        }
       }
       
       // determines neighbors for a maze cell
@@ -257,15 +260,20 @@
       // initialize a new maze
       init();
       
+      // make a queue for animation frames
+      var animStates = [];
+      
       // start recursively carving out a maze
-      makePath(maze[0][0]);
+      makePath();
 
       // add entry and exit
       maze[0][0].n = true;
       maze[height - 1][width - 1].s = true;
 
       // render the maze to the HTML document
-      //print();
+      setInterval(function () {
+        animStates.shift().draw();
+      }, 2);
       
     </script>
   </body>
