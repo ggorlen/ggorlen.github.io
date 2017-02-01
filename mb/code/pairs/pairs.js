@@ -1,63 +1,63 @@
 /* This script generates pairs given an array of items */
 
-var arr = [ 
-            "Dovran",
-            "Eric R.",
-            "Aaron",
-            "Perry",
-            "Bin",
-            "Emi",
-            "Faisal",
-            "Mary",
-            "Marshawn",
-            "Nathan",
-            "Ada",
-            "Liana",
-            "Johan",
-            "Christian",
-            "Eric D.", 
-            "Victor", 
-            "Vlad" 
-           ];
+var students = [ 
+                "Dovran",
+                "Eric R.",
+                "Aaron",
+                "Perry",
+                "Bin",
+                "Emi",
+                "Faisal",
+                "Mary",
+                "Marshawn",
+                "Nathan",
+                "Ada",
+                "Liana",
+                "Johan",
+                "Christian",
+                "Eric D.", 
+                "Victor", 
+                "Vlad" 
+               ];
+           
+printRandomPairs(students, "output");
 
-// make some pairs!
-var res = makePairs(arr);
 
-// print the result
-var output = "";
-for (var i = 0; i < res.length; i++) {
-  if (res[i][0] !== undefined && res[i][2] === undefined) {
-    output += (res[i][0] + " & " + res[i][1] + "<br>");
-  }
-  else if (res[i][0] !== undefined) {
-    output += (res[i][0] + " & " + res[i][1] + " & " + res[i][2] + "<br>");
-  }
-}
-document.getElementById("output").innerHTML = output;
-
-// generates pairs given an array
-// outputs a trio for odd-numbered input arrays
-function makePairs(arr) {
-  var pairs = [];
-
-  for (var i = 0; i < arr.length / 2; i++) {
-    pairs[i] = new Array(3);
+// prints random pairs of an array to a DOM element.  
+function printRandomPairs(arr, element) {
+  
+  // copy the old array so randomization won't affect it.
+  var tempArr = arr.slice(0);
+  
+  // shuffle the array
+  shuffleArray(tempArr);
+  
+  // create a string to hold the output as HTML
+  var output = "";
+  
+  // if the array length is odd, make a trio
+  if (tempArr.length % 2 !== 0) {
+    output += tempArr[tempArr.length - 1] + " & ";
   }
   
-  // iterate over input array, splicing random elements
-  // to populate the output array
-  for (var i = 0;; i++) {
-    if (arr.length >= 1) {
-      pairs[i][0] = arr.splice(Math.floor(Math.random() * arr.length), 1);
-      pairs[i][1] = arr.splice(Math.floor(Math.random() * arr.length), 1);
-    }
-    if (arr.length === 1) {
-      pairs[i][2] = arr.splice(0, 1);
-    }
-    if (arr.length === 0) {
-      break;
-    }
+  // loop through the array, printing every two items
+  for (var i = 0; i < tempArr.length - 1; i += 2) {
+    output += tempArr[i] + " & " + 
+              tempArr[i + 1] + "<br>";
   }
+  
+  // send the output HTML string to the document
+  document.getElementById(element).innerHTML = output;
+}
 
-  return pairs;
+// shuffles an array using the fisher-yates algorithm
+function shuffleArray(arr) {
+  var i = arr.length;
+  while (i > 0) {
+    var r = Math.floor(Math.random() * i--);
+    var temp = arr[r];
+    arr[r] = arr[i];
+    arr[i] = temp;
+  }
+  return arr;
 }
