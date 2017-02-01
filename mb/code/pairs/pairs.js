@@ -1,10 +1,30 @@
-var arr = [ /*"Amara",*/ "Anthony", /*"Caitlin", "Elisa", */"Fadil", "Faisal", "Hannah", "Jayden", 
-            "Joseph", /*"Kyle",*/ "Liam", "Lila", "Lynelle", "Manuel",/* "Maria", */"Emilio", "Shawn",
-            /*"Nushan",*/ "Sam", /*"Willie",*/ "Christian", "Jason" ];
+/* This script generates pairs given an array of items */
 
+var arr = [ 
+            "Dovran",
+            "Eric R.",
+            "Aaron",
+            "Perry",
+            "Bin",
+            "Emi",
+            "Faisal",
+            "Mary",
+            "Marshawn",
+            "Nathan",
+            "Ada",
+            "Liana",
+            "Johan",
+            "Christian",
+            "Eric D.", 
+            "Victor", 
+            "Vlad" 
+           ];
+
+// make some pairs!
 var res = makePairs(arr);
-var output = "";
 
+// print the result
+var output = "";
 for (var i = 0; i < res.length; i++) {
   if (res[i][0] !== undefined && res[i][2] === undefined) {
     output += (res[i][0] + " & " + res[i][1] + "<br>");
@@ -13,10 +33,10 @@ for (var i = 0; i < res.length; i++) {
     output += (res[i][0] + " & " + res[i][1] + " & " + res[i][2] + "<br>");
   }
 }
-
-console.log(output);
 document.getElementById("output").innerHTML = output;
 
+// generates pairs given an array
+// outputs a trio for odd-numbered input arrays
 function makePairs(arr) {
   var pairs = [];
 
@@ -24,6 +44,8 @@ function makePairs(arr) {
     pairs[i] = new Array(3);
   }
   
+  // iterate over input array, splicing random elements
+  // to populate the output array
   for (var i = 0;; i++) {
     if (arr.length >= 1) {
       pairs[i][0] = arr.splice(Math.floor(Math.random() * arr.length), 1);
