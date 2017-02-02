@@ -24,7 +24,10 @@
     <script src="ticker.js"></script>
     
     <script>
-      ticker("Here's some scrolling text!  ", "scrollingtextbox", 4);
+      // make a new ticker object and start it
+      var ticker = new Ticker("Here's some scrolling text!  ", 
+                              "scrollingtextbox", 4);
+      ticker.start();
     </script>
     
   </body>

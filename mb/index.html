@@ -82,18 +82,18 @@
     
     <script>
     
-      // ticker control script
-      
-      // start ticker
-      ticker("Welcome to Mission Bit @ Gateway HS! ", "ticker", 4);
+      // make a new ticker object and start it
+      var ticker = new Ticker("Welcome to Mission Bit @ " +
+                              "Gateway HS! ", "ticker", 4);
+      ticker.start();
       
       // pause and resume for mouse hovers over the computer graphic
       $(document).ready(function() {
         $("#puter, #ticker").mouseenter(function(){
-          pause();
+          ticker.pause();
         });
         $("#puter, #ticker").mouseout(function(){
-          resume();
+          ticker.start();
         });
       });
       
