@@ -50,7 +50,7 @@ function showSequence() {
   
   interval = setInterval(function() {
     setId("square" + sequence[i], 
-        "<div style=\"background-color: #777; " + 
+        "<div style=\"background-color: rgba(0, 0, 0, 0.2); " +
         "width: 100%; height: 100%;\"></div>"
     );
     
@@ -70,7 +70,7 @@ function testSequence(choice) {
   if (!allowInput) return;
   if (sequence[idx] === choice) {
     setId("square" + choice,
-      "<div style=\"background-color: #777; " + 
+      "<div style=\"background-color: rgba(0, 0, 0, 0.2); " + 
       "width: 100%; height: 100%;\"></div>"
     );
 

@@ -21,7 +21,7 @@
         width: 95%;
         overflow-y: scroll; /* force scrollbar always */
         background: url("wallpaper.png");    
-        margin: 20px;
+        margin-top: 50px;
         font-family: "lucida console", "courier new";
         font-size: 11px;
       }
@@ -37,28 +37,30 @@
       }
       
       #simon table {
-        background: rgba(0, 0, 0, 0.03);
         text-align: center;
         margin-left: auto;
         margin-right: auto;
+        background-color: rgba(0, 0, 0, 0.02);
+        border-collapse:separate;
+        border-spacing: 1px;
       }
       
       #simon td {
-        padding: 5px;
-        border: 1px solid #bbb;
+        padding: 0px;
+        border: 1px solid rgba(0, 0, 0, 0.3);
         width: 40px;
         height: 40px;
       }
       
       #simon td:hover {
-        background: rgba(0, 0, 0, 0.04);
+        border: 1px solid #000;
       }
       
     </style>
   </head>
   <body onload="init();">
     <div class="center">
-      <h4>Simon</h4>
+      <h5>Simon</h5>
       <br>
       <div id="simon"></div>
       <br>
