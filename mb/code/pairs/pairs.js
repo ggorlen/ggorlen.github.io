@@ -17,7 +17,7 @@ var students = [
                 "Christian",
                 "Eric D.", 
                 "Victor", 
-                "Vlad" 
+                "Vlad"
                ];
            
 printRandomPairs(students, "output");
