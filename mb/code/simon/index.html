@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Simon</title>
+    
+    <!-- include jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js">
+    </script>
+    
+    <!-- include Bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
+    </script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    
+    <style>
+    
+      body {
+        width: 95%;
+        overflow-y: scroll; /* force scrollbar always */
+        background: url("wallpaper.png");    
+        margin: 20px;
+        font-family: "lucida console", "courier new";
+        font-size: 11px;
+      }
+
+      input { 
+        text-align: right; 
+      }
+
+      .center {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      
+      #simon table {
+        background: rgba(0, 0, 0, 0.03);
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      
+      #simon td {
+        padding: 5px;
+        border: 1px solid #bbb;
+        width: 40px;
+        height: 40px;
+      }
+      
+      #simon td:hover {
+        background: rgba(0, 0, 0, 0.04);
+      }
+      
+    </style>
+  </head>
+  <body onload="init();">
+    <div class="center">
+      <h4>Simon</h4>
+      <br>
+      <div id="simon"></div>
+      <br>
+      <div id="simonscore"></div>
+      <br>
+      <form id="sizeinput">
+        size: <input type="text" size="2" name="size" value="2">
+        <input type="submit" value="New Game" onclick="init();">
+      </form>  
+    </div>
+    
+    <!-- jQuery script to prevent forms from refreshing the page on submit -->
+    <script>
+    
+      $(document).ready(function() {
+        $(function() {
+          $("form").submit(function() { return false; });
+        });
+      });
+    </script>
+    
+    <script src="simon.js"></script>
+  </body>
+</html>
