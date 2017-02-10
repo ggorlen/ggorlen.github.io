@@ -1,0 +1,60 @@
+/* global body style */
+body {
+  font-family: "helvetica";
+  font-size: 14px;
+  background-image: url("wallpaper.png");
+}
+
+/* selectors for links */
+a {
+  color: #cc005c;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+td {
+  background-color: #fff;
+}
+
+.seethru {
+  /* rgba allows transparency alpha as the 4th parameter */  
+  background-color: rgba(255, 255, 0, .5);  
+}
+
+.chessboard {
+  border: 1px solid black;
+}
+
+.chessboard td {
+  border: 1px solid black;
+  width: 20px;
+  height: 20px;
+}
+
+.button {
+  transition: width 1s;
+}
+
+.button:hover {
+  transition-delay: 1s;
+  width: 100%;
+}
+
+.main {
+    
+  /* center the class */
+  margin-left: auto;
+  margin-right: auto;
+  
+  padding-left: 20px;
+  padding-right: 20px;
+  width: 50%;
+  background-color: #eee;
+  border: 10px solid rgba(0, 0, 0, .1);
+}
+
+.black {
+  background-color: #000000;  
+}
