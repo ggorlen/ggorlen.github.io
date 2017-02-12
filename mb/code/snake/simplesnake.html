@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>snake</title>
+    <style>
+      body {
+        background-image: url("simplesnakewallpaper.png");
+        font-family: monospace, "courier new", "lucida console";
+        font-size: 13px;
+        color: #000;
+      }
+      
+      #snakebox table {
+        margin-left: auto;
+        margin-right: auto;
+        table-layout: fixed;
+        border-collapse: collapse;
+        border: 1px solid #888;
+      }
+      
+      #snakebox td {
+        text-align: center;
+        overflow: hidden;
+        display: inline-block;
+        white-space: nowrap;
+        border: 0px;
+        padding: 0px;
+        height: 15px;
+        width: 17px;
+      }
+      
+      .center {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body onload="init();">
+    <h3 class="center">snake</h3>
+    <div id="snakebox"></div>
+    <div class="center" id="scorebox"></div>  
+    <script src="simplesnake.js"></script>
+  </body>
+</html>

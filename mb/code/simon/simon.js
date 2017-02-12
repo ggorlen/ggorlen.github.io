@@ -1,4 +1,4 @@
-// todo: add thumb piano sound/colors
+// todo: add thumb piano sound/colors, fix interval bug
 
 const ANIMATION_SPEED = 1000;
 let size;
@@ -112,5 +112,7 @@ function extendSequence() {
 
 function setId(id, content) {
   if (!content) content = "";
-  document.getElementById(id).innerHTML = content;
+  if (document.getElementById(id)) {
+    document.getElementById(id).innerHTML = content;
+  }
 }
