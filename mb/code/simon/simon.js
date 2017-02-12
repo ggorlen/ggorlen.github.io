@@ -1,4 +1,4 @@
-// todo: add thumb piano sound/colors, fix interval bug
+// todo: add thumb piano sound/colors, fix interval bug: fixed?
 
 const ANIMATION_SPEED = 1000;
 let size;
@@ -60,14 +60,15 @@ function showSequence() {
     
     if (++i === sequence.length || 
         sequence[i] === undefined) {
-      clearInterval(interval);
       allowInput = true;
+      clearInterval(interval);
     }  
   }, ANIMATION_SPEED);  
 }
 
 function testSequence(choice) {
   if (!allowInput) return;
+  
   if (sequence[idx] === choice) {
     setId("square" + choice,
       "<div style=\"background-color: rgba(0, 0, 0, 0.2); " + 
@@ -79,6 +80,7 @@ function testSequence(choice) {
     }, ANIMATION_SPEED / 4, choice);  
     
     if (++idx === sequence.length) {
+      allowInput = true;
       idx = 0;
       extendSequence();
       showScore();
@@ -86,6 +88,7 @@ function testSequence(choice) {
     }
   }
   else {
+    allowInput = false;
     setId("square" + choice,
       "<div style=\"background-color: #cc0000; " + 
       "width: 100%; height: 100%;\"></div>"
@@ -99,8 +102,9 @@ function testSequence(choice) {
         localStorage["simonBestScore" + size] = bestScore;
       }
       
+      allowInput = true;
       init();
-    }, ANIMATION_SPEED, choice);  
+    }, ANIMATION_SPEED, choice);
   }
 }
 
