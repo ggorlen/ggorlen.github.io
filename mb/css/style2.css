@@ -17,18 +17,12 @@ a:hover {
 
 /* code: a class to format code in monospace */
 .code {
-  font-family: "Lucida Console";
-  font-weight: 800;
+  font-family: "Lucida Console", monospace;
 }
 
 /* skinny: shrinks the element to 50% */
 .skinny {
   width: 50%;
-}
-
-/* b: a bold class */
-.b {
-  font-weight: 700;
 }
 
 /* centered: centers elements */
