@@ -59,6 +59,7 @@
     <script>
       /* todo: fix overdrawing walls, just draw N & E?
        * add djikstra's, solver
+       * refactor classes into separate files
        * animate algorithm help:
        * http://stackoverflow.com/questions/17719662/animating-a-recursive-backtracking-algorithm-in-javascript
        * http://stackoverflow.com/questions/29588816/animate-javascript-canvas-while-in-recursive-calculation
@@ -162,13 +163,9 @@
  
         // prepares cell for HTML output
         this.toHTML = function() {
-          let output = "<td id='cell_" + this.y + 
-            "_" + this.x + "' class='";
-          if (this.n) output += "n";
-          if (this.s) output += " s";
-          if (this.e) output += " e";
-          if (this.w) output += " w";
-          return output + "'></td>";
+          return "<td id='cell_" + this.y + 
+            "_" + this.x + "' class='" + 
+            this.getClass() + "'></td>";
         };
         
         // returns a CSS class representation
