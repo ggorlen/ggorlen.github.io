@@ -2,215 +2,241 @@
 <html>
   <head>
     <title>Maze generator</title>
+    
+    <!-- include jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js">
+    </script>
+    
+    <!-- include Bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
+    </script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    
+    <style>
+    
+      body {
+        width: 95%;
+        margin: 10px;
+      }
+      
+      #mazeout td {
+        border: 1px solid black;
+        height: 10px;
+        width: 10px;
+        background-color: white;
+      }
+      
+      #mazeout td.n {
+        border-top: 1px solid white;
+      }
+      
+      #mazeout td.s {
+        border-bottom: 1px solid white;
+      }
+      
+      #mazeout td.e {
+        border-right: 1px solid white;
+      }
+      
+      #mazeout td.w {
+        border-left: 1px solid white;
+      }
+      
+      #mazecanvas canvas {
+        background-color: #fff;
+      }
+      
+    </style>
   </head>
 
-  <style>
-  
-    body {
-      width: 95%;
-    }
-    
-    table {
-      background-color: #fff;
-      border-collapse: collapse;
-    }
-
-    td {
-      border: 1px solid black;
-      height: 5px;
-      width: 5px;
-      background-color: white;
-    }
-
-    td.n {
-      border-top: 1px solid white;
-    }
-
-    td.s {
-      border-bottom: 1px solid white;
-    }
-
-    td.e {
-      border-right: 1px solid white;
-    }
-
-    td.w {
-      border-left: 1px solid white;
-    }
-    
-    canvas {
-      background-color: #fff;
-    }
-
-  </style>
-
   <body>
-    <canvas id="mazecanvas" width=1070 height=650></canvas>
     <div id="mazeout"></div>
+    <canvas id="mazecanvas" width=0 height=0></canvas>
     
     <script>
       /* todo: fix overdrawing walls, just draw N & E?
-       * add solver
+       * add djikstra's, solver
        * animate algorithm help:
        * http://stackoverflow.com/questions/17719662/animating-a-recursive-backtracking-algorithm-in-javascript
        * http://stackoverflow.com/questions/29588816/animate-javascript-canvas-while-in-recursive-calculation
        */
       
       // grab canvas and context from DOM
-      var canvas = document.getElementById("mazecanvas");
-      var ctx = canvas.getContext("2d");
+      let canvas = document.getElementById("mazecanvas");
+      let ctx = canvas.getContext("2d");
     
       // declare variables
-      var grid = 7;
-      var width = 150;
-      var height = 90;
-      var maze = [];
-
+      let grid = 7;
+      let width = 100;
+      let height = 60;
+      let animate = true;
+      let animationSpeed = 1;
+      let maze;
+      
+      // represents a maze
+      let Maze = function(width, height) {
+        this.width = width;
+        this.height = height;
+        this.grid;
+        
+        // for each on this grid
+        this.onGrid = function(callback) {
+          for (let i = 0; i < this.grid.length; i++) {
+            for (let j = 0; j < this.grid[i].length; j++) {
+              this.grid[i][j].callback();
+            }
+          }
+        };
+        
+        // initializes this maze
+        this.init = function() {
+        
+          // make a new 2d maze array
+          this.grid = new Array(this.height);
+          for (let i = 0; i < this.grid.length; i++) {
+            this.grid[i] = new Array(this.width);
+          }
+        
+          // add cells to maze array
+          for (let i = 0; i < this.grid.length; i++) {
+            for (let j = 0; j < this.grid[i].length; j++) {
+              this.grid[i][j] = new Cell(j, i);
+            }
+          }
+          
+          // set neighbors for each cell
+          for (let i = 0; i < this.grid.length; i++) {
+            for (let j = 0; j < this.grid[i].length; j++) {
+              this.grid[i][j].setNeighbors();
+            }
+          }
+        };
+        
+        // renders the maze as a table
+        this.toHTML = function() {
+          let s = "<table>";
+          for (let i = 0; i < this.grid.length; i++) {
+            s += "<tr>";
+            for (let j = 0; j < this.grid[i].length; j++) {
+              s += this.grid[i][j].toHTML();
+            }
+            s += "</tr>";
+          }
+          return s + "</table>";
+        };
+        
+        // renders the maze to canvas
+        this.draw = function() {
+          this.onGrid(draw);
+        };
+      }; // end Maze class
+      
       // represents a maze cell
-      var Cell = function (x, y) {
+      let Cell = function(x, y) {
         this.x = x;
         this.y = y;
         this.n = null;
         this.s = null;
         this.e = null;
         this.w = null;
+        this.neighbors = [null, null, null, null]; // nsew  todo: refactor to hash
         this.visited = false;
         
         // sets the neighbors for this cell
-        this.setNeighbors = function () {
-          var dirs = [[0, -1], [0, 1], [1, 0], [-1, 0]];
-        
-          for (var i = 0; i < dirs.length; i++) {
-            if (tile.x + dirs[i][0] >= 0 && 
-                tile.y + dirs[i][1] >= 0 &&
-                tile.x + dirs[i][0] < this.height && 
-                tile.y + dirs[i][1] < this.width) {
-              tile.neighbors.push(
-                this.tiles[tile.x + dirs[i][0]][tile.y + dirs[i][1]]);
+        this.setNeighbors = function() {        
+          let dirs = [[-1, 0], [1, 0], [0, 1], [0, -1]];
+          
+          for (let i = 0; i < dirs.length; i++) {
+            if (this.y + dirs[i][0] >= 0 &&
+                this.x + dirs[i][1] >= 0 &&
+                this.y + dirs[i][0] < maze.height &&
+                this.x + dirs[i][1] < maze.width) {
+              this.neighbors[i] = maze.grid[this.y + dirs[i][0]]
+                                           [this.x + dirs[i][1]];
             }
           }
         };
-    
+ 
         // prepares cell for HTML output
-        this.toHTML = function () {
-          var output = "<td class='";
+        this.toHTML = function() {
+          let output = "<td id='cell_" + this.y + 
+            "_" + this.x + "' class='";
           if (this.n) output += "n";
           if (this.s) output += " s";
           if (this.e) output += " e";
           if (this.w) output += " w";
           return output + "'></td>";
-        }
+        };
+        
+        // returns a CSS class representation
+        this.getClass = function() {
+          let output = "";
+          if (this.n) output += "n";
+          if (this.s) output += " s";
+          if (this.e) output += " e";
+          if (this.w) output += " w";
+          return output;
+        };
         
         // renders cell to canvas
-        this.draw = function () {
-          var x = this.x * grid + 1;
-          var y = this.y * grid + 1;
+        this.draw = function() {
+          let x = this.x * grid + 1;
+          let y = this.y * grid + 1;
           
           ctx.beginPath();
           ctx.strokeStyle = "#000000";
-          ctx.moveTo(x, y);   
+          ctx.moveTo(x, y);
           
-          if (this.n) {
-            ctx.moveTo(x + grid, y);
-          }
-          else {
-            ctx.lineTo(x + grid, y);
-          }
-          if (this.e) {
-            ctx.moveTo(x + grid, y + grid);
-          }
-          else {
-            ctx.lineTo(x + grid, y + grid);
-          }
-          if (this.s) {
-            ctx.moveTo(x, y + grid);
-          }
-          else {
-            ctx.lineTo(x, y + grid);
-          }
-          if (this.w) {
-            ctx.moveTo(x, y);
-          }
-          else {
-            ctx.lineTo(x, y);
-          }
-          
+          this.n ? ctx.moveTo(x + grid, y) : 
+                   ctx.lineTo(x + grid, y);
+          this.e ? ctx.moveTo(x + grid, y + grid) : 
+                   ctx.lineTo(x + grid, y + grid);
+          this.s ? ctx.moveTo(x, y + grid) : 
+                   ctx.lineTo(x, y + grid);
+          this.w ? ctx.moveTo(x, y) : 
+                   ctx.lineTo(x, y);
+                   
           ctx.stroke();
           ctx.closePath();
-        }
-      };
-      
-      // initializes a new maze
-      function init() {
-      
-        // make a new 2d maze array
-        maze = new Array(height);
-        for (var i = 0; i < maze.length; i++) {
-          maze[i] = new Array(width);
-        }
-    
-        // add cells to maze array
-        for (var i = 0; i < maze.length; i++) {
-          for (var j = 0; j < maze[i].length; j++) {
-            maze[i][j] = new Cell(j, i);
-          }
-        }
-      }
-
-      // renders the maze as a table
-      function print() {
-        var s = "<table>";
-        for (var i = 0; i < maze.length; i++) {
-          s += "<tr>";
-          for (var j = 0; j < maze[i].length; j++) {
-            s += maze[i][j].toHTML();
-          }
-          s += "</tr>";
-        }
-        s += "</table>";
-        document.getElementById("mazeout").innerHTML = s;
-      }
-      
-      // renders the maze to canvas
-      function draw() {
-        for (var i = 0; i < maze.length; i++) {
-          for (var j = 0; j < maze[i].length; j++) {
-            maze[i][j].draw();
-          }
-        }
-      }
+        };
+      }; // end Cell class
+  
+  
+  
   
       // carve maze with a recursive backtracking algorithm
-      function makePath() {
+      function recursiveBacktracker(maze) {
       
         // start at a random cell
-        var stack = [maze[Math.floor(Math.random() * maze.length)]
-                         [Math.floor(Math.random() * maze[0].length)]];
+        let stack = [maze.grid[Math.floor(Math.random() * maze.grid.length)]
+                              [Math.floor(Math.random() * maze.grid[0].length)]];
         
         while (stack.length > 0) {
         
           // make the top of the stack the current cell
-          var cell = stack[stack.length - 1];
+          let cell = stack[stack.length - 1];
           
           // add this cell to the animation queue
-          animStates.push(cell);
+          animStates.push(["cell_" + cell.y + "_" + cell.x, cell]);
         
           // mark this cell visited
           cell.visited = true;
           
           // get this cell's neighbors in random order
-          var neighbors = getNeighbors(cell);
-          var randomNeighbors = shuffle(getNeighbors(cell));
-          
+          let randomNeighbors = shuffle(cell.neighbors.slice());
+
           // find an unvisited neighbor
-          var pop = true;
-          for (var i = 0; i < randomNeighbors.length && pop; i++) {
+          let pop = true;
+          for (let i = 0; i < randomNeighbors.length && pop; i++) {
             if (randomNeighbors[i] && !randomNeighbors[i].visited) {
               stack.push(randomNeighbors[i]);
               pop = false;
               
               // make a path between current cell and unvisited neighbor                      
-              switch (neighbors.indexOf(randomNeighbors[i])) {
+              switch (cell.neighbors.indexOf(randomNeighbors[i])) {
                 case 0: cell.n = randomNeighbors[i].s = true; break;
                 case 1: cell.s = randomNeighbors[i].n = true; break;
                 case 2: cell.e = randomNeighbors[i].w = true; break;
@@ -219,61 +245,55 @@
               }
             }
           }
-
+          
           // no valid neighbors were found, pop the stack
           if (pop) stack.pop();
         }
       }
       
-      // determines neighbors for a maze cell
-      function getNeighbors(cell) {
-        var dirs = [[-1, 0], [1, 0], [0, 1], [0, -1]];
-        var neighbors = [];
-      
-        for (var i = 0; i < dirs.length; i++) {
-          if (cell.y + dirs[i][0] >= 0 &&
-              cell.x + dirs[i][1] >= 0 &&
-              cell.y + dirs[i][0] < height &&
-              cell.x + dirs[i][1] < width) {
-            neighbors.push(maze[cell.y + dirs[i][0]]
-                               [cell.x + dirs[i][1]]);
-          }
-          else {
-            neighbors.push(null);
-          }
-        }
-        return neighbors;
-      }
-      
       // shuffles an array using fisher-yates
       function shuffle(arr) {
-        var i = arr.length;
+        let i = arr.length;
         while (i > 0) {
-          var r = Math.floor(Math.random() * i--);
-          var temp = arr[r];
+          let r = Math.floor(Math.random() * i--);
+          let temp = arr[r];
           arr[r] = arr[i];
           arr[i] = temp;
         }
         return arr;
       }
-
-      // initialize a new maze
-      init();
+      
+      
+      
+      
+      
       
       // make a queue for animation frames
-      var animStates = [];
+      let animStates = [];
       
-      // start recursively carving out a maze
-      makePath();
-
-      // add entry and exit
-      maze[0][0].n = true;
-      maze[height - 1][width - 1].s = true;
-
-      // render the maze to the HTML document
-      setInterval(function () {
-        animStates.shift().draw();
-      }, 2);
+      maze = new Maze(width, height);
+      maze.init();
+      maze.grid[0][0].n = true;
+      maze.grid[maze.height - 1][maze.width - 1].s = true;
+      document.getElementById("mazeout").innerHTML = maze.toHTML();
+      recursiveBacktracker(maze);
+      
+      
+      if (animate) {
+        let interval = setInterval(function() {
+          //animStates.shift().draw();
+          if (animStates.length > 0) {
+            let frame = animStates.shift();
+            document.getElementById(frame[0]).className = frame[1].getClass();
+          }
+          else {
+            clearInterval(interval);
+          }
+        }, animationSpeed);
+      }
+      else {
+        document.getElementById("mazeout").innerHTML = maze.toHTML();
+      }
       
     </script>
   </body>
