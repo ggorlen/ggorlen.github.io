@@ -56,10 +56,13 @@
     <div id="mazeout"></div>
     <canvas id="mazecanvas" width=0 height=0></canvas>
     
+    <script src="cell.js"></script>
+    <script src="maze.js"></script>
+    <script src="backtracker.js"></script>
+    
     <script>
       /* todo: fix overdrawing walls, just draw N & E?
        * add djikstra's, solver
-       * refactor classes into separate files
        * animate algorithm help:
        * http://stackoverflow.com/questions/17719662/animating-a-recursive-backtracking-algorithm-in-javascript
        * http://stackoverflow.com/questions/29588816/animate-javascript-canvas-while-in-recursive-calculation
@@ -76,196 +79,6 @@
       let animate = true;
       let animationSpeed = 1;
       let maze;
-      
-      // represents a maze
-      let Maze = function(width, height) {
-        this.width = width;
-        this.height = height;
-        this.grid;
-        
-        // for each on this grid
-        this.onGrid = function(callback) {
-          for (let i = 0; i < this.grid.length; i++) {
-            for (let j = 0; j < this.grid[i].length; j++) {
-              this.grid[i][j].callback();
-            }
-          }
-        };
-        
-        // initializes this maze
-        this.init = function() {
-        
-          // make a new 2d maze array
-          this.grid = new Array(this.height);
-          for (let i = 0; i < this.grid.length; i++) {
-            this.grid[i] = new Array(this.width);
-          }
-        
-          // add cells to maze array
-          for (let i = 0; i < this.grid.length; i++) {
-            for (let j = 0; j < this.grid[i].length; j++) {
-              this.grid[i][j] = new Cell(j, i);
-            }
-          }
-          
-          // set neighbors for each cell
-          for (let i = 0; i < this.grid.length; i++) {
-            for (let j = 0; j < this.grid[i].length; j++) {
-              this.grid[i][j].setNeighbors();
-            }
-          }
-        };
-        
-        // renders the maze as a table
-        this.toHTML = function() {
-          let s = "<table>";
-          for (let i = 0; i < this.grid.length; i++) {
-            s += "<tr>";
-            for (let j = 0; j < this.grid[i].length; j++) {
-              s += this.grid[i][j].toHTML();
-            }
-            s += "</tr>";
-          }
-          return s + "</table>";
-        };
-        
-        // renders the maze to canvas
-        this.draw = function() {
-          this.onGrid(draw);
-        };
-      }; // end Maze class
-      
-      // represents a maze cell
-      let Cell = function(x, y) {
-        this.x = x;
-        this.y = y;
-        this.n = null;
-        this.s = null;
-        this.e = null;
-        this.w = null;
-        this.neighbors = [null, null, null, null]; // nsew  todo: refactor to hash
-        this.visited = false;
-        
-        // sets the neighbors for this cell
-        this.setNeighbors = function() {        
-          let dirs = [[-1, 0], [1, 0], [0, 1], [0, -1]];
-          
-          for (let i = 0; i < dirs.length; i++) {
-            if (this.y + dirs[i][0] >= 0 &&
-                this.x + dirs[i][1] >= 0 &&
-                this.y + dirs[i][0] < maze.height &&
-                this.x + dirs[i][1] < maze.width) {
-              this.neighbors[i] = maze.grid[this.y + dirs[i][0]]
-                                           [this.x + dirs[i][1]];
-            }
-          }
-        };
- 
-        // prepares cell for HTML output
-        this.toHTML = function() {
-          return "<td id='cell_" + this.y + 
-            "_" + this.x + "' class='" + 
-            this.getClass() + "'></td>";
-        };
-        
-        // returns a CSS class representation
-        this.getClass = function() {
-          let output = "";
-          if (this.n) output += "n";
-          if (this.s) output += " s";
-          if (this.e) output += " e";
-          if (this.w) output += " w";
-          return output;
-        };
-        
-        // renders cell to canvas
-        this.draw = function() {
-          let x = this.x * grid + 1;
-          let y = this.y * grid + 1;
-          
-          ctx.beginPath();
-          ctx.strokeStyle = "#000000";
-          ctx.moveTo(x, y);
-          
-          this.n ? ctx.moveTo(x + grid, y) : 
-                   ctx.lineTo(x + grid, y);
-          this.e ? ctx.moveTo(x + grid, y + grid) : 
-                   ctx.lineTo(x + grid, y + grid);
-          this.s ? ctx.moveTo(x, y + grid) : 
-                   ctx.lineTo(x, y + grid);
-          this.w ? ctx.moveTo(x, y) : 
-                   ctx.lineTo(x, y);
-                   
-          ctx.stroke();
-          ctx.closePath();
-        };
-      }; // end Cell class
-  
-  
-  
-  
-      // carve maze with a recursive backtracking algorithm
-      function recursiveBacktracker(maze) {
-      
-        // start at a random cell
-        let stack = [maze.grid[Math.floor(Math.random() * maze.grid.length)]
-                              [Math.floor(Math.random() * maze.grid[0].length)]];
-        
-        while (stack.length > 0) {
-        
-          // make the top of the stack the current cell
-          let cell = stack[stack.length - 1];
-          
-          // add this cell to the animation queue
-          animStates.push(["cell_" + cell.y + "_" + cell.x, cell]);
-        
-          // mark this cell visited
-          cell.visited = true;
-          
-          // get this cell's neighbors in random order
-          let randomNeighbors = shuffle(cell.neighbors.slice());
-
-          // find an unvisited neighbor
-          let pop = true;
-          for (let i = 0; i < randomNeighbors.length && pop; i++) {
-            if (randomNeighbors[i] && !randomNeighbors[i].visited) {
-              stack.push(randomNeighbors[i]);
-              pop = false;
-              
-              // make a path between current cell and unvisited neighbor                      
-              switch (cell.neighbors.indexOf(randomNeighbors[i])) {
-                case 0: cell.n = randomNeighbors[i].s = true; break;
-                case 1: cell.s = randomNeighbors[i].n = true; break;
-                case 2: cell.e = randomNeighbors[i].w = true; break;
-                case 3: cell.w = randomNeighbors[i].e = true; break;
-                default: console.log("error");
-              }
-            }
-          }
-          
-          // no valid neighbors were found, pop the stack
-          if (pop) stack.pop();
-        }
-      }
-      
-      // shuffles an array using fisher-yates
-      function shuffle(arr) {
-        let i = arr.length;
-        while (i > 0) {
-          let r = Math.floor(Math.random() * i--);
-          let temp = arr[r];
-          arr[r] = arr[i];
-          arr[i] = temp;
-        }
-        return arr;
-      }
-      
-      
-      
-      
-      
-      
-      // make a queue for animation frames
       let animStates = [];
       
       maze = new Maze(width, height);
@@ -273,8 +86,7 @@
       maze.grid[0][0].n = true;
       maze.grid[maze.height - 1][maze.width - 1].s = true;
       document.getElementById("mazeout").innerHTML = maze.toHTML();
-      recursiveBacktracker(maze);
-      
+      new Backtracker().carve(maze);
       
       if (animate) {
         let interval = setInterval(function() {
