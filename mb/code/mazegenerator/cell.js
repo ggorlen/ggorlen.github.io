@@ -34,7 +34,7 @@ let Cell = function(x, y) {
   
   // returns a CSS class representation
   this.getClass = function() {
-    let output = "";
+    let output = "grid ";
     if (this.n) output += "n";
     if (this.s) output += " s";
     if (this.e) output += " e";

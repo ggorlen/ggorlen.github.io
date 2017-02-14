@@ -18,15 +18,18 @@
     <style>
     
       body {
+        font-family: monospace;
         width: 95%;
         margin: 10px;
       }
       
+      #mazeout table {
+        table-layout: fixed;
+        width: 1000px;
+      }
+      
       #mazeout td {
-        border: 1px solid black;
-        height: 10px;
-        width: 10px;
-        background-color: white;
+        overflow: hidden;
       }
       
       #mazeout td.n {
@@ -49,10 +52,58 @@
         background-color: #fff;
       }
       
+      #mazetable td {
+        padding: 5px 10px 5px 5px;
+      }
+      
+      .grid {
+        
+        border: 1px solid black;
+        height: 5px;
+        width: 5px;
+        background-color: white;
+      }
+      
     </style>
   </head>
 
   <body>
+  
+    <h4>Maze generator</h4>
+
+    <form name="mazein" onsubmit="process(); return false;">
+      <table id="mazetable">
+        <tr>
+          <td>
+            h: <input name="height" size=2>&nbsp;
+            w: <input name="width" size=2>&nbsp;
+            grid size: <input name="gridsize" size=2>&nbsp;
+          </td>
+        </tr>
+        <tr>
+          <td>
+            algorithm: 
+            <br>
+            <select name="algorithm">
+              <option value="backtracker">Recursive Backtracker</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            animate: <input name="animate" type="checkbox" checked>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="submit"> <input type="reset">
+          </td>
+        </tr>
+      </table>
+    </form>
+    
+    <br>
     <div id="mazeout"></div>
     <canvas id="mazecanvas" width=0 height=0></canvas>
     
@@ -68,42 +119,69 @@
        * http://stackoverflow.com/questions/29588816/animate-javascript-canvas-while-in-recursive-calculation
        */
       
-      // grab canvas and context from DOM
-      let canvas = document.getElementById("mazecanvas");
-      let ctx = canvas.getContext("2d");
-    
-      // declare variables
-      let grid = 7;
-      let width = 100;
-      let height = 60;
-      let animate = true;
-      let animationSpeed = 1;
+      // global variables
+      let canvas;
+      let ctx;
+      let grid;
+      let width; 
+      let height;
+      let animate;
+      let animationSpeed;
       let maze;
-      let animStates = [];
+      let animStates;
       
-      maze = new Maze(width, height);
-      maze.init();
-      maze.grid[0][0].n = true;
-      maze.grid[maze.height - 1][maze.width - 1].s = true;
-      document.getElementById("mazeout").innerHTML = maze.toHTML();
-      new Backtracker().carve(maze);
-      
-      if (animate) {
-        let interval = setInterval(function() {
-          //animStates.shift().draw();
-          if (animStates.length > 0) {
-            let frame = animStates.shift();
-            document.getElementById(frame[0]).className = frame[1].getClass();
-          }
-          else {
-            clearInterval(interval);
-          }
-        }, animationSpeed);
-      }
-      else {
+      function process() {
+        
+        // grab canvas and context from DOM
+        canvas = document.getElementById("mazecanvas");
+        ctx = canvas.getContext("2d");
+        
+        let userForm = document.forms["mazein"].elements;
+        width = parseInt(userForm["width"].value) || 20;
+        height = parseInt(userForm["height"].value) || 20;
+        animate = userForm["animate"].checked;
+        animationSpeed = 1;
+        animStates = [];
+        
+        maze = new Maze(width, height);
+        maze.init();
+        maze.grid[0][0].n = true;
+        maze.grid[maze.height - 1][maze.width - 1].s = true;
         document.getElementById("mazeout").innerHTML = maze.toHTML();
+      
+        new Backtracker().carve(maze);
+        
+        if (animate) {
+          let interval = setInterval(function() {
+            //animStates.shift().draw();
+            if (animStates.length > 0) {
+              let frame = animStates.shift();
+              document.getElementById(frame[0]).className = frame[1].getClass();
+            }
+            else {
+              clearInterval(interval);
+            }
+          }, animationSpeed);
+        }
+        else {
+          document.getElementById("mazeout").innerHTML = maze.toHTML();
+        }
+        
+        grid = userForm["gridsize"].value || 10;
+        $(".grid").css('width', grid + "px");
+        $(".grid").css('height', grid + "px");
       }
       
     </script>
+    
+    <!-- jQuery script to prevent forms from refreshing the page on submit -->
+    <script>
+      $(document).ready(function() {
+        $(function() {
+          $("form").submit(function() { return false; });
+        });
+      });
+    </script>
+
   </body>
 </html>
