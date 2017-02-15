@@ -63,6 +63,13 @@
         width: 5px;
       }
       
+      .gridactive {
+        background-color: #ff0000;
+        border: 1px solid #000;
+        height: 5px;
+        width: 5px;
+      }
+      
     </style>
   </head>
 
@@ -74,9 +81,9 @@
       <table id="mazetable">
         <tr>
           <td>
-            h: <input name="height" size=2>&nbsp;
-            w: <input name="width" size=2>&nbsp;
-            grid size: <input name="gridsize" size=2>&nbsp;
+            h: <input name="height" value=20 size=2>&nbsp;
+            w: <input name="width" value=20 size=2>&nbsp;
+            grid size: <input name="gridsize" value=10 size=2>&nbsp;
           </td>
         </tr>
         <tr>
@@ -85,6 +92,7 @@
             <br>
             <select name="algorithm">
               <option value="backtracker">Recursive Backtracker</option>
+              <option value="binarytree">Binary Tree</option>
             </select>
           </td>
         </tr>
@@ -109,13 +117,18 @@
     <script src="cell.js"></script>
     <script src="maze.js"></script>
     <script src="backtracker.js"></script>
-    
+    <script src="binarytree.js"></script>
     <script>
-      /* todo: fix overdrawing walls, just draw N & E?
+    
+      /* Todo:
+       *
+       * fix animation speed problem
        * add djikstra's, solver
+       *
        * animate algorithm help:
        * http://stackoverflow.com/questions/17719662/animating-a-recursive-backtracking-algorithm-in-javascript
        * http://stackoverflow.com/questions/29588816/animate-javascript-canvas-while-in-recursive-calculation
+       *
        */
       
       // global variables
@@ -128,44 +141,64 @@
       let animationSpeed;
       let maze;
       let animStates;
+      let interval;
       
+      // processes the user's form submission
       function process() {
-        
+   
         // grab canvas and context from DOM
         canvas = document.getElementById("mazecanvas");
         ctx = canvas.getContext("2d");
         
+        // collect info from form
         let userForm = document.forms["mazein"].elements;
         width = parseInt(userForm["width"].value) || 20;
         height = parseInt(userForm["height"].value) || 20;
         animate = userForm["animate"].checked;
+        
+        // create animation vars
         animationSpeed = 1;
         animStates = [];
         
+        // create a maze object and carve it with the selected algorithm
         maze = new Maze(width, height);
         maze.init();
-        maze.grid[0][0].n = true;
-        maze.grid[maze.height - 1][maze.width - 1].s = true;
         document.getElementById("mazeout").innerHTML = maze.toHTML();
       
-        new Backtracker().carve(maze);
+        switch (userForm["algorithm"].selectedIndex) {
+          case 0: new Backtracker().carve(maze); break;
+          case 1: new BinaryTree().carve(maze); break;
+          default: console.log("algorithm selector broke");
+        }
         
-        if (animate) {
-          let interval = setInterval(function() {
+        // add entrance and exit
+        maze.grid[0][0].n = true;
+        maze.grid[maze.height - 1][maze.width - 1].s = true;
+        
+        // animate if selected
+        if (animate && !interval) {
+          let frame;
+          interval = setInterval(function() {
             //animStates.shift().draw();
             if (animStates.length > 0) {
-              let frame = animStates.shift();
-              document.getElementById(frame[0]).className = frame[1].getClass();
+              if (frame) {
+                document.getElementById(frame[0]).className = frame[1].getClass();
+              }
+              frame = animStates.shift();
+              document.getElementById(frame[0]).className = frame[1].getClass() + " gridactive";
             }
             else {
+              document.getElementById(frame[0]).className = frame[1].getClass();
               clearInterval(interval);
+              interval = undefined;
             }
           }, animationSpeed);
         }
-        else {
+        else if (!interval) {
           document.getElementById("mazeout").innerHTML = maze.toHTML();
         }
         
+        // set up the grid's CSS properties
         grid = userForm["gridsize"].value || 10;
         $(".grid").css('width', grid + "px");
         $(".grid").css('height', grid + "px");

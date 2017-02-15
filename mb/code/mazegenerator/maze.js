@@ -14,6 +14,17 @@ let Maze = function(width, height) {
     }
   };
   
+  // returns a flattened grid
+  this.getFlattened = function() {
+    let tempGrid = [];
+    for (let i = 0; i < maze.grid.length; i++) {
+      for (let j = 0; j < maze.grid[i].length; j++) {
+        tempGrid.push(maze.grid[i][j]);
+      }
+    }
+    return tempGrid;
+  };
+
   // initializes this maze
   this.init = function() {
   

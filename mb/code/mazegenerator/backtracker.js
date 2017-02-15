@@ -8,7 +8,7 @@ Backtracker.prototype.carve = function(maze) {
   let stack = [maze.grid[Math.floor(Math.random() * maze.grid.length)]
                         [Math.floor(Math.random() * maze.grid[0].length)]];
   
-  while (stack.length > 0) {
+  while (stack.length) {
   
     // make the top of the stack the current cell
     let cell = stack[stack.length - 1];
