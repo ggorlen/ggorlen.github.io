@@ -145,6 +145,9 @@
       
       // processes the user's form submission
       function process() {
+        
+        // clear previous interval if active
+        clearInterval(interval);
    
         // grab canvas and context from DOM
         canvas = document.getElementById("mazecanvas");
@@ -175,26 +178,27 @@
         maze.grid[0][0].n = true;
         maze.grid[maze.height - 1][maze.width - 1].s = true;
         
-        // animate if selected
-        if (animate && !interval) {
+        // display maze animated or directly
+        if (animate) {
           let frame;
           interval = setInterval(function() {
-            //animStates.shift().draw();
-            if (animStates.length > 0) {
+            if (animStates.length) {
               if (frame) {
-                document.getElementById(frame[0]).className = frame[1].getClass();
+                document.getElementById(frame[0]).className = 
+                  frame[1].getClass();
               }
               frame = animStates.shift();
-              document.getElementById(frame[0]).className = frame[1].getClass() + " gridactive";
+              document.getElementById(frame[0]).className = 
+                frame[1].getClass() + " gridactive";
             }
             else {
-              document.getElementById(frame[0]).className = frame[1].getClass();
               clearInterval(interval);
-              interval = undefined;
+              document.getElementById(frame[0]).className = 
+                frame[1].getClass();
             }
           }, animationSpeed);
         }
-        else if (!interval) {
+        else {
           document.getElementById("mazeout").innerHTML = maze.toHTML();
         }
         
@@ -203,7 +207,7 @@
         $(".grid").css('width', grid + "px");
         $(".grid").css('height', grid + "px");
       }
-      
+  
     </script>
     
     <!-- jQuery script to prevent forms from refreshing the page on submit -->
