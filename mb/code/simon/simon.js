@@ -7,6 +7,7 @@ let idx;
 let interval;
 let allowInput;
 let bestScore;
+let backgroundColors;
 
 function init() {
   size = document.forms["sizeinput"].elements["size"].value;
@@ -16,10 +17,21 @@ function init() {
   ) || "n/a";
   idx = 0;
   sequence = [];
+  backgroundColors = {};
   makeGrid();
+  setBackgroundColors();
   extendSequence();
   showScore();
   showSequence();
+}
+
+function setBackgroundColors() {
+  for (let i = 0; i < size * size; i++) {
+    let r = Math.floor(Math.random() * 230);
+    let g = Math.floor(Math.random() * 230);
+    let b = Math.floor(Math.random() * 230);
+    backgroundColors[i] = "rgba("+r+","+g+","+b+",0.6)";
+  }
 }
 
 function showScore() {
@@ -50,8 +62,9 @@ function showSequence() {
   
   interval = setInterval(function() {
     setId("square" + sequence[i], 
-        "<div style=\"background-color: rgba(0, 0, 0, 0.2); " +
-        "width: 100%; height: 100%;\"></div>"
+        "<div style=\"background-color: " + 
+        backgroundColors[sequence[i]] +
+        "; width: 100%; height: 100%;\"></div>"
     );
     
     setTimeout(function(i) { 
@@ -71,7 +84,8 @@ function testSequence(choice) {
   
   if (sequence[idx] === choice) {
     setId("square" + choice,
-      "<div style=\"background-color: rgba(0, 0, 0, 0.2); " + 
+      "<div style=\"background-color: " + 
+      backgroundColors[choice] + "; " +
       "width: 100%; height: 100%;\"></div>"
     );
 
