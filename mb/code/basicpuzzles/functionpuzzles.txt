@@ -37,35 +37,6 @@ console.log(findDistance(time, rate) + " and " + findDistance(6, 3));
 
 // Question 4: What is the output of the following program?
 
-var x = 3;
-var n = 5;
-
-function funFunction(a) {
-    var n = a - 1;
-    return n * a;
-}
-
-console.log(funFunction(x));
-console.log(n);
-
-
-// Question 5: What is the output of the following program?
-
-function functionA(n) {
-    n = n + 5;
-    return functionB(n);
-}
-
-function functionB(n) {
-    n + 22;
-    return n + 9;
-}
-
-console.log(functionA(8));
-
-
-// Question 6: What is the output of the following program?
-
 function filter(number, cutoff) {
     return number > cutoff;
 }
@@ -82,14 +53,14 @@ if (filter(num2, num3)) {
 }
 
 
-// Question 7: Write a function to choose the largest of three parameters.
+// Challenge 1: Write a function to choose the largest of three parameters.
 
 function larger(a, b, c) {
     /* Your code here */
 }
 
 
-// Question 8: Make a simple calculator function for two numbers.
+// Challenge 2: Make a simple calculator function for two numbers.
 // The claculator takes a third parameter, which is a string,
 // either "+", "-", "/", "*", or "x" which performs the requested
 // evaluation.  Check for division by zero errors!

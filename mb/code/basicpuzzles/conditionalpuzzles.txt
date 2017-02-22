@@ -26,6 +26,34 @@ else {
 
 // Question 3: What is the output of the following program?
 
+var weather = "rainy";
+
+if (weather === "sunny") {
+    console.log("It's sunny!");
+}
+else if (weather === "rainy") {
+    console.log("Bring an umbrella");
+}
+else {
+    console.log("It's not sunny or rainy");
+}
+
+
+// Question 4: What is the output of the following program?
+
+var mood = "happy";
+var weather = "rainy";
+
+if (mood === "happy" && weather === "sunny") {
+    console.log("I'm happy and it's sunny!");
+}
+else if (mood === "happy" || weather === "sunny") {
+    console.log("I'm happy or it's sunny!");
+}
+
+
+// Question 5: What is the output of the following program?
+
 var firstName = "Nina";
 var lastName = "Simone";
 
@@ -34,23 +62,4 @@ if (firstName + lastName === "Nina Simone") {
 }
 else {
     console.log("It didn't work.");
-}
-
-
-// Question 4: What is the output of the following program?
-
-var a = 6;
-var b = 12;
-var c = 18;
-
-if (a * 2 === b && b + a === c) {
-    if (a > c - b && true) {
-        console.log("Tom Thumb");
-    }
-}
-else if (a + b === c || a !== b) {
-    console.log("Humpty Dumpty");
-}
-else {
-    console.log("Little Bo Peep");
 }

@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <title>Dice roller</title>
+  
+    <style>
+      
+      body { 
+        width: 100%;
+      }
+      
+      .main {
+        text-align: center;
+        margin: auto;
+      }
+      
+    </style>
+  
+  </head>
+  
+  <body>
+    
+    <div class="main">
+      
+      <img width=150 onmouseover="changeImage(this)" onclick="diceRoll();" src="https://cdn2.iconfinder.com/data/icons/misc-vol-3/512/dice_game-128.png">
+      
+      <!-- container to hold output -->
+      <div id="output"></div>
+      
+    </div>
+    
+    <script>
+      
+      function changeImage(id) {
+        id.src = "https://www.iconexperience.com/_img/o_collection_png/green_dark_grey/512x512/plain/dice.png";
+      }
+    
+      function diceRoll() {
+        var randNum = Math.floor(Math.random() * 6) + 1;      
+        document.getElementById("output").innerHTML = "<h1>" + randNum + "</h1>";
+      }
+    
+    </script>
+  
+  </body>
+</html>
