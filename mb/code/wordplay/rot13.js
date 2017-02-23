@@ -1,30 +1,42 @@
-// todo: add support for uppercase */
+/* ROT13 encryptor
+ * https://en.wikipedia.org/wiki/ROT13
+ *
+ * todo: add support for uppercase 
+ */
 
+// performs rot13 on a letter
 function rot13(letter) {
-    var alpha = ['a','b','c','d','e','f','g','h','i','j','k','l','m',
-                 'n','o','p','q','r','s','t','u','v','w','x','y','z'];
     
-    var index = alpha.indexOf(letter);
-    
-    // ternary operator assignment ensures we don't go out of bounds
-    var offset = index >= alpha.length / 2 ? -13 : 13;
+  // an array to hold the alphabet
+  var alpha = ['a','b','c','d','e','f','g','h','i','j','k','l','m',
+               'n','o','p','q','r','s','t','u','v','w','x','y','z'];
+  
+  // find the index in the alphabet of this letter
+  var index = alpha.indexOf(letter);
 
-    if (index >= 0) {
-        return alpha[index + offset];
-    }
-    else {
-        return letter;
-    }
+  // if the index was valid, rotate it, else return it without rotation
+  if (index >= 0) {
+      
+    // use the modulus operator to wrap around
+    return alpha[(index + 13) % alpha.length];
+  }
+  else {
+    return letter;
+  }
 }
 
-function main() {
-    var input = document.forms["myForm"].elements["rot"].value.toLowerCase();
-    var output = "";
-    
-    // perform rot13 for each letter of the input string
-    for (var i = 0; i < input.length; i++) {
-        output += rot13(input[i]);
-    }
-    
-    document.getElementById('output').innerHTML = output;
+// performs rot13 on a form input and writes the output to the document
+function process() {
+  var input = document.forms["myForm"].elements["rot"].value.toLowerCase();
+  var output = "";
+  
+  // perform rot13 for each letter of the input string
+  for (var i = 0; i < input.length; i++) {
+      
+    // append this letter to output
+    output += rot13(input[i]);
+  }
+  
+  // write the output to the document
+  document.getElementById('output').innerHTML = output;
 }

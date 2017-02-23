@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      Frequency analyzer
+    </title>
+    <script src="frequency.js">
+    </script>
+  </head>
+  <body>
+    <h1>Frequency analyzer</h1>
+    <form id="input">
+      <textarea rows="10" cols="80" name="frequencyin" required></textarea>
+      <br>
+      
+      <!-- use type="submit" to allow the enter key to submit form-->
+      <input type="submit" value="Submit" onclick="process();">
+    
+    </form>
+    
+    <br>
+    <div id="output">
+      <br>
+    </div>
+    
+    <!-- import jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <!-- jQuery script to prevent forms from refreshing the page on submit -->
+    <script>
+    
+      $(document).ready(function() {
+        $(function() {
+          $("form").submit(function() { return false; });
+        });
+      });
+
+    </script>
+    
+  </body>
+</html>

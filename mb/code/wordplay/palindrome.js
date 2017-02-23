@@ -1,28 +1,50 @@
+/* Palindrome checker
+ * https://en.wikipedia.org/wiki/Palindrome
+ */
+
+ 
+// processes the form on the page
 function process() {
-    var candidate = document.forms["input"].elements["palindrome"].value;
-    
-    if (isPalindrome(candidate)) {
-        document.getElementById("output").innerHTML = candidate + " is a palindrome.";
-    }
-    else {
-        document.getElementById("output").innerHTML = candidate + " is not a palindrome.";
-    }
+  
+  // grab the string to be checked from the input form
+  var candidate = 
+    document.forms["input"].elements["palindrome"].value;
+  
+  // create a string to hold the user notification
+  var output = candidate;
+  
+  // check if candidate is a palindrome 
+  // and notify the user accordingly
+  if (isPalindrome(candidate)) {
+    output += " is a palindrome.";
+  }
+  else {
+    output += " is a palindrome.";
+  }
+  
+  // write the output to the document
+  document.getElementById("output").innerHTML = output;
 }
 
-function isPalindrome(word) {
-    word = word.toLowerCase();  // ignore case
+// checks to see if a string is a palindrome
+function isPalindrome(str) {
+
+  // ignore case
+  str = str.toLowerCase();
+  
+  // iterate through the string from the back
+  // and front, working towards the middle
+  for (var i = 0; i < str.length - i - 1; i++) {
     
-    // iterate through the word from the back and front and working towards the mid
-    for (var i = 0; i < word.length; i++) {
+    // compare characters at two indexes
+    if (str[i] !== str[str.length - i - 1]) {
         
-        // compare characters at two indexes
-        if (word[i] !== word[word.length - i - 1]) {
-            return false;  // we found two characters that are unequal
-        }
-        if (i === word.length - i - 1) { 
-            break;  // our indexes crossed each other so we've checked the whole word
-        }
+      // we found two characters that are 
+      // unequal; this is not a palindrome
+      return false;  
     }
+  }
     
-    return true;
+  // we checked the entire string--it's a palindrome!
+  return true;
 }
