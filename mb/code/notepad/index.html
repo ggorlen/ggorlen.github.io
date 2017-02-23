@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Simple notepad</title>
+    <style>
+      body {
+        font-family: monospace;
+        font-size: 15px;
+      }
+      
+      input {
+        font-family: monospace;
+        font-size: 15px;
+      }
+      
+      button {
+        font-family: monospace;
+        font-size: 13px;
+      }
+      
+    </style>
+  </head>
+  <body>
+  
+    <input id="inputbox" size=40 autofocus>
+    <br />
+    <br />
+    <button onclick="document.getElementById('output').innerHTML = '';">Clear</button>
+    <br />
+    <br />
+    <div id="output"></div>
+    
+
+    <!-- include jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js">
+    </script>
+
+    <script>
+    
+      /* Very simple notepad script with jQuery */
+    
+      // add a listener to the inputbox
+      $("#inputbox").keydown(function(e) {
+        
+        // check to see if the enter key was pressed
+        if (e.which === 13/* && !e.shiftKey*/) {
+          $("#output").append($(this).val() + "<br />");
+          
+          // clear the input box
+          $(this).val('');
+          
+          // don't do a carriage return
+          e.preventDefault();
+        }
+      });
+   
+    </script>
+  </body>
+</html>
