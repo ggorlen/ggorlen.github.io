@@ -20,7 +20,6 @@ function init(size) {
   size = parseInt(size);
   
   if (!isNaN(size) && size >= 2 && size <= 15) {
-
     sideLength = size;
     
     // grab the best score from localStorage object
@@ -141,23 +140,12 @@ function isAdjacentToEmpty(idx) {
 
 // returns true if a puzzle is solved, false otherwise
 function isFinished() {
-  var temp = board.indexOf(EMPTY_SQUARE);
-  
-  // remove the empty square from the board
-  board.splice(temp, 1);
-  
-  // check that the board array is sorted sequentially
-  for (var i = 0; i < board.length; i++) {
-    if (parseInt(board[i - 1]) > parseInt(board[i])) {
-        
-      // board is not solved, re-add the empty square
-      board.splice(temp, 0, EMPTY_SQUARE);
+  for (var i = 0; i < board.length - 1; i++) {
+    if (board[i] === EMPTY_SQUARE || 
+        parseInt(board[i + 1]) < parseInt(board[i])) {
       return false;
     }
   }
-  
-  // board is solved, re-add the empty square
-  board.splice(temp, 0, EMPTY_SQUARE);
   return true;
 }
 
