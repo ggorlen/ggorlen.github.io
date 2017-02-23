@@ -40,8 +40,8 @@
         var size = document.forms["input"].elements["size"].value;
         
         // Validity check
-        if (!isNaN(size)) {
-          document.getElementById("output").innerHTML = hollowsquare(size);
+        if (!isNaN(size) && size > 0) {
+          document.getElementById("output").innerHTML = hollowSquare(size);
         }
         else {
            document.getElementById("output").innerHTML = "Invalid input";

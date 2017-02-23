@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Event listener demonstration</title>
+  </head>
+  <style>
+    body {
+      font-size: 24px;
+      font-family: monospace;
+    }
+  </style>
+  <body>
+    <h3>Press keys!  Move and click the mouse!</h3>
+    
+    <div id="pressed_out"><br></div>
+    <div id="released_out"><br></div>
+    <div id="click_out"><br></div>
+    <div id="move_out"><br></div>
+    
+    <script>
+    
+      /* This script demonstrates adding event listeners
+       * check out https://www.w3schools.com/jsref/met_document_addeventlistener.asp
+       * 
+       * these listeners can be added to the entire document
+       * or any element in the DOM.
+       */
+
+       
+      // keyevent listeners to track arrow key actions
+      document.addEventListener("keydown", function(e) {
+      
+        // log some information about the event object
+        console.log(e);
+        document.getElementById("pressed_out").innerHTML = 
+          "Pressed: &nbsp;\"" + e.key + "\"; keyCode: " + e.keyCode;
+      }, false);
+      
+      document.addEventListener("keyup", function(e) {
+      
+        // log some information about the event object
+        console.log(e);
+        document.getElementById("released_out").innerHTML = 
+          "Released: \"" + e.key + "\"; keyCode: " + e.keyCode;
+      }, false);
+
+      
+      // mouse listeners
+      document.addEventListener("click", function(e) {
+
+        // log some information about the event object
+        console.log(e);
+        document.getElementById("click_out").innerHTML = 
+          "Mouse click: X " + e.x + "; Y: " + e.y;
+      });
+      
+      document.addEventListener("mousemove", function(e) {
+
+        // log some information about the event object
+        console.log(e);
+        document.getElementById("move_out").innerHTML = 
+          "Mouse move: &nbsp;X " + e.x + "; Y: " + e.y;
+      });
+      
+    </script>
+  </body>
+</html>
