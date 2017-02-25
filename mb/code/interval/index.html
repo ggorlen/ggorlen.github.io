@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Interval example</title>
+  </head>
+  <body>
+    <div style="font-family: 'courier new'; font-size: 20px;" id="output"></div>
+    
+    <script>
+    
+      // make an array of 30 .s and create an index variable
+      let arr = Array(30).fill(".");
+      let i = 0;
+      
+      // create an interval with two parameters: a callback function
+      // and a time in milliseconds.  the callback function is called
+      // every n milliseconds.
+      let interval = setInterval(() => {
+      
+        // copy the original array
+        let tempArr = arr.slice();
+        
+        // put a special character at our current index
+        tempArr[i] = "@";
+        
+        // write the array to the document as a string
+        document.getElementById("output").innerHTML = tempArr.join("");
+        
+        // step the index forward, using the modulus 
+        // to wrap back to the beginning of the array
+        i = ++i % arr.length;
+      }, 80); // 80 is the millisecond timer value
+      
+    </script>
+  </body>
+</html>

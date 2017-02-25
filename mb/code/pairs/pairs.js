@@ -15,8 +15,7 @@ var students = [
                 "Liana",
                 "Johan",
                 "Christian",
-                "Eric D.", 
-                "Victor", 
+                "Eric D.",
                 "Vlad"
                ];
            
@@ -40,10 +39,9 @@ function printRandomPairs(arr, element) {
     output += tempArr[tempArr.length - 1] + " & ";
   }
   
-  // loop through the array, printing every two items
+  // loop through the array, pairing every two items
   for (var i = 0; i < tempArr.length - 1; i += 2) {
-    output += tempArr[i] + " & " + 
-              tempArr[i + 1] + "<br>";
+    output += tempArr[i] + " & " + tempArr[i + 1] + "<br>";
   }
   
   // send the output HTML string to the document

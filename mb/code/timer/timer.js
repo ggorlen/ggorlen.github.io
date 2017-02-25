@@ -26,7 +26,7 @@ function start() {
       duration--;
 
       // check to see if the clock has run out
-      if (duration <= 1) {
+      if (duration <= 0) {
           
         // the clock ran out -- clear the current interval
         clearInterval(interval);
