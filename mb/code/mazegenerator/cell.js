@@ -10,21 +10,6 @@ let Cell = function(x, y) {
   this.neighbors = [null, null, null, null]; // nsew  todo: refactor to hash
   this.visited = false;
   
-  // sets the neighbors for this cell
-  this.setNeighbors = function() {        
-    let dirs = [[-1, 0], [1, 0], [0, 1], [0, -1]];
-    
-    for (let i = 0; i < dirs.length; i++) {
-      if (this.y + dirs[i][0] >= 0 &&
-          this.x + dirs[i][1] >= 0 &&
-          this.y + dirs[i][0] < maze.height &&
-          this.x + dirs[i][1] < maze.width) {
-        this.neighbors[i] = maze.grid[this.y + dirs[i][0]]
-                                     [this.x + dirs[i][1]];
-      }
-    }
-  };
-
   // prepares cell for HTML output
   this.toHTML = function() {
     return "<td id='cell_" + this.y + 
@@ -64,3 +49,19 @@ let Cell = function(x, y) {
     ctx.closePath();
   };
 }; // end Cell class
+
+
+// sets the neighbors for this cell
+Cell.prototype.setNeighbors = function() {        
+  let dirs = [[-1, 0], [1, 0], [0, 1], [0, -1]];
+  
+  for (let i = 0; i < dirs.length; i++) {
+    if (this.y + dirs[i][0] >= 0 &&
+        this.x + dirs[i][1] >= 0 &&
+        this.y + dirs[i][0] < maze.height &&
+        this.x + dirs[i][1] < maze.width) {
+      this.neighbors[i] = maze.grid[this.y + dirs[i][0]]
+                                   [this.x + dirs[i][1]];
+    }
+  }
+};

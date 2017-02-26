@@ -1,5 +1,7 @@
 // represents a maze
 
+"use strict";
+
 let Maze = function(width, height) {
   this.width = width;
   this.height = height;

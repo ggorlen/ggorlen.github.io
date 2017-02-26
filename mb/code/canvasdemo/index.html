@@ -84,6 +84,11 @@
         // clears canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
+        // or, add shadow effect by dimming 
+        // background (comment out clearRect())
+        //ctx.fillStyle = "rgba(255, 255, 255, .3)";
+        //ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
         // check for collisions
         collisionDetection();
         

@@ -124,6 +124,7 @@
        *
        * fix animation speed problem
        * add djikstra's, solver
+       * https://en.wikipedia.org/wiki/Maze_solving_algorithm
        *
        * animate algorithm help:
        * http://stackoverflow.com/questions/17719662/animating-a-recursive-backtracking-algorithm-in-javascript
@@ -131,17 +132,19 @@
        *
        */
       
+      "use strict";
+      
       // global variables
-      let canvas;
-      let ctx;
-      let grid;
-      let width; 
-      let height;
-      let animate;
-      let animationSpeed;
-      let maze;
-      let animStates;
-      let interval;
+      let canvas
+        , ctx
+        , grid
+        , width 
+        , height
+        , animate
+        , animationSpeed
+        , maze
+        , animStates
+        , interval;
       
       // processes the user's form submission
       function process() {
@@ -168,20 +171,28 @@
         maze.init();
         document.getElementById("mazeout").innerHTML = maze.toHTML();
       
+        // create a cylindrical maze
+        // aluminum can : 50x115 grid: 8 .. 13in x 5.75in in gimp (?)
+        //for (let i = 0; i < height; i++) {
+        //  maze.grid[i][width - 1].neighbors[2] = maze.grid[i][0];
+        //  maze.grid[i][0].neighbors[3] = maze.grid[i][width - 1];
+        //}
+      
         switch (userForm["algorithm"].selectedIndex) {
           case 0: new Backtracker().carve(maze); break;
           case 1: new BinaryTree().carve(maze); break;
-          default: console.log("algorithm selector broke");
+          default: console.log("invalid algorithm selection");
         }
         
         // add entrance and exit
         maze.grid[0][0].n = true;
         maze.grid[maze.height - 1][maze.width - 1].s = true;
         
-        // display maze animated or directly
+        
+        // display maze, either as an animation or directly
         if (animate) {
           let frame;
-          interval = setInterval(function() {
+          interval = setInterval(() => {
             if (animStates.length) {
               if (frame) {
                 document.getElementById(frame[0]).className = 
