@@ -34,7 +34,7 @@
       // add a click event listener to the box element
       // which calls the reposition function
       let box = document.getElementById("box");
-      box.addEventListener("click", function(e) {
+      box.addEventListener("click" /*or: "mouseover"*/, function(e) { 
         reposition("box");
       });
     </script>
