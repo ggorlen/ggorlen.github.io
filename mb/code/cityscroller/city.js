@@ -101,12 +101,10 @@ function start() {
 function makeBuilding() {
     var height = rand(MIN_BLDG_HEIGHT, MAX_BLDG_HEIGHT); 
     var width = rand(MIN_BLDG_WIDTH, MAX_BLDG_WIDTH); 
-    var color = randColor();
-    
-    /* Generate a float rather than an int for the speed 
-     * variable to ensure no overlapping buildings */
+    var color = "hsl(" + rand(0, 255) + "," + 
+                         rand(10, 90) + "%," + 
+                         rand(10, 90) + "%)";
     var speed = Math.random() * (MAX_BLDG_SPEED - MIN_BLDG_SPEED) + MIN_BLDG_SPEED;
-    
     return new Building(game.canvas.width, 
         game.canvas.height - height, height, width, -speed, color);
 }
@@ -114,24 +112,6 @@ function makeBuilding() {
 // Generates a random integer between two bounds
 function rand(lo, hi) {
     return Math.floor(Math.random() * (hi - lo)) + lo;
-}
-
-// Generates a random color hexadecimal string
-function randColor() {
-    var color = "#";
-    for (var i = 0; i < 6; i++) {
-        var candidate = rand(0, 16);
-        switch (candidate) {
-            case 10: candidate = "a";
-            case 11: candidate = "b";
-            case 12: candidate = "c";
-            case 13: candidate = "d";
-            case 14: candidate = "e";
-            case 15: candidate = "f";
-        }
-        color += candidate;
-    }
-    return color;
 }
 
 // Refreshes the screen
