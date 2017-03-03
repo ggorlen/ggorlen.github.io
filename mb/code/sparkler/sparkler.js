@@ -7,6 +7,7 @@
 // declare constants
 const GRAVITY = 0.9;
 const DRAG = 0.9;
+const BOUNCE = .8;
 const NUM_PARTICLES = 50;
 
 // declare variables  
@@ -43,7 +44,7 @@ Particle.prototype.move = function() {
   
   // collision detection with ground
   if (this.y >= canvas.height || this.y <= 0) {
-    this.vy *= -1;
+    this.vy *= -BOUNCE;
   }
   if (this.x >= canvas.width || this.x <= 0) {
     this.vx *= -1;
