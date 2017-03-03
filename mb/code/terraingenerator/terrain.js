@@ -55,8 +55,8 @@ function print() {
   document.getElementById("output").innerHTML = output + "</table";
 }
 
-function process() {
-  document.forms[].elements().value;
+//function process() {
+//  document.forms[''].elements().value;
   setTerrain();
   print();
-}
+//}

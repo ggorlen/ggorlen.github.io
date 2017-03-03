@@ -4,7 +4,7 @@
 const GRAVITY = .5;
 const DRAG = 0.98;
 const BOUNCE = .7;
-const NUM_BALLS = 10;
+const NUM_BALLS = 20;
 
 // create variables
 let canvas = document.getElementById("bounceycanvas");
