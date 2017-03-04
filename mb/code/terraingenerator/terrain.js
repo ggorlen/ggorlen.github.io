@@ -1,19 +1,25 @@
 /**
  * Simple ASCII terrain generator
+ *
+ * todo: allow user to specify terrain types
  */
-
-
-// constants
-const HEIGHT = 30;
-const WIDTH = 100;
-const HOMOGENEITY = 45;
-
+"use strict";
+ 
 // variables
-let terrainTypes = ["&#9617;", "&#9619;", "&#9618;", "~", 
-                    ".", "&#8776;", "&#8607;", "&#9650", "&nbsp;"];
-let grid = [];
-for (let i = 0; i < HEIGHT; i++) {
-  grid.push(new Array(WIDTH));
+let height;
+let width;
+let homogeneity;
+let terrainTypes;
+let grid;
+
+// initializes the grid state
+function init() {
+  grid = [];
+  for (let i = 0; i < height; i++) {
+    grid.push(new Array(width));
+  }
+  terrainTypes = ["&#9617;", "&#9619;", "&#9618;", "~", 
+    ".", "&#8776;", "&#8607;", "&#9650", "&nbsp;"];
 }
 
 // creates the terrain
@@ -22,7 +28,7 @@ function setTerrain() {
     for (let j = 0; j < grid[i].length; j++) {
       let neighbors = getNeighbors(i, j);
       let options = terrainTypes;
-      for (let i = 0; i < HOMOGENEITY; i++) {
+      for (let i = 0; i < homogeneity; i++) {
         options = options.concat(neighbors);
       }
       let rIdx = Math.floor(Math.random() * options.length)
@@ -31,6 +37,7 @@ function setTerrain() {
   }
 }
 
+// gets neighbors for a particular coordinate
 function getNeighbors(h, w) {
   let output = [];
   let dirs = [[0, -1], [-1, -1], [-1, 0], [1, -1]];  
@@ -43,7 +50,8 @@ function getNeighbors(h, w) {
   return output;
 }
 
-function print() {
+// render to HTML
+function toHTML() {
   let output = "<table>";
   for (let i = 0; i < grid.length; i++) {
     output += "<tr>";
@@ -52,11 +60,5 @@ function print() {
     }
     output += "</tr>";
   }
-  document.getElementById("output").innerHTML = output + "</table";
+  return output + "</table>";
 }
-
-//function process() {
-//  document.forms[''].elements().value;
-  setTerrain();
-  print();
-//}
