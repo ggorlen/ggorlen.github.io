@@ -1,43 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>
       Callback function demonstration
     </title>
   </head>
   <body>
+    <h3 id="output"></h3>
+  
     <script>
     
       // Create a couple of simple functions
       var makeNoise = function () {
-        document.write("NOISE!" + "<br>");
+        addHTML("output", "NOISE!" + "<br>");
       };
 
       var beQuiet = function () {
-        document.write("shhhh..." + "<br>");
+        addHTML("output", "shhhh..." + "<br>");
       };
       
       // Create a function to call another function
       var callback = function (functionName) {
+      
         // .call() executes the function
         functionName.call(); 
       };
       
       // Call it back inside another function.
       // Notice: no () on these methods--we're
-      // passing the function vars themselves.
+      // passing the function names themselves.
       callback(makeNoise);
       callback(beQuiet);
       
       // How is this useful?  Try setting a timer to call
       // a function after X milliseconds...:
-      setTimeout(makeNoise, 5000);
+      setTimeout(makeNoise, 1500);
       
       // We can even make an anonymous function to 
       // pass as a parameter as a callback:
       callback(function() { 
-        document.write("Anonymous function callback executed... <br>"); 
+        addHTML("output", "Anonymous function callback executed... <br>"); 
       });
+
+      // Or use the => syntax to do basically the same thing:
+      callback(() => { 
+        addHTML("output", "Another anonymous function callback executed... <br>"); 
+      });
+      
+      // Utility function to append innerHTML of an element
+      function addHTML(elem, text) {
+        document.getElementById(elem).innerHTML += text;
+      }
       
     </script>
   </body>
