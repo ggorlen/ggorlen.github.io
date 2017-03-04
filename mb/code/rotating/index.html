@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Rotating</title>
+    <style>
+      /* With CSS... 
+       * https://css-tricks.com/almanac/properties/t/transform/
+       */
+      
+      #rotatecss {
+        transform: rotate(25deg);
+        animation: roll 3s infinite;
+      }
+      
+      @keyframes roll {
+        0% {
+            transform: rotate(0);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1 style="margin: 50px; width: 100px;" 
+      id="rotatejs">JS rotation!</h1>
+    <h1 style="margin: 50px; width: 100px" 
+      id="rotatecss">CSS rotation!</h1>
+  
+    <script>
+      // With JS....
+      let rotateElement = document.getElementById("rotatejs");
+      let speed = 40;
+      let degrees = 0;
+      let interval = setInterval(() => {
+        rotateElement.style.transform = 
+          "rotate(" + (++degrees % 360) + "deg)";
+      }, speed);
+    </script>
+  </body>
+</html>
