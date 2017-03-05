@@ -117,8 +117,7 @@ function rand(lo, hi) {
 // Refreshes the screen
 function update() {
     
-    /* Call animation recursively -- This is more 
-     * efficient than setTimeout which is also OK */
+    // Set animation to call update function
     requestAnimationFrame(update); 
 
     // Clears screen of previous frames
