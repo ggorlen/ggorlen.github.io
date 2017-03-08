@@ -4,7 +4,7 @@ let ctx = canvas.getContext("2d");
 
 // constants
 const NUM_BOXES = 100;
-const FPS = 30;
+const ANIMATION_SPEED = 30;
 
 // variables
 let boxes;
@@ -79,7 +79,7 @@ function init() {
   }
   
   // set a timer to call our update function
-  interval = setInterval(update, FPS);
+  interval = setInterval(update, ANIMATION_SPEED);
 }
 
 // update function called each frame
