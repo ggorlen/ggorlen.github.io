@@ -4,9 +4,11 @@ let ctx = canvas.getContext("2d");
 
 // constants
 const NUM_BOXES = 100;
+const FPS = 30;
 
 // variables
-let boxes = [];
+let boxes;
+let interval;
 
 // class to represent boxes
 let Box = function(x, y, vx, vy, size, color) {
@@ -44,7 +46,7 @@ let Box = function(x, y, vx, vy, size, color) {
     
   // draw this box
   this.draw = function() {
-    ctx.fillStyle = "hsl(" + rInt(0, 255) + ", 100%, 50%)";
+    ctx.fillStyle = this.color;
     ctx.fillRect(this.x, this.y, this.size, this.size);
   };
   
@@ -58,20 +60,26 @@ let Box = function(x, y, vx, vy, size, color) {
 // function to set up the animation
 function init() {
     
+  // create an array to hold all of the boxes
+  boxes = [];
+
   // populate the boxes array with box objects
   for (let i = 0; i < NUM_BOXES; i++) {
       
     // create some properties for a box
     let x = rInt(0, canvas.width);
     let y = rInt(0, canvas.height); 
-    let vx = rInt(-5, 5);
-    let vy = rInt(-5, 5);
+    let vx = rInt(-6, 6);
+    let vy = rInt(-6, 6);
     let size = rInt(1, 20);
     let color = "hsl(" + rInt(0, 255) + ", 100%, 50%)";
     
     // make a new box
     boxes.push(new Box(x, y, vx, vy, size, color));
   }
+  
+  // set a timer to call our update function
+  interval = setInterval(update, FPS);
 }
 
 // update function called each frame
@@ -79,21 +87,20 @@ let update = function() {
   // clear canvas
   ctx.clearRect(0,0,canvas.width,canvas.height);
 
+  // update each box for this frame
   for (let i = 0; i < boxes.length; i++) {
     boxes[i].collisionDetection();
     boxes[i].move();
     boxes[i].draw();
-  }
-  
+  }  
 };
-
-// call init!
-init();
-
-// set a timer to call our update function
-let interval = setInterval(update, 30);
 
 // a function to return a random integer between two bounds
 function rInt(lo, hi) {
   return Math.floor(Math.random() * (hi - lo) + lo);
 }
+
+
+
+// start the game!
+init();
