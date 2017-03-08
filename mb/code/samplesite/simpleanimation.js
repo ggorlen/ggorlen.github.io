@@ -54,7 +54,7 @@ let Box = function(x, y, vx, vy, size, color) {
   this.move = function() {
     this.x += this.vx;
     this.y += this.vy;
-  }
+  };
 };
 
 // function to set up the animation
@@ -74,7 +74,7 @@ function init() {
     let size = rInt(1, 20);
     let color = "hsl(" + rInt(0, 255) + ", 100%, 50%)";
     
-    // make a new box
+    // make a new box and add it to the boxes array
     boxes.push(new Box(x, y, vx, vy, size, color));
   }
   
@@ -84,6 +84,7 @@ function init() {
 
 // update function called each frame
 let update = function() {
+
   // clear canvas
   ctx.clearRect(0,0,canvas.width,canvas.height);
 
@@ -92,7 +93,7 @@ let update = function() {
     boxes[i].collisionDetection();
     boxes[i].move();
     boxes[i].draw();
-  }  
+  }
 };
 
 // a function to return a random integer between two bounds
