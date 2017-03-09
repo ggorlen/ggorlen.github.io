@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fluorescent pipes</title>
+    <style>
+      body {
+        margin: 10px;
+        background-color: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="width: 600px; margin: auto;">
+      <canvas id="paper" height=600 width=600></canvas>
+    </div>
+    <script>
+      "use strict";
+      
+      let cvs = document.getElementById("paper");
+      let ctx = cvs.getContext("2d");
+
+      const CTR_X = cvs.width / 2;
+      const CTR_Y = cvs.height / 2;
+      const TWO_PI = Math.PI * 2;
+
+      let time = 0;
+      let ytilt = 0;
+      let xtilt = 0;
+      
+      ctx.strokeStyle = "#fff";
+      ctx.fillStyle = "rgba(0, 0, 0, 1)";
+      ctx.fillRect(0, 0, cvs.width, cvs.height);
+      ctx.shadowColor = "#fff";
+      
+      let interval = setInterval(() => {
+        ctx.fillStyle = "rgba(0, 0, 0, .12)";
+        ctx.fillRect(0, 0, cvs.width, cvs.height);
+        //ctx.fillStyle = "rgba(20, 0, 120, .1)";
+        ctx.strokeStyle = "#0000ff";
+        ctx.shadowBlur = 1;
+        ctx.beginPath();        
+
+        for (let i = 1; i < 200; i++) {
+          let y = Math.sin(i * 0.03 + time) * Math.sin(i * 0.08) * (ytilt-- % 200) + CTR_X;
+          let x = Math.cos(i * 0.1 + time) * Math.sin(i * 0.08) * (xtilt++ % 200) + CTR_Y;
+          time += 0.0002;
+          ctx.lineTo(x, y);
+          //ctx.moveTo(x, y);
+          //ctx.strokeRect(x, y, 1, 1);
+        }
+        ctx.stroke();
+        
+        ctx.strokeStyle = "#ff0000";
+        for (let i = 0; i < 200; i++) {
+          let y = Math.sin(i * 0.02 + time) * Math.sin(i * 0.08 ) * (ytilt++ % 200) + CTR_X;
+          let x = Math.cos(i * 0.001 + time) * Math.sin(i * 0.08) * (xtilt-- % 200) + CTR_Y;
+          time -= 0.0001;
+          ctx.lineTo(x, y);
+          //ctx.moveTo(x, y);
+          //ctx.strokeRect(x, y, 1, 1);
+        }
+        ctx.stroke();
+        
+        ctx.closePath();
+        ctx.shadowBlur = 0;
+      }, 30);
+    </script>
+  </body>
+</html>
