@@ -136,14 +136,14 @@ window.onload = function() {
   document.onkeydown = function(e) {
     let dir;
     switch (e.keyCode) {
-        case 37: dir = "left"; break;
-        case 38: dir = "up"; break;
-        case 39: dir = "right"; break;
-        case 40: dir = "down"; break;
+      case 37: dir = "left"; break;
+      case 38: dir = "up"; break;
+      case 39: dir = "right"; break;
+      case 40: dir = "down"; break;
     }
     if (dir) {
-        game.move(dir);
-        document.getElementById("output").innerHTML = game.toHTML();
+      game.move(dir);
+      document.getElementById("output").innerHTML = game.toHTML();
     }
   };
 };
