@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Sokoban</title>
+    <style>
+      body {
+        font-family: "courier new", monospace, "lucida console";
+        margin: 10px;
+        width: 95%;
+      }
+
+      #soko table {
+        margin: 30px;
+        margin-left: auto;
+        margin-right: auto;
+        table-layout: fixed;
+        border-collapse: collapse;
+      }
+
+      #soko td {
+        text-align: center;
+        text-shadow: 1px 1px #eee;
+        font-weight: bold;
+        border: 0px;
+        width: 20px;
+        height: 20px;
+        overflow-y: hidden;
+        overflow-x: hidden;
+        padding: 0px;
+      }
+      
+      #sokoscore {
+        text-align: center;
+        font-size: 12px;
+      }
+      
+      .header {
+        text-align: center;
+      }
+      
+      .sokospace {
+      }
+      .sokowall {
+        background: url("wall.png");
+      }
+      .sokogoal {
+        background: url("goal.png");
+      }
+      .sokobox {
+        background: url("box.png");
+      }
+      .sokogoalb {
+        background: url("boxg.png");
+      }
+      .sokoplayer {
+        background: url("player.png");
+      }
+      .sokogoalp {
+        background: url("playerg.png");
+      }
+    </style>
+  </head>
+  <body>
+    <h4 class="header"><em>sokoban</em></h4>
+    <div id="soko"></div>
+    <div id="sokoscore"></div>
+    <script src="sokoban.js">
+    </script>
+  </body>
+</html>
