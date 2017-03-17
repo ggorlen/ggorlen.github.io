@@ -1,9 +1,9 @@
 /* sokoban
  * 
  * todo:
- * - add number of pushes
- * - improve gfx
- * - fix history bug
+ * - add number of box pushes
+ * - add localstorage of position and best stats
+ * - add timer
  *
  * http://sokobano.de
  * http://www.sokoban-online.de/help/sokoban/level-format.html
@@ -46,9 +46,16 @@ let Sokoban = function(levels, start) {
  
   // appends current game state to history 
   this.writeHistory = function() {
+    
+    // make a deep copy the level
+    let levelCopy = this.level.map(function(a) {
+      return a.slice();
+    });
+    
+    // save it as an object
     this.history.push({ 
-      level: JSON.parse(JSON.stringify(this.level)),
-      px: this.px, 
+      level: levelCopy,
+      px: this.px,
       py: this.py 
     });
   };
@@ -61,6 +68,7 @@ let Sokoban = function(levels, start) {
   // switch levels if valid
   this.switchLevel = function(level) {
     if (level >= 0 && level < this.levels.length) {
+      this.levelNum = level;
       this.init(this.levels[level]);
       return true;
     }
@@ -69,18 +77,19 @@ let Sokoban = function(levels, start) {
   
   // permanently revert to the last state in history
   this.undo = function() {
-    if (this.history.length > 1) {
-      // get rid of current state
-      this.history.pop();
-      
-      // grab previous current state
-      let state = this.history[this.history.length-1];
-      this.level = state.level;
-      this.px = state.px;
-      this.py = state.py;
-      return true;
-    }
-    return false;
+    
+    // abort if not enough history exists
+    if (this.history.length <= 1) return false;
+    
+    // discard current state
+    this.history.pop();
+    
+    // grab the new top of the history stack
+    let state = this.history[this.history.length-1];
+    this.level = JSON.parse(JSON.stringify(state.level)); // deep copy
+    this.px = state.px;
+    this.py = state.py;
+    return true;
   }; // end undo
   
   // permanently revert to the initial state in history
@@ -100,10 +109,10 @@ let Sokoban = function(levels, start) {
         
     // move player in specified direction if possible
     switch (dir) {
-      case "u": if (!this.moveHandler(0, -1)) return; break;
-      case "d": if (!this.moveHandler(0, 1))  return; break;
-      case "l": if (!this.moveHandler(-1, 0)) return; break;
-      case "r": if (!this.moveHandler(1, 0))  return; break;
+      case "u": if (!this.moveHandler(0, -1)) return false; break;
+      case "d": if (!this.moveHandler(0, 1))  return false; break;
+      case "l": if (!this.moveHandler(-1, 0)) return false; break;
+      case "r": if (!this.moveHandler(1, 0))  return false; break;
     }
 
     // append this board position to the history

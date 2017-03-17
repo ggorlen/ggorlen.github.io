@@ -17,7 +17,7 @@
     <title>Sokoban</title>
     <style>
       body {
-        font-family: "courier new", monospace, "lucida console";
+        font-family: monospace, "lucida console", "courier new";
         margin: 20px;
         width: 95%;
       }
@@ -101,23 +101,40 @@
           keyAllowed = true;
         };
         
-        // route key input to proper sokoban method
         document.onkeydown = function(e) {
           let key;
           switch (e.keyCode) {
-            case 37: key = "l"; break;
-            case 38: key = "u"; break;
-            case 39: key = "r"; break;
-            case 40: key = "d"; break;
-            case 82: key = "R"; break;
-            case 90: key = "z"; break;
+            case 37:  key = "l"; break;
+            case 38:  key = "u"; break;
+            case 39:  key = "r"; break;
+            case 40:  key = "d"; break;
+            case 82:  key = "R"; break;
+            case 90:  key = "z"; break;
+            case 187: key = "+"; break;
+            case 189: key = "-"; break;
           }
+          
           if (key && keyAllowed) {
+          
+            // prevent multiple actions on one press
             keyAllowed = false;
+            
+            // route key input to proper sokoban method
             switch (key) {
               case "R": soko.reset(); break;
               case "z": soko.undo();  break;
-              default : soko.move(key);
+              case "+": 
+                soko.switchLevel(
+                  (soko.levelNum+1) % soko.levels.length
+                ); 
+                break;
+              case "-": 
+                console.log(soko.levelNum);
+                soko.switchLevel(
+                  (soko.levelNum-1 + soko.levels.length) % soko.levels.length
+                ); 
+                break;
+              default: soko.move(key);
             }
             showSoko();
           }
