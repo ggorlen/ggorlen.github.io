@@ -13,8 +13,6 @@
 
 "use strict";
 
-let soko;
-
 
 // class to represent a sokoban game with multiple levels
 let Sokoban = function(levels, start) {
