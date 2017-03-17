@@ -23,7 +23,7 @@
       }
 
       #soko table {
-        margin: 30px;
+        margin: 40px;
         margin-left: auto;
         margin-right: auto;
         table-layout: fixed;
@@ -32,8 +32,6 @@
 
       #soko td {
         text-align: center;
-        text-shadow: 1px 1px #eee;
-        font-weight: bold;
         border: 0px;
         width: 20px;
         height: 20px;
@@ -44,11 +42,17 @@
       
       #sokoscore {
         text-align: center;
-        font-size: 12px;
+        font-weight: bold;
+        font-size: 13px;
       }
       
       .header {
+        margin-left: auto;
+        margin-right: auto;
         text-align: center;
+        width: 200px;
+        border-bottom: 1px solid #ddd;
+        text-shadow: 1px 1px #ddd;
       }
       
       .sokospace {
@@ -74,10 +78,57 @@
     </style>
   </head>
   <body>
-    <h4 class="header">Sokoban</h4>
+    <h4 class="header">sokoban</h4>
     <div id="soko"></div>
     <div id="sokoscore"></div>
     <script src="levels.js"></script>
     <script src="sokoban.js"></script>
+    <script>
+    
+      // main function
+      window.onload = function() {
+          
+        // create the game             
+        soko = new Sokoban(LEVELS, 0);
+        let keyAllowed = true;
+        showSoko();
+        
+        // add key listeners
+        document.onkeyup = function(e) {
+          keyAllowed = true;
+        };
+        
+        // route key input to proper sokoban method
+        document.onkeydown = function(e) {
+          let key;
+          switch (e.keyCode) {
+            case 37: key = "l"; break;
+            case 38: key = "u"; break;
+            case 39: key = "r"; break;
+            case 40: key = "d"; break;
+            case 82: key = "R"; break;
+            case 90: key = "z"; break;
+          }
+          if (key && keyAllowed) {
+            keyAllowed = false;
+            switch (key) {
+              case "R": soko.reset(); break;
+              case "z": soko.undo();  break;
+              default : soko.move(key);
+            }
+            showSoko();
+          }
+        };
+        
+        // show sokoban html output
+        function showSoko() {
+          document.getElementById("soko").innerHTML = soko.toHTML();
+          document.getElementById("sokoscore").innerHTML = 
+            "level: " + (soko.levelNum+1) + "<br>" +
+            "moves: " + (soko.history.length-1);
+        }
+      };
+      
+    </script>
   </body>
 </html>

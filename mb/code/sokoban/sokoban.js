@@ -187,63 +187,19 @@ let Sokoban = function(levels, start) {
       for (let j = 0; j < this.level[i].length; j++) {
         output += "<td class='";
         switch (this.level[i][j]) {
-          case " ": output += "sokospace'>&nbsp;"; break;
-          case "#": output += "sokowall'>&nbsp;";       break;
-          case ".": output += "sokogoal'>&nbsp;";       break;
-          case "$": output += "sokobox'>&nbsp;";        break;
-          case "*": output += "sokogoalb'>&nbsp;";      break;
-          case "@": output += "sokoplayer'>&nbsp;";     break;
-          case "+": output += "sokogoalp'>&nbsp;";      break;
+          case " ": output += "sokospace";  break;
+          case "#": output += "sokowall";   break;
+          case ".": output += "sokogoal";   break;
+          case "$": output += "sokobox";    break;
+          case "*": output += "sokogoalb";  break;
+          case "@": output += "sokoplayer"; break;
+          case "+": output += "sokogoalp";  break;
           default : console.log("toHTML char error");
         }
-        output += "</td>";
+        output += "'></td>";
       }
       output += "</tr>";
     }
     return output + "</table>";
   }; // end toHTML
 }; // end Sokoban
-
-
-// main function
-window.onload = function() {
-    
-  // create the game             
-  soko = new Sokoban(LEVELS, 0);
-  let keyAllowed = true;
-  showSoko();
-  
-  // add key listeners
-  document.onkeyup = function(e) {
-    keyAllowed = true;
-  };
-  
-  document.onkeydown = function(e) {
-    let key;
-    switch (e.keyCode) {
-      case 37: key = "l"; break;
-      case 38: key = "u"; break;
-      case 39: key = "r"; break;
-      case 40: key = "d"; break;
-      case 82: key = "R"; break;
-      case 90: key = "z"; break;
-    }
-    if (key && keyAllowed) {
-      switch (key) {
-        case "R": soko.reset(); break;
-        case "z": soko.undo();  break;
-        default : soko.move(key);
-      }
-      showSoko();
-      keyAllowed = false;
-    }
-  };
-  
-  // show sokoban html output
-  function showSoko() {
-    document.getElementById("soko").innerHTML = soko.toHTML();
-    document.getElementById("sokoscore").innerHTML = 
-      "level: " + (soko.levelNum+1) + "<br>" +
-      "moves: " + (soko.history.length-1);
-  }
-};

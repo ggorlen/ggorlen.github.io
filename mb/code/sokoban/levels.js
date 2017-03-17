@@ -1,5 +1,6 @@
 "use strict";
 
+// original sokoban levels
 const LEVELS = [
 
       ["    #####",
