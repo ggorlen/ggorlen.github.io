@@ -13,6 +13,9 @@
 
 "use strict";
 
+let soko;
+
+
 // class to represent a sokoban game with multiple levels
 let Sokoban = function(levels, start) {
   this.levels = levels;
@@ -52,9 +55,19 @@ let Sokoban = function(levels, start) {
     });
   };
   
+  // call init in the constructor
   if (!this.init(this.levels[this.levelNum])) {
     console.log("level parsing error");
   }
+  
+  // switch levels if valid
+  this.switchLevel = function(level) {
+    if (level >= 0 && level < this.levels.length) {
+      this.init(this.levels[level]);
+      return true;
+    }
+    return false;
+  };
   
   // permanently revert to the last state in history
   this.undo = function() {
@@ -196,7 +209,7 @@ let Sokoban = function(levels, start) {
 window.onload = function() {
     
   // create the game             
-  let soko = new Sokoban(levels, 0);
+  soko = new Sokoban(LEVELS, 0);
   let keyAllowed = true;
   showSoko();
   
@@ -234,25 +247,3 @@ window.onload = function() {
       "moves: " + (soko.history.length-1);
   }
 };
-
-// ascii representations of sokoban levels
-let levels = [
-
-               ["########",
-                "# @  $.#",
-                "#   $ .#",
-                "########"],
-
-               ["    #####          ",
-                "    #   #          ",
-                "    #$  #          ",
-                "  ###  $##         ",
-                "  #  $ $ #         ",
-                "### # ## #   ######",
-                "#   # ## #####  ..#",
-                "# $  $          ..#",
-                "##### ### #@##  ..#",
-                "    #     #########",
-                "    #######        "]
-                
-             ];
