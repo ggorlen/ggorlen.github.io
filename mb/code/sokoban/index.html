@@ -231,11 +231,14 @@
             return;
           }
           // handle arrow key input
-          else if (ARROW_KEYS[key] && keyAllowed) {
-            soko.move(ARROW_KEYS[key]);
+          else if (ARROW_KEYS[key]) {            
+            if (keyAllowed) {
             
-            // prevent multiple actions on one press for arrow keys
-            keyAllowed = false;
+              // prevent multiple actions on one press for arrow keys
+              keyAllowed = false;
+
+              soko.move(ARROW_KEYS[key]);
+            }
             
             // prevent unwanted scrolling
             e.preventDefault();

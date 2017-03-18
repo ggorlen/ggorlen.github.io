@@ -5,7 +5,6 @@
  * - add timer
  * - add dijkstra's and mouse movement
  * - right pad arrays for aesthetic reasons?
- * - create save and restore points w/ localStorage
  *
  * http://sokobano.de
  * http://www.sokoban-online.de/help/sokoban/level-format.html
@@ -54,7 +53,7 @@ let Sokoban = function(levels, start) {
     // retrieve previous best score if any
     if (localStorage) {
       let bestScore = localStorage[JSON.stringify(this.levels[this.levelNum])];
-      bestScore = parseInt(bestScore) || undefined;
+      this.bestScore = parseInt(bestScore) || undefined;
     }
     
     // write the first position to history
@@ -82,15 +81,15 @@ let Sokoban = function(levels, start) {
   // stores current position in localStorage 
   // or a var if storage unavailable
   this.savePosition = function() {
+    let saveObj = {
+      "levelNum": this.levelNum,
+      "level": this.level,
+      "history": this.history,
+      "px": this.px,
+      "py": this.py,
+      "bestScore": this.bestScore
+    };
     if (localStorage) {
-      let saveObj = {
-        "levelNum": this.levelNum,
-        "level": this.level,
-        "history": this.history,
-        "px": this.px,
-        "py": this.py,
-        "bestScore": this.bestScore
-      };
       localStorage["sokobansave"] = JSON.stringify(saveObj);
     }
     else { // no localStorage, use an instance var
@@ -105,7 +104,7 @@ let Sokoban = function(levels, start) {
       saveObj = JSON.parse(localStorage["sokobansave"]);
     }
     else if (this.savedPosition) {
-      saveObj = this.savedPosition;
+      saveObj = JSON.parse(this.savedPosition);
     }
     if (saveObj) {
       this.levelNum = saveObj.levelNum;
@@ -181,8 +180,8 @@ let Sokoban = function(levels, start) {
     if (this.isFinished()) {
         
       // update localStorage if this is a new best score
-      if (localStorage && isNaN(this.bestScore) || 
-          this.history.length < this.bestScore) {
+      if (localStorage && (isNaN(this.bestScore) || 
+          this.history.length < this.bestScore)) {
         localStorage[JSON.stringify(this.levels[this.levelNum])] = this.history.length-1;
       }
 
@@ -245,7 +244,8 @@ let Sokoban = function(levels, start) {
   this.isFinished = function() {
     for (let i = 0; i < this.level.length; i++) {
       for (let j = 0; j < this.level[i].length; j++) {
-        if (this.level[i][j] === "$") {
+        if (this.level[i][j] === "$" ||
+            this.level[i][j] === ".") {
           return false;
         }
       }
