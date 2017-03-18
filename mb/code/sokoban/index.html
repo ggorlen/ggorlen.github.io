@@ -168,12 +168,13 @@
             
             // route key input to proper sokoban method
             switch (key) {
-              case ",": 
+              case ".": 
                 soko.switchLevel((soko.levelNum+1) % soko.levels.length); 
                 break;
-              case ".": 
+              case ",":
                 soko.switchLevel(
-                  (soko.levelNum-1 + soko.levels.length) % soko.levels.length
+                  (soko.levelNum-1 + soko.levels.length) %
+                  soko.levels.length
                 ); 
                 break;
               case "w": soko.move("u"); break;
@@ -182,7 +183,7 @@
               case "d": soko.move("r"); break;
               case "r": soko.reset();   break;
               case "z": soko.undo();    break;
-              default: soko.move(key);
+              default : soko.move(key);
             }
           }
     
