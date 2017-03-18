@@ -7,6 +7,7 @@
  *
  * http://sokobano.de
  * http://www.sokoban-online.de/help/sokoban/level-format.html
+ * https://www.sokobanonline.com/
  * http://www.sourcecode.se/sokoban/
  * http://www.cs.cornell.edu/andru/xsokoban.html
  */
@@ -27,7 +28,10 @@ let Sokoban = function(levels, start) {
   this.init = function(level) {
     this.history = [];  
     this.level = [];
+    
+    // only successful if player symbol found in level
     let successful = false;
+    
     for (let i = 0; i < level.length; i++) {
       this.level.push([]);
       for (let j = 0; j < level[i].length; j++) {
@@ -40,7 +44,14 @@ let Sokoban = function(levels, start) {
         }
       }
     }
+    
+    // retrieve previous best score if any
+    let bestScore = localStorage[JSON.stringify(this.levels[this.levelNum])];
+    this.bestScore = parseInt(bestScore) || "n/a";
+    
+    // write the first position to history
     this.writeHistory();
+    
     return successful;
   }; // end init
  
@@ -59,19 +70,7 @@ let Sokoban = function(levels, start) {
       py: this.py 
     });
   };
-  
-//  // write current game state to local storage
-//  this.toLocalStorage() {
-//    localStorage[this + " " + 
-//                this.width + " " + this.numMines];
-//  };
-//  
-//  // retrieve content from local storage
-//  this.getLocalStorage() {
-//    var bestScore = localStorage[this.height + " " + 
-//                this.width + " " + this.numMines];
-//  };
-  
+
   // call init in the constructor
   if (!this.init(this.levels[this.levelNum])) {
     console.log("level parsing error");
@@ -132,6 +131,13 @@ let Sokoban = function(levels, start) {
     
     // load next level if finished
     if (this.isFinished()) {
+        
+      // update localStorage if this is a new best score
+      if (isNaN(this.bestScore) || this.history.length < this.bestScore) {
+        localStorage[JSON.stringify(this.levels[this.levelNum])] = this.history.length-1;
+      }
+
+      // proceed to the next level
       this.levelNum = ++this.levelNum % this.levels.length;
       this.init(this.levels[this.levelNum]);
     }

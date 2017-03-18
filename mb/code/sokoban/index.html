@@ -130,7 +130,6 @@
                 ); 
                 break;
               case "-": 
-                console.log(soko.levelNum);
                 soko.switchLevel(
                   (soko.levelNum-1 + soko.levels.length) % soko.levels.length
                 ); 
@@ -146,7 +145,8 @@
           document.getElementById("soko").innerHTML = soko.toHTML();
           document.getElementById("sokoscore").innerHTML = 
             "level: " + (soko.levelNum+1) + "<br>" +
-            "moves: " + (soko.history.length-1);
+            "moves: " + (soko.history.length-1) + "<br>" +
+            "best: " + soko.bestScore;
         }
       };
       
