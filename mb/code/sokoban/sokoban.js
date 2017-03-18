@@ -87,8 +87,7 @@ let Sokoban = function(levels, start) {
       "history": this.history,
       "px": this.px,
       "py": this.py,
-      "bestScore": this.bestScore
-    };
+   };
     if (localStorage) {
       localStorage["sokobansave"] = JSON.stringify(saveObj);
     }
@@ -112,7 +111,6 @@ let Sokoban = function(levels, start) {
       this.history = saveObj.history;
       this.px = saveObj.px;
       this.py = saveObj.py;
-      this.bestScore = saveObj.bestScore;
       return true;
     }
     return false;
