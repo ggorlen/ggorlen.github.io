@@ -2,10 +2,10 @@
  * 
  * todo:
  * - add number of box pushes
- * - add localstorage for saving position
  * - add timer
  * - add dijkstra's and mouse movement
  * - right pad arrays for aesthetic reasons?
+ * - create save and restore points w/ localStorage
  *
  * http://sokobano.de
  * http://www.sokoban-online.de/help/sokoban/level-format.html
@@ -76,6 +76,44 @@ let Sokoban = function(levels, start) {
       px: this.px,
       py: this.py 
     });
+  };
+  
+  // stores current position in localStorage 
+  // or a var if storage unavailable
+  this.savePosition = function() {
+    if (localStorage) {
+      let saveObj = {
+        "levelNum": this.levelNum,
+        "level": this.level,
+        "history": this.history,
+        "px": this.px,
+        "py": this.py
+      };
+      localStorage["sokobansave"] = JSON.stringify(saveObj);
+    }
+    else { // no localStorage, use an instance var
+      this.savedPosition = JSON.stringify(saveObj);
+    }
+  };
+  
+  // retrieve saved position, overwriting current position
+  this.loadSavedPosition = function() {
+    let saveObj;
+    if (localStorage) {
+      saveObj = JSON.parse(localStorage["sokobansave"]);
+    }
+    else if (this.savedPosition) {
+      saveObj = this.savedPosition;
+    }
+    if (saveObj) {
+      this.levelNum = saveObj.levelNum;
+      this.level = saveObj.level;
+      this.history = saveObj.history;
+      this.px = saveObj.px;
+      this.py = saveObj.py;
+      return true;
+    }
+    return false;
   };
 
   // call init in the constructor

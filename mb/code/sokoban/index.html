@@ -54,6 +54,25 @@
         font-size: 13px;
       }
       
+      .opts table {
+        width: 350px;
+        table-layout: fixed;
+      }
+      
+      .opts td, th {
+        border-collapse: collapse;
+        padding: 3px 7px 3px 7px;
+        width: 175px;
+      }
+      
+      .opts th {
+        font-style: oblique;
+      }
+      
+      .opts .ralign {
+        text-align: right;
+      }
+      
       .header {
         margin-left: auto;
         margin-right: auto;
@@ -91,19 +110,42 @@
     <h4 class="header">sokoban</h4>
     <div id="soko"></div>
     <div id="sokoscore"></div>
-    <div style="width: 280px; margin-left: auto; margin-right: auto; margin-top: 10px;">
+    <div style="width: 350px; margin-left: auto; margin-right: auto; margin-top: 15px;">
       <div style="text-align:center;">
-        <a href="#" title="Options menu" data-toggle="collapse" 
+        <a href="#" title="help menu" data-toggle="collapse" 
           data-target="#options">&nbsp;?&nbsp;</a>
       </div>  
       <div id="options" class="collapse" style="font-size: 12px;">
         <div>  
-          fixed movement: arrow keys<br>
-          continuous movement: w, a, s, d<br>
-          toggle continuous movement behavior: q<br>
-          undo last action: z<br>
-          reset level: r<br>
-          prev/next level: , and .
+          <table class="opts">
+            <tr>
+              <th class="ralign">action</th><th>key(s)</th>
+            </tr>
+            <tr>
+              <td class="ralign">fixed movement</td><td>arrow keys<br>
+            </tr>
+            <tr>
+              <td class="ralign">continuous movement</td><td>w, a, s, d</td>
+            </tr>
+            <tr>
+              <td class="ralign">toggle continuous movement behavior</td><td>q</td>
+            </tr>
+            <tr>
+              <td class="ralign">undo previous action</td><td>z</td>
+            </tr>
+            <tr>
+              <td class="ralign">reset level</td><td>r</td>
+            </tr>
+            <tr>
+              <td class="ralign">previous/next level</td><td>, and .</td>
+            </tr>
+            <tr>
+              <td class="ralign">save position (overwrites previously saved position)</td><td>v</td>
+            </tr>
+            <tr>
+              <td class="ralign">load saved position (overwrites current position)</td><td>b</td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>
@@ -143,10 +185,12 @@
           39: "arrowR",
           40: "arrowD",
           65: "a",
+          66: "b",
           68: "d",  
           81: "q",
           82: "r",
           83: "s",  
+          86: "v",
           87: "w",
           90: "z",
           188: ",",
@@ -167,16 +211,6 @@
           soko.init(level);
           showSoko();
         };
-      
-        // preload images
-        if (document.images) {
-          let images = ["wall.png", "goal.png", "box.png",
-            "boxg.png", "player.png", "playerg.png"];
-          for (let i = 0; i < images.length; i++) {
-            let img = new Image();
-            img.src = images[i];
-          }
-        }
           
         // create the game
         soko = new Sokoban(LEVELS, 0);
@@ -195,10 +229,6 @@
           if (!key) {
             return;
           }
-          // toggle continuous movement behavior
-          else if (key === "q") {
-            mvmtToggle = !mvmtToggle;
-          }
           // handle arrow key input
           else if (ARROW_KEYS[key] && keyAllowed) {
             soko.move(ARROW_KEYS[key]);
@@ -211,6 +241,18 @@
             if (mvmtToggle) soko.move(WASD[key]);
             else while (soko.move(WASD[key]));
           }
+          // undo move
+          else if (key === "z") {
+            soko.undo();
+          }
+          // toggle continuous movement behavior
+          else if (key === "q") {
+            mvmtToggle = !mvmtToggle;
+          }
+          // reset level
+          else if (key === "r") {
+            soko.reset();
+          }
           // increment level
           else if (key === ".") {
             soko.switchLevel((soko.levelNum+1) % soko.levels.length); 
@@ -220,14 +262,13 @@
             soko.switchLevel((soko.levelNum-1 + soko.levels.length) %
               soko.levels.length);
           } 
-          // reset level
-          else if (key === "r") {
-            soko.reset();
-          }
-          // undo move
-          else if (key === "z") {
-            soko.undo();
-          }
+          // save position
+          else if (key === "v") {
+            soko.savePosition();
+          } 
+          else if (key === "b") {
+            soko.loadSavedPosition();
+          } 
           
           // display the new position
           showSoko();
