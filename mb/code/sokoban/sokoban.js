@@ -5,6 +5,7 @@
  * - add localstorage for saving position
  * - add timer
  * - add dijkstra's and mouse movement
+ * - right pad arrays for aesthetic reasons?
  *
  * http://sokobano.de
  * http://www.sokoban-online.de/help/sokoban/level-format.html

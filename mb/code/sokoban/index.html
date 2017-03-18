@@ -91,7 +91,7 @@
     <h4 class="header">sokoban</h4>
     <div id="soko"></div>
     <div id="sokoscore"></div>
-    <div style="width: 250px; margin-left: auto; margin-right: auto; margin-top: 10px;">
+    <div style="width: 280px; margin-left: auto; margin-right: auto; margin-top: 10px;">
       <div style="text-align:center;">
         <a href="#" title="Options menu" data-toggle="collapse" 
           data-target="#options">&nbsp;?&nbsp;</a>
@@ -100,6 +100,7 @@
         <div>  
           fixed movement: arrow keys<br>
           continuous movement: w, a, s, d<br>
+          toggle continuous movement behavior: q<br>
           undo last action: z<br>
           reset level: r<br>
           prev/next level: , and .
@@ -110,36 +111,77 @@
     <script src="levels.js"></script>
     <script src="sokoban.js"></script>
     <script>
+      "use strict";
     
       // make sokoban object available in the global scope
       let soko;
-      let showSoko;
+      let customLevel;
     
       // main function
       window.onload = function() {
-      
+            
+        // map wasd to direction
+        const WASD = {
+          "w": "u",
+          "a": "l",
+          "s": "d",
+          "d": "r"
+        };
+        
+        // map of arrow keys
+        const ARROW_KEYS = {
+          "arrowU": "u",
+          "arrowD": "d", 
+          "arrowL": "l", 
+          "arrowR": "r"
+        };
+        
+        // map of valid keyboard codes
+        const KEYS = {
+          37: "arrowL",
+          38: "arrowU",
+          39: "arrowR",
+          40: "arrowD",
+          65: "a",
+          68: "d",  
+          81: "q",
+          82: "r",
+          83: "s",  
+          87: "w",
+          90: "z",
+          188: ",",
+          190: "."
+        };
+
         // displays sokoban html output
-        showSoko = function() {
+        let showSoko = function() {
           document.getElementById("soko").innerHTML = soko.toHTML();
           document.getElementById("sokoscore").innerHTML = 
             "level: " + (soko.levelNum+1) + "<br>" +
             "moves: " + (soko.history.length-1) + "<br>" +
             (localStorage ? "best: " + soko.bestScore : "");
-        }
+        };
+        
+        // allows user to load a custom level
+        customLevel = function(level) {
+          soko.init(level);
+          showSoko();
+        };
       
         // preload images
         if (document.images) {
           let images = ["wall.png", "goal.png", "box.png",
-                          "boxg.png", "player.png", "playerg.png"];
+            "boxg.png", "player.png", "playerg.png"];
           for (let i = 0; i < images.length; i++) {
             let img = new Image();
             img.src = images[i];
           }
         }
           
-        // create the game             
+        // create the game
         soko = new Sokoban(LEVELS, 0);
         let keyAllowed = true;
+        let mvmtToggle = true;
         showSoko();
         
         // add key listeners
@@ -148,55 +190,49 @@
         };
         
         document.onkeydown = function(e) {
-          let key;
-          switch (e.keyCode) {
-            case 37:  key = "L"; break;
-            case 38:  key = "U"; break;
-            case 39:  key = "R"; break;
-            case 40:  key = "D"; break;
-            case 65:  key = "a"; break;
-            case 68:  key = "d"; break;  
-            case 82:  key = "r"; break;
-            case 83:  key = "s"; break;  
-            case 87:  key = "w"; break;
-            case 90:  key = "z"; break;
-            case 188: key = ","; break;
-            case 190: key = "."; break;
+          let key = KEYS[e.keyCode];
+          // abort if key unrecognized
+          if (!key) {
+            return;
           }
-          
-          if (key && keyAllowed) {
+          // toggle continuous movement behavior
+          else if (key === "q") {
+            mvmtToggle = !mvmtToggle;
+          }
+          // handle arrow key input
+          else if (ARROW_KEYS[key] && keyAllowed) {
+            soko.move(ARROW_KEYS[key]);
             
-            // route key input to proper sokoban method
-            switch (key) {
-              case ".": 
-                soko.switchLevel((soko.levelNum+1) % soko.levels.length); 
-                break;
-              case ",":
-                soko.switchLevel(
-                  (soko.levelNum-1 + soko.levels.length) %
-                  soko.levels.length
-                ); 
-                break;
-              case "w": soko.move("u"); break;
-              case "a": soko.move("l"); break;
-              case "s": soko.move("d"); break;
-              case "d": soko.move("r"); break;
-              case "r": soko.reset();   break;
-              case "z": soko.undo();    break;
-              default : soko.move(key);
-            }
-          }
-    
-          // prevent multiple actions on one press for upcase keys
-          if (key && key === key.toUpperCase() && 
-              key !== "," && key !== ".") {
+            // prevent multiple actions on one press for arrow keys
             keyAllowed = false;
+          }
+          // handle wasd input based on behavior toggle
+          else if (WASD[key]) {
+            if (mvmtToggle) soko.move(WASD[key]);
+            else while (soko.move(WASD[key]));
+          }
+          // increment level
+          else if (key === ".") {
+            soko.switchLevel((soko.levelNum+1) % soko.levels.length); 
+          } 
+          // decrement level
+          else if (key === ",") {
+            soko.switchLevel((soko.levelNum-1 + soko.levels.length) %
+              soko.levels.length);
+          } 
+          // reset level
+          else if (key === "r") {
+            soko.reset();
+          }
+          // undo move
+          else if (key === "z") {
+            soko.undo();
           }
           
           // display the new position
           showSoko();
         }; // end document.onkeydown        
-      };
+      }; // end window.onload
       
     </script>
   </body>
