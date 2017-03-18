@@ -22,7 +22,7 @@
 
 // class to represent a sokoban game with multiple levels
 let Sokoban = function(levels, start) {
-  this.levels = levels;
+  this.levels = levels || [["######", "#@$ .#","######"]];
   this.levelNum = start && start < levels.length && start >= 0 ? start : 0;
   this.level;
   this.history;
@@ -223,9 +223,9 @@ let Sokoban = function(levels, start) {
           case "#": output += "sokowall";   break;
           case ".": output += "sokogoal";   break;
           case "$": output += "sokobox";    break;
-          case "*": output += "sokogoalb";  break;
+          case "*": output += "sokoboxg";  break;
           case "@": output += "sokoplayer"; break;
-          case "+": output += "sokogoalp";  break;
+          case "+": output += "sokoplayerg";  break;
           default : console.log("toHTML char error");
         }
         output += "'></td>";
