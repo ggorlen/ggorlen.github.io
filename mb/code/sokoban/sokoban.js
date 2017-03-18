@@ -53,7 +53,7 @@ let Sokoban = function(levels, start) {
     // retrieve previous best score if any
     if (localStorage) {
       let bestScore = localStorage[JSON.stringify(this.levels[this.levelNum])];
-      this.bestScore = parseInt(bestScore) || "n/a";
+      this.bestScore = parseInt(bestScore) || undefined;
     }
     
     // write the first position to history
@@ -219,13 +219,13 @@ let Sokoban = function(levels, start) {
       for (let j = 0; j < this.level[i].length; j++) {
         output += "<td class='";
         switch (this.level[i][j]) {
-          case " ": output += "sokospace";  break;
-          case "#": output += "sokowall";   break;
-          case ".": output += "sokogoal";   break;
-          case "$": output += "sokobox";    break;
-          case "*": output += "sokoboxg";  break;
-          case "@": output += "sokoplayer"; break;
-          case "+": output += "sokoplayerg";  break;
+          case " ": output += "sokospace";   break;
+          case "#": output += "sokowall";    break;
+          case ".": output += "sokogoal";    break;
+          case "$": output += "sokobox";     break;
+          case "*": output += "sokoboxg";    break;
+          case "@": output += "sokoplayer";  break;
+          case "+": output += "sokoplayerg"; break;
           default : console.log("toHTML char error");
         }
         output += "'></td>";

@@ -159,7 +159,7 @@
           document.getElementById("sokoscore").innerHTML = 
             "level: " + (soko.levelNum+1) + "<br>" +
             "moves: " + (soko.history.length-1) + "<br>" +
-            (localStorage ? "best: " + soko.bestScore : "");
+            (localStorage ? "best: " + (soko.bestScore ? soko.bestScore : "&#8734;") : "");
         };
         
         // allows user to load a custom level
