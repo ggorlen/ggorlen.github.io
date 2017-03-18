@@ -28,7 +28,8 @@ let Sokoban = function(levels, start) {
   this.history;
   this.px;
   this.py;
-
+  this.bestScore;
+  
   // initializes a level
   this.init = function(level) {
     this.history = [];  
@@ -53,7 +54,7 @@ let Sokoban = function(levels, start) {
     // retrieve previous best score if any
     if (localStorage) {
       let bestScore = localStorage[JSON.stringify(this.levels[this.levelNum])];
-      this.bestScore = parseInt(bestScore) || undefined;
+      bestScore = parseInt(bestScore) || undefined;
     }
     
     // write the first position to history
@@ -87,7 +88,8 @@ let Sokoban = function(levels, start) {
         "level": this.level,
         "history": this.history,
         "px": this.px,
-        "py": this.py
+        "py": this.py,
+        "bestScore": this.bestScore
       };
       localStorage["sokobansave"] = JSON.stringify(saveObj);
     }
@@ -111,6 +113,7 @@ let Sokoban = function(levels, start) {
       this.history = saveObj.history;
       this.px = saveObj.px;
       this.py = saveObj.py;
+      this.bestScore = saveObj.bestScore;
       return true;
     }
     return false;
@@ -163,7 +166,7 @@ let Sokoban = function(levels, start) {
       return false; // abort move
     }
         
-    // move player in specified direction if possible
+    // move player in specified direction if possible or abort
     switch (dir) {
       case "u": if (!this.moveHandler(0, -1)) return false; break;
       case "d": if (!this.moveHandler(0, 1))  return false; break;
@@ -178,7 +181,8 @@ let Sokoban = function(levels, start) {
     if (this.isFinished()) {
         
       // update localStorage if this is a new best score
-      if (localStorage && isNaN(this.bestScore) || this.history.length < this.bestScore) {
+      if (localStorage && isNaN(this.bestScore) || 
+          this.history.length < this.bestScore) {
         localStorage[JSON.stringify(this.levels[this.levelNum])] = this.history.length-1;
       }
 

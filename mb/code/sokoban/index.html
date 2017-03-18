@@ -225,6 +225,7 @@
         
         document.onkeydown = function(e) {
           let key = KEYS[e.keyCode];
+          
           // abort if key unrecognized
           if (!key) {
             return;
@@ -235,6 +236,9 @@
             
             // prevent multiple actions on one press for arrow keys
             keyAllowed = false;
+            
+            // prevent unwanted scrolling
+            e.preventDefault();
           }
           // handle wasd input based on behavior toggle
           else if (WASD[key]) {
