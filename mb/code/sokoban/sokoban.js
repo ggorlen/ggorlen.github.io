@@ -60,6 +60,18 @@ let Sokoban = function(levels, start) {
     });
   };
   
+//  // write current game state to local storage
+//  this.toLocalStorage() {
+//    localStorage[this + " " + 
+//                this.width + " " + this.numMines];
+//  };
+//  
+//  // retrieve content from local storage
+//  this.getLocalStorage() {
+//    var bestScore = localStorage[this.height + " " + 
+//                this.width + " " + this.numMines];
+//  };
+  
   // call init in the constructor
   if (!this.init(this.levels[this.levelNum])) {
     console.log("level parsing error");
