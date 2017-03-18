@@ -2,14 +2,18 @@
  * 
  * todo:
  * - add number of box pushes
- * - add localstorage of position and best stats
+ * - add localstorage for saving position
  * - add timer
+ * - add dijkstra's and mouse movement
  *
  * http://sokobano.de
  * http://www.sokoban-online.de/help/sokoban/level-format.html
  * https://www.sokobanonline.com/
  * http://www.sourcecode.se/sokoban/
  * http://www.cs.cornell.edu/andru/xsokoban.html
+ *
+ * improving localStorage support: 
+ * http://crocodillon.com/blog/always-catch-localstorage-security-and-quota-exceeded-errors
  */
 
 "use strict";
@@ -18,7 +22,7 @@
 // class to represent a sokoban game with multiple levels
 let Sokoban = function(levels, start) {
   this.levels = levels;
-  this.levelNum = start < levels.length && start >= 0 ? start : 0;
+  this.levelNum = start && start < levels.length && start >= 0 ? start : 0;
   this.level;
   this.history;
   this.px;
@@ -46,8 +50,10 @@ let Sokoban = function(levels, start) {
     }
     
     // retrieve previous best score if any
-    let bestScore = localStorage[JSON.stringify(this.levels[this.levelNum])];
-    this.bestScore = parseInt(bestScore) || "n/a";
+    if (localStorage) {
+      let bestScore = localStorage[JSON.stringify(this.levels[this.levelNum])];
+      this.bestScore = parseInt(bestScore) || "n/a";
+    }
     
     // write the first position to history
     this.writeHistory();
@@ -133,7 +139,7 @@ let Sokoban = function(levels, start) {
     if (this.isFinished()) {
         
       // update localStorage if this is a new best score
-      if (isNaN(this.bestScore) || this.history.length < this.bestScore) {
+      if (localStorage && isNaN(this.bestScore) || this.history.length < this.bestScore) {
         localStorage[JSON.stringify(this.levels[this.levelNum])] = this.history.length-1;
       }
 

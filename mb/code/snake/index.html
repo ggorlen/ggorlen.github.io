@@ -44,6 +44,8 @@
        *
        * allow editing of step speed
        */
+       
+      "use strict";
       
       // save the canvas and context in variables
       var canvas = document.getElementById("snakecanvas");
@@ -70,6 +72,8 @@
       var xDirection = CELL_SIZE;
       var yDirection = CELL_SIZE;
       var snakeLength = 3;
+      var best = localStorage ? localStorage['snakescore'] : 0;
+      if (isNaN(best)) best = 0;
       
       // goofy variables for effect
       var cascadersX = [];
@@ -88,10 +92,10 @@
       function init() {
       
         // update best score
-        var storage = parseInt(localStorage['snakescore']);
-        if (isNaN(storage)) storage = 0;
-        localStorage['snakescore'] = 
-          Math.max(storage, snakeLength - 3); 
+        best = Math.max(best, snakeLength - 3);
+        if (localStorage) {
+          localStorage['snakescore'] = best;
+        }            
 
         kbd.left = kbd.up = false;
         kbd.down = kbd.right = false;
@@ -211,7 +215,7 @@
       function drawScore() {
         document.getElementById("score").innerHTML = 
           "Munched : " + (snakeLength - 3) + "<br>" +
-          "Most : " + localStorage['snakescore'];
+          "Most : " + (best || 0);
       }
       
       // update will be called each frame

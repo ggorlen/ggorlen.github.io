@@ -18,8 +18,16 @@
     <style>
       body {
         font-family: monospace, "lucida console", "courier new";
-        margin: 20px;
+        font-size: 13px;
+        margin: 30px;
         width: 95%;
+        overflow-y: scroll; /* force scrollbar always */
+        background: url("wallpaper.png");
+      }
+      
+      a, a:hover, a:active, a:visited {
+        color: #000;
+        text-decoration: none !important;
       }
 
       #soko table {
@@ -50,13 +58,14 @@
         margin-left: auto;
         margin-right: auto;
         text-align: center;
-        width: 200px;
-        border-bottom: 1px solid #ddd;
-        text-shadow: 1px 1px #ddd;
+        width: 150px;
+        border-bottom: 1px solid #ccc;
+        text-shadow: 1px 1px #ccc;
         padding-bottom: 10px;
       }
-      
+
       .sokospace {
+        background: rgba(255, 255, 255, 0.0);
       }
       .sokowall {
         background: url("wall.png");
@@ -82,15 +91,51 @@
     <h4 class="header">sokoban</h4>
     <div id="soko"></div>
     <div id="sokoscore"></div>
+    <div style="width: 250px; margin-left: auto; margin-right: auto; margin-top: 10px;">
+      <div style="text-align:center;">
+        <a href="#" title="Options menu" data-toggle="collapse" 
+          data-target="#options">&nbsp;?&nbsp;</a>
+      </div>  
+      <div id="options" class="collapse" style="font-size: 12px;">
+        <div>  
+          fixed movement: arrow keys<br>
+          continuous movement: w, a, s, d<br>
+          undo last action: z<br>
+          reset level: r<br>
+          prev/next level: , and .
+        </div>
+      </div>
+    </div>
+
     <script src="levels.js"></script>
     <script src="sokoban.js"></script>
     <script>
     
       // make sokoban object available in the global scope
       let soko;
+      let showSoko;
     
       // main function
       window.onload = function() {
+      
+        // displays sokoban html output
+        showSoko = function() {
+          document.getElementById("soko").innerHTML = soko.toHTML();
+          document.getElementById("sokoscore").innerHTML = 
+            "level: " + (soko.levelNum+1) + "<br>" +
+            "moves: " + (soko.history.length-1) + "<br>" +
+            (localStorage ? "best: " + soko.bestScore : "");
+        }
+      
+        // preload images
+        if (document.images) {
+          let images = ["wall.png", "goal.png", "box.png",
+                          "boxg.png", "player.png", "playerg.png"];
+          for (let i = 0; i < images.length; i++) {
+            let img = new Image();
+            img.src = images[i];
+          }
+        }
           
         // create the game             
         soko = new Sokoban(LEVELS, 0);
@@ -105,49 +150,51 @@
         document.onkeydown = function(e) {
           let key;
           switch (e.keyCode) {
-            case 37:  key = "l"; break;
-            case 38:  key = "u"; break;
-            case 39:  key = "r"; break;
-            case 40:  key = "d"; break;
-            case 82:  key = "R"; break;
+            case 37:  key = "L"; break;
+            case 38:  key = "U"; break;
+            case 39:  key = "R"; break;
+            case 40:  key = "D"; break;
+            case 65:  key = "a"; break;
+            case 68:  key = "d"; break;  
+            case 82:  key = "r"; break;
+            case 83:  key = "s"; break;  
+            case 87:  key = "w"; break;
             case 90:  key = "z"; break;
-            case 187: key = "+"; break;
-            case 189: key = "-"; break;
+            case 188: key = ","; break;
+            case 190: key = "."; break;
           }
           
           if (key && keyAllowed) {
-          
-            // prevent multiple actions on one press
-            keyAllowed = false;
             
             // route key input to proper sokoban method
             switch (key) {
-              case "R": soko.reset(); break;
-              case "z": soko.undo();  break;
-              case "+": 
-                soko.switchLevel(
-                  (soko.levelNum+1) % soko.levels.length
-                ); 
+              case ",": 
+                soko.switchLevel((soko.levelNum+1) % soko.levels.length); 
                 break;
-              case "-": 
+              case ".": 
                 soko.switchLevel(
                   (soko.levelNum-1 + soko.levels.length) % soko.levels.length
                 ); 
                 break;
+              case "w": soko.move("u"); break;
+              case "a": soko.move("l"); break;
+              case "s": soko.move("d"); break;
+              case "d": soko.move("r"); break;
+              case "r": soko.reset();   break;
+              case "z": soko.undo();    break;
               default: soko.move(key);
             }
-            showSoko();
           }
-        };
-        
-        // show sokoban html output
-        function showSoko() {
-          document.getElementById("soko").innerHTML = soko.toHTML();
-          document.getElementById("sokoscore").innerHTML = 
-            "level: " + (soko.levelNum+1) + "<br>" +
-            "moves: " + (soko.history.length-1) + "<br>" +
-            "best: " + soko.bestScore;
-        }
+    
+          // prevent multiple actions on one press for upcase keys
+          if (key && key === key.toUpperCase() && 
+              key !== "," && key !== ".") {
+            keyAllowed = false;
+          }
+          
+          // display the new position
+          showSoko();
+        }; // end document.onkeydown        
       };
       
     </script>

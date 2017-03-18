@@ -145,8 +145,10 @@ var Board = function (height, width, numMines) {
 
   // adds scoreboard for this boards' parameters from local storage
   this.addScore = function() {
-    var bestScore = localStorage[this.height + " " + 
+    if (localStorage) {
+      var bestScore = localStorage[this.height + " " + 
                 this.width + " " + this.numMines];
+    }
     if (bestScore === undefined) bestScore = 0;
     document.getElementById("score").innerHTML = "Quickest -> " +
     Math.floor(bestScore / 3600) + "h : " + 
@@ -187,14 +189,16 @@ var Board = function (height, width, numMines) {
   
     // handle win
     if (this.isWon()) {
-      var storage = parseInt(localStorage[this.height +
-                  " " + this.width + " " + this.numMines]);
+      if (localStorage) {
+        var storage = parseInt(localStorage[this.height +
+                      " " + this.width + " " + this.numMines]);
                   
-      if (isNaN(storage) || duration < storage) {
-          
+        if (isNaN(storage) || duration < storage) {            
           localStorage[this.height + " " + this.width + 
-                  " " + this.numMines] = duration;
+                       " " + this.numMines] = duration;
+        }
       }
+      
       gameOver = true;
     }
     
