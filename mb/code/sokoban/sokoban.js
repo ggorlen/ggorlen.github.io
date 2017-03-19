@@ -1,11 +1,10 @@
 /* sokoban
  * 
  * todo:
- * - add number of box pushes
- * - add redo
- * - add timer
- * - add "go to next unfinished puzzle" key
  * - add dijkstra's and mouse movement
+ * - add timer
+ * - add redo
+ * - add "go to next unfinished puzzle" key
  * - right pad arrays for aesthetic reasons or detect edge?
  *
  * http://sokobano.de
