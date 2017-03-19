@@ -1,7 +1,7 @@
 "use strict";
 
 // original sokoban levels
-const LEVELS = [
+const ORIGINAL_LEVELS = [
 
       ["    #####",
       "    #   #",

@@ -1,0 +1,88 @@
+body {
+  font-family: monospace, "lucida console", "courier new";
+  font-size: 13px;
+  margin: 30px;
+  width: 95%;
+  overflow-y: scroll; /* force scrollbar always */
+  background: url("../assets/wallpaper.png");
+}
+
+a, a:hover, a:active, a:visited {
+  color: #000;
+  text-decoration: none !important;
+}
+
+#soko table {
+  margin: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+#soko td {
+  text-align: center;
+  border: 0px;
+  width: 20px;
+  height: 20px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  padding: 0px;
+}
+
+#sokoscore {
+  text-align: center;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.opts table {
+  width: 350px;
+  table-layout: fixed;
+}
+
+.opts td, th {
+  border-collapse: collapse;
+  padding: 3px 7px 3px 7px;
+  width: 175px;
+}
+
+.opts th {
+  font-style: oblique;
+}
+
+.opts .ralign {
+  text-align: right;
+}
+
+.header {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  width: 150px;
+  border-bottom: 1px solid #ccc;
+  text-shadow: 1px 1px #ccc;
+  padding-bottom: 10px;
+}
+
+.sokospace {
+  background: rgba(255, 255, 255, 0.0);
+}
+.sokowall {
+  background: url("../assets/wall.png");
+}
+.sokogoal {
+  background: url("../assets/goal.png");
+}
+.sokobox {
+  background: url("../assets/box.png");
+}
+.sokoboxg {
+  background: url("../assets/boxg.png");
+}
+.sokoplayer {
+  background: url("../assets/player.png");
+}
+.sokoplayerg {
+  background: url("../assets/playerg.png");
+}

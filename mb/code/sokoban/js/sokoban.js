@@ -1,14 +1,17 @@
-/* sokoban
- * 
+/** 
+ * sokoban
+ *
  * todo:
  * - add dijkstra's and mouse movement
+ * - add levelset menu selection
+ * - add custom level input
  * - add timer
  * - add redo
  * - add "go to next unfinished puzzle" key
  * - right pad arrays for aesthetic reasons or detect edge?
  *
  * http://sokobano.de
- * http://www.sokoban-online.de/help/sokoban/level-format.html
+ * http://www.sokoban-online.de/
  * https://www.sokobanonline.com/
  * http://www.sourcecode.se/sokoban/
  * http://www.cs.cornell.edu/andru/xsokoban.html
@@ -254,8 +257,7 @@ let Sokoban = function(levels, start) {
   this.isFinished = function() {
     for (let i = 0; i < this.level.length; i++) {
       for (let j = 0; j < this.level[i].length; j++) {
-        if (this.level[i][j] === "$" ||
-            this.level[i][j] === ".") {
+        if (this.level[i][j] === "$" || this.level[i][j] === ".") {
           return false;
         }
       }
