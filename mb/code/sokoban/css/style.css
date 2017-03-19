@@ -31,9 +31,34 @@ a, a:hover, a:active, a:visited {
 }
 
 #sokoscore {
-  text-align: center;
-  font-weight: bold;
   font-size: 13px;
+}
+
+#sokoscore table {
+  text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  table-layout: fixed;
+  width: 200px;
+}
+
+#sokoscore td, th {
+  border-collapse: collapse;
+  padding-left: 3px;
+  padding-right: 3px;
+  width: 100px;
+  word-wrap: break-word;
+}
+
+#sokoscore th {
+  font-style: oblique;
+}
+
+#sokosequence {
+  text-align: center;
+  /*word-break: break-all;*/
+  word-wrap: break-word;
 }
 
 .opts table {
@@ -51,7 +76,7 @@ a, a:hover, a:active, a:visited {
   font-style: oblique;
 }
 
-.opts .ralign {
+.ralign {
   text-align: right;
 }
 
@@ -85,4 +110,22 @@ a, a:hover, a:active, a:visited {
 }
 .sokoplayerg {
   background: url("../assets/playerg.png");
+}
+
+.tooltip > .tooltip-inner {
+  background-color: rgba(0,0,0,0.0); 
+  color: #000; 
+  font-family: monospace, "lucida console", "courier new";
+  font-style: oblique;
+}
+
+/* these don't work--attempting to remove grey line in panel-body */
+.panel, .panel-group, .collapse, .panel-collapse {
+  border: none !important;
+  outline: none !important;
+}
+
+.panel-group .panel-heading + .panel-collapse > .panel-body {
+  border: none !important;
+  outline: none !important;
 }

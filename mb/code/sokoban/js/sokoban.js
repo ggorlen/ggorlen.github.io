@@ -34,6 +34,7 @@ let Sokoban = function(levels, start) {
   this.pushes;
   this.px;
   this.py;
+  this.sequence;
   this.bestScore;
   
   // initializes a level
@@ -41,6 +42,7 @@ let Sokoban = function(levels, start) {
     this.history = [];  
     this.level = [];
     this.pushes = 0;
+    this.sequence = "";
     
     // only successful if player symbol found in level
     let successful = false;
@@ -72,21 +74,46 @@ let Sokoban = function(levels, start) {
  
   // appends current game state to history 
   this.writeHistory = function() {
-    
-    // make a deep copy the level
-    let levelCopy = this.level.map(function(a) {
-      return a.slice();
-    });
-    
+
     // save it as an object
     this.history.push({ 
-      level: levelCopy,
+      level: JSON.stringify(this.level),
       pushes: this.pushes,
       px: this.px,
       py: this.py,
+      sequence: this.sequence
     });
   }; // end writeHistory
+
+  // call init in the constructor
+  if (!this.init(this.levels[this.levelNum])) {
+    console.log("level parsing error"); // todo: throw error instead
+  }
   
+  // permanently revert to the last state in history
+  this.undo = function() {
+    
+    // abort if not enough history exists
+    if (this.history.length <= 1) return false;
+    
+    // discard current state
+    this.history.pop();
+    
+    // grab the new top of the history stack
+    let state = this.history[this.history.length-1];
+    this.level = JSON.parse(state.level);
+    this.pushes = state.pushes;
+    this.px = state.px;
+    this.py = state.py;
+    this.sequence = state.sequence;
+    return true;
+  }; // end undo
+  
+  // permanently revert to the initial state in history
+  this.reset = function() {
+    this.init(this.levels[this.levelNum]);
+  }; // end reset
+    
   // stores current position in localStorage 
   // or a var if storage unavailable
   this.savePosition = function() {
@@ -97,6 +124,7 @@ let Sokoban = function(levels, start) {
       "pushes": this.pushes,
       "px": this.px,
       "py": this.py,
+      "sequence": this.sequence
     };
     if (localStorage) {
       localStorage["sokobansave"] = JSON.stringify(saveObj);
@@ -122,15 +150,19 @@ let Sokoban = function(levels, start) {
       this.pushes = saveObj.pushes;
       this.px = saveObj.px;
       this.py = saveObj.py;
+      this.sequence = saveObj.sequence;
       return true;
     }
     return false;
   }; // end loadSavedPosition
-
-  // call init in the constructor
-  if (!this.init(this.levels[this.levelNum])) {
-    console.log("level parsing error"); // todo: throw error instead
-  }
+  
+  // allows move input by string.  format example: "udrrudlr"
+  this.inputMoveSequence = function(sequence) {
+    for (let i = 0; i < sequence.length; i++) {
+      if (!this.move(sequence[i])) return false;
+    }
+    return true;
+  }; // end inputSequence
   
   // switch levels if valid
   this.switchLevel = function(level) {
@@ -142,36 +174,12 @@ let Sokoban = function(levels, start) {
     return false;
   }; // end switchLevel
   
-  // permanently revert to the last state in history
-  this.undo = function() {
-    
-    // abort if not enough history exists
-    if (this.history.length <= 1) return false;
-    
-    // discard current state
-    this.history.pop();
-    
-    // grab the new top of the history stack
-    let state = this.history[this.history.length-1];
-    this.level = JSON.parse(JSON.stringify(state.level)); // deep copy
-    this.pushes = state.pushes;
-    this.px = state.px;
-    this.py = state.py;
-    return true;
-  }; // end undo
-  
-  // permanently revert to the initial state in history
-  this.reset = function() {
-    this.init(this.levels[this.levelNum]);
-  }; // end reset
-  
   // move player
   this.move = function(dir) {
-
-    // validate input 
     dir = dir.toLowerCase();
-    if (dir !== "u" && dir !== "d" && 
-        dir !== "l" && dir !== "r") {
+    
+    // validate input 
+    if (["u", "d", "l", "r"].indexOf(dir) < 0) {
       return false; // abort move
     }
         
@@ -183,7 +191,8 @@ let Sokoban = function(levels, start) {
       case "r": if (!this.moveHandler(1, 0))  return false; break;
     }
 
-    // append this board position to the history
+    // write move to sequence string and append this board position to the history
+    this.sequence += dir;
     this.writeHistory();
     
     // load next level if finished
@@ -245,7 +254,7 @@ let Sokoban = function(levels, start) {
       this.py += dy;
       this.level[this.py][this.px] = newSpace;
     }
-    else { // abort otherwise
+    else { // invalid move
       return false;
     }
     

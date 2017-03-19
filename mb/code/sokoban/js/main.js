@@ -1,12 +1,19 @@
 "use strict";
 
-// make sokoban object available in the global scope
+// make sokoban object and main functions available in the global scope
 let soko;
 let customLevel;
+let showSoko;
+let sequenceInput;
 
 // main function
 window.onload = function() {
-      
+    
+  // enable tooltips
+  $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip(); 
+  });
+  
   // map wasd to direction
   const WASD = {
     "w": "u",
@@ -42,14 +49,33 @@ window.onload = function() {
     190: "."
   };
 
+  // input handler for user to enter a sequence of moves
+  sequenceInput = function(sequence) {
+    soko.inputMoveSequence(sequence.replace(/\s/g, ""));
+    showSoko();
+  }; // end sequenceInput
+  
   // displays sokoban html output
-  let showSoko = function() {
+  showSoko = function() {
+      
+    // show main sokoban game
     document.getElementById("soko").innerHTML = soko.toHTML();
+    
+    // show sokoban score 
     document.getElementById("sokoscore").innerHTML = 
-      "level: " + (soko.levelNum+1) + "<br>" +
-      "pushes: " + soko.pushes + "<br>" +
-      "moves: " + (soko.history.length-1) + "<br>" +
-      (localStorage ? "best: " + (soko.bestScore ? soko.bestScore : "&#8734;") : "");
+      "<table><tr><td class='ralign'>level:</td>" + 
+      "<td>" + (soko.levelNum+1) + "</td></tr>" +
+      "<tr><td class='ralign'>pushes:</td><td> " + 
+      soko.pushes + "</td></tr>" +
+      "<tr><td class='ralign' >moves:</td><td> " + 
+      (soko.history.length-1) + "</td></tr>" +
+      "<tr><td class='ralign'>" + (localStorage ? "best:</td><td> " + 
+      (soko.bestScore ? soko.bestScore : "&#8734;") : "") + 
+      "</td></tr></table>";
+
+    // show the sequence of moves made
+    document.getElementById("sokosequence").innerHTML = 
+      (soko.sequence ? soko.sequence : "<em>empty</em>");
   };
   
   // allows user to load a custom level
@@ -72,19 +98,16 @@ window.onload = function() {
   document.onkeydown = function(e) {
     let key = KEYS[e.keyCode];
     
-    // abort if key unrecognized
-    if (!key) {
+    // abort if key unrecognized or keys are disallowed
+    if (!key || !keyAllowed) {
       return;
     }
     // handle arrow key input
     else if (ARROW_KEYS[key]) {            
-      if (keyAllowed) {
+      soko.move(ARROW_KEYS[key]);
       
-        // prevent multiple actions on one press for arrow keys
-        keyAllowed = false;
-
-        soko.move(ARROW_KEYS[key]);
-      }
+      // prevent multiple actions on one press for arrow keys
+      keyAllowed = false;
       
       // prevent unwanted scrolling
       e.preventDefault();
@@ -125,5 +148,17 @@ window.onload = function() {
     
     // display the new position
     showSoko();
-  }; // end document.onkeydown        
+  }; // end document.onkeydown
+  
+  // listen for enter key on sequence input textarea
+  document.getElementById("seqinput").
+    addEventListener("keydown", function(e) {
+    if (KEYS[e.keyCode]) {
+      keyAllowed = false;
+    }
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      sequenceInput(this.value);
+    }
+  }); // end sequenpit addEventListener
 }; // end window.onload
