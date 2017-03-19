@@ -2,15 +2,19 @@
  * 
  * todo:
  * - add number of box pushes
+ * - add redo
  * - add timer
+ * - add "go to next unfinished puzzle" key
  * - add dijkstra's and mouse movement
- * - right pad arrays for aesthetic reasons?
+ * - right pad arrays for aesthetic reasons or detect edge?
  *
  * http://sokobano.de
  * http://www.sokoban-online.de/help/sokoban/level-format.html
  * https://www.sokobanonline.com/
  * http://www.sourcecode.se/sokoban/
  * http://www.cs.cornell.edu/andru/xsokoban.html
+ * http://sokoban-gild.com/
+ * https://www.letslogic.com/
  *
  * improving localStorage support: 
  * http://crocodillon.com/blog/always-catch-localstorage-security-and-quota-exceeded-errors
@@ -25,6 +29,7 @@ let Sokoban = function(levels, start) {
   this.levelNum = start && start < levels.length && start >= 0 ? start : 0;
   this.level;
   this.history;
+  this.pushes;
   this.px;
   this.py;
   this.bestScore;
@@ -33,6 +38,7 @@ let Sokoban = function(levels, start) {
   this.init = function(level) {
     this.history = [];  
     this.level = [];
+    this.pushes = 0;
     
     // only successful if player symbol found in level
     let successful = false;
@@ -73,10 +79,11 @@ let Sokoban = function(levels, start) {
     // save it as an object
     this.history.push({ 
       level: levelCopy,
+      pushes: this.pushes,
       px: this.px,
-      py: this.py 
+      py: this.py,
     });
-  };
+  }; // end writeHistory
   
   // stores current position in localStorage 
   // or a var if storage unavailable
@@ -85,16 +92,17 @@ let Sokoban = function(levels, start) {
       "levelNum": this.levelNum,
       "level": this.level,
       "history": this.history,
+      "pushes": this.pushes,
       "px": this.px,
       "py": this.py,
-   };
+    };
     if (localStorage) {
       localStorage["sokobansave"] = JSON.stringify(saveObj);
     }
     else { // no localStorage, use an instance var
       this.savedPosition = JSON.stringify(saveObj);
     }
-  };
+  }; // end savePosition
   
   // retrieve saved position, overwriting current position
   this.loadSavedPosition = function() {
@@ -109,16 +117,17 @@ let Sokoban = function(levels, start) {
       this.levelNum = saveObj.levelNum;
       this.level = saveObj.level;
       this.history = saveObj.history;
+      this.pushes = saveObj.pushes;
       this.px = saveObj.px;
       this.py = saveObj.py;
       return true;
     }
     return false;
-  };
+  }; // end loadSavedPosition
 
   // call init in the constructor
   if (!this.init(this.levels[this.levelNum])) {
-    console.log("level parsing error");
+    console.log("level parsing error"); // todo: throw error instead
   }
   
   // switch levels if valid
@@ -129,7 +138,7 @@ let Sokoban = function(levels, start) {
       return true;
     }
     return false;
-  };
+  }; // end switchLevel
   
   // permanently revert to the last state in history
   this.undo = function() {
@@ -143,6 +152,7 @@ let Sokoban = function(levels, start) {
     // grab the new top of the history stack
     let state = this.history[this.history.length-1];
     this.level = JSON.parse(JSON.stringify(state.level)); // deep copy
+    this.pushes = state.pushes;
     this.px = state.px;
     this.py = state.py;
     return true;
@@ -211,6 +221,9 @@ let Sokoban = function(levels, start) {
         if (newBoxSpace === "*" || newBoxSpace === "$") {
           this.level[this.py+dy+dy][this.px+dx+dx] = newBoxSpace;
           this.level[this.py+dy][this.px+dx] = oldBoxSpace;
+          
+          // increment number of pushes
+          this.pushes++;
         }
       }
       else { // box is immovable

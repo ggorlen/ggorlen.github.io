@@ -202,6 +202,7 @@
           document.getElementById("soko").innerHTML = soko.toHTML();
           document.getElementById("sokoscore").innerHTML = 
             "level: " + (soko.levelNum+1) + "<br>" +
+            "pushes: " + soko.pushes + "<br>" +
             "moves: " + (soko.history.length-1) + "<br>" +
             (localStorage ? "best: " + (soko.bestScore ? soko.bestScore : "&#8734;") : "");
         };
