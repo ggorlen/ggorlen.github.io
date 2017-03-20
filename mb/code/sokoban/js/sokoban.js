@@ -4,7 +4,6 @@
  * todo:
  * - add dijkstra's and mouse movement
  * - add levelset menu selection
- * - add custom level input
  * - add timer
  * - add redo
  * - add "go to next unfinished puzzle" key
@@ -36,13 +35,15 @@ let Sokoban = function(levels, start) {
   this.py;
   this.sequence;
   this.bestScore;
+  this.storeData;
   
   // initializes a level
-  this.init = function(level) {
+  this.init = function(level, storeData) {
     this.history = [];  
     this.level = [];
     this.pushes = 0;
     this.sequence = "";
+    this.storeData = storeData || true;
     
     // only successful if player symbol found in level
     let successful = false;
@@ -61,7 +62,7 @@ let Sokoban = function(levels, start) {
     }
     
     // retrieve previous best score if any
-    if (localStorage) {
+    if (localStorage && this.storeData) {
       let bestScore = localStorage[JSON.stringify(this.levels[this.levelNum])];
       this.bestScore = parseInt(bestScore) || undefined;
     }
@@ -124,7 +125,8 @@ let Sokoban = function(levels, start) {
       "pushes": this.pushes,
       "px": this.px,
       "py": this.py,
-      "sequence": this.sequence
+      "sequence": this.sequence,
+      "storeData": JSON.stringify(this.storeData)
     };
     if (localStorage) {
       localStorage["sokobansave"] = JSON.stringify(saveObj);
@@ -151,6 +153,7 @@ let Sokoban = function(levels, start) {
       this.px = saveObj.px;
       this.py = saveObj.py;
       this.sequence = saveObj.sequence;
+      this.storeData = JSON.parse(saveObj.storeData);
       return true;
     }
     return false;
@@ -163,6 +166,44 @@ let Sokoban = function(levels, start) {
     }
     return true;
   }; // end inputSequence
+  
+  // allows level input by string
+  this.inputRawLevel = function(level) {
+
+    // parse level and check validity
+    let counter = {
+      "@": 0,
+      "$": 0,
+      ".": 0,
+      " ": 0,
+      "#": 0,
+      "*": 0
+    };
+    
+    level = level.split("\n");
+    let parsedLevel = [];
+    for (let i = 0; i < level.length; i++) {
+      parsedLevel.push(level[i]);
+      for (let j = 0; j < parsedLevel[i].length; j++) {
+        if (parsedLevel[i][j] === "+") {
+          counter["@"]++;
+          counter["."]++;
+        }
+        else if (counter.hasOwnProperty([parsedLevel[i][j]])) {
+          counter[parsedLevel[i][j]]++;
+        }
+        else { // abort if character is unrecognized
+          return false; 
+        }
+      }
+    }
+    
+    if (counter["@"] === 1 && counter["$"] &&
+        counter["$"] === counter["."]) {
+      return this.init(level, false);
+    }    
+    return false;
+  }; // end inputRawLevel
   
   // switch levels if valid
   this.switchLevel = function(level) {
@@ -199,7 +240,7 @@ let Sokoban = function(levels, start) {
     if (this.isFinished()) {
         
       // update localStorage if this is a new best score
-      if (localStorage && (isNaN(this.bestScore) || 
+      if (localStorage && this.storeData && (isNaN(this.bestScore) || 
           this.history.length < this.bestScore)) {
         localStorage[JSON.stringify(this.levels[this.levelNum])] = this.history.length-1;
       }

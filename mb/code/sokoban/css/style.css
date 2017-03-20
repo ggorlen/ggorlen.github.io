@@ -12,6 +12,10 @@ a, a:hover, a:active, a:visited {
   text-decoration: none !important;
 }
 
+a:hover {
+  text-decoration: underline !important;
+}
+
 #soko table {
   margin: 40px;
   margin-left: auto;
@@ -40,14 +44,14 @@ a, a:hover, a:active, a:visited {
   margin-right: auto;
   margin-bottom: 20px;
   table-layout: fixed;
-  width: 200px;
+  width: 300px;
 }
 
 #sokoscore td, th {
   border-collapse: collapse;
   padding-left: 3px;
   padding-right: 3px;
-  width: 100px;
+  width: 75px;
   word-wrap: break-word;
 }
 
@@ -85,9 +89,7 @@ a, a:hover, a:active, a:visited {
   margin-right: auto;
   text-align: center;
   width: 150px;
-  border-bottom: 1px solid #ccc;
   text-shadow: 1px 1px #ccc;
-  padding-bottom: 10px;
 }
 
 .sokospace {

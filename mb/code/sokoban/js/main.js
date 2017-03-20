@@ -2,9 +2,9 @@
 
 // make sokoban object and main functions available in the global scope
 let soko;
-let customLevel;
 let showSoko;
 let sequenceInput;
+let levelInput;
 
 // main function
 window.onload = function() {
@@ -64,25 +64,36 @@ window.onload = function() {
     // show sokoban score 
     document.getElementById("sokoscore").innerHTML = 
       "<table><tr><td class='ralign'>level:</td>" + 
-      "<td>" + (soko.levelNum+1) + "</td></tr>" +
-      "<tr><td class='ralign'>pushes:</td><td> " + 
-      soko.pushes + "</td></tr>" +
-      "<tr><td class='ralign' >moves:</td><td> " + 
+      "<td>" + (soko.levelNum+1) + "</td>" +
+      "<td class='ralign'>moves:</td><td>" + 
       (soko.history.length-1) + "</td></tr>" +
-      "<tr><td class='ralign'>" + (localStorage ? "best:</td><td> " + 
+      "<tr><td class='ralign'>pushes:</td><td> " + 
+      soko.pushes + "</td>" + "<td class='ralign'>" + 
+      (localStorage ? "best:</td><td> " + 
       (soko.bestScore ? soko.bestScore : "&#8734;") : "") + 
       "</td></tr></table>";
 
     // show the sequence of moves made
     document.getElementById("sokosequence").innerHTML = 
       (soko.sequence ? soko.sequence : "<em>empty</em>");
-  };
+  }; // end showSoko
   
   // allows user to load a custom level
-  customLevel = function(level) {
-    soko.init(level);
-    showSoko();
-  };
+  levelInput = function(level) {
+    let rawLevel = level || document.getElementById('levelinput').value;
+    if (rawLevel) {
+      if (soko.inputRawLevel(rawLevel)) {
+        document.getElementById("sokolevelerror").innerHTML = "";
+        showSoko();
+        return true;
+      }
+      else {
+        document.getElementById("sokolevelerror").innerHTML = 
+          "<em>- level parsing error -</em>";
+      }
+    }
+    return false;
+  }; // end levelInput
     
   // create the game
   soko = new Sokoban(ORIGINAL_LEVELS, 0);
@@ -160,5 +171,13 @@ window.onload = function() {
       e.preventDefault();
       sequenceInput(this.value);
     }
-  }); // end sequenpit addEventListener
+  }); // end seqinput addEventListener
+  
+  // prevent game moves on level input
+  document.getElementById("levelinput").
+    addEventListener("keydown", function(e) {
+    if (KEYS[e.keyCode]) {
+      keyAllowed = false;
+    }
+  }); // end levelInput addEventListener
 }; // end window.onload

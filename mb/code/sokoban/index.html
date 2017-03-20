@@ -22,31 +22,34 @@
   </head>
   <body>
     <h4 class="header">sokoban</h4>
+    <div style="text-align: center;">&#x2767;</div>
     <div id="soko"></div>
     <div id="sokoscore"></div>      
     
     <!-- accordion panel -->
     <div style="width: 350px; margin-left: auto; margin-right: auto; margin-top: 15px;">
       <div style="text-align: center;">
-        <a data-toggle="collapse" data-parent="#accordion" 
-          href="#sokosequence" style="color: #000 !important;">[move sequence]</a>
-        <a data-toggle="collapse" data-parent="#accordion" 
-          href="#sokosequenceinput" style="color: #000 !important;">[input moves by text]</a>
-        <a data-toggle="collapse" data-parent="#accordion" 
-          href="#options" style="color: #000 !important;">[?]</a>
+        [<a data-toggle="collapse" data-parent="#accordion" 
+          href="#sokosequence" style="color: #000 !important;">show move sequence</a>]
+        [<a data-toggle="collapse" data-parent="#accordion" 
+          href="#sokosequenceinput" style="color: #000 !important;">input move sequence</a>]
+        [<a data-toggle="collapse" data-parent="#accordion" 
+          href="#sokolevelinput" style="color: #000 !important;">input level</a>]
+        [<a data-toggle="collapse" data-parent="#accordion" 
+          href="#options" style="color: #000 !important;">?</a>]
       </div>
       
       <div class="panel-group" id="accordion">
         
-        <!-- move sequence -->
+        <!-- move sequence input -->
         <div class="panel" style="background: rgba(0,0,0,0.0); border: 0px;">
           <div id="sokosequence" class="panel-collapse collapse"></div>
         </div>
         
-        <!-- move sequence -->
+        <!-- move sequence input -->
         <div class="panel" style="background: rgba(0,0,0,0.0); border: 0px;">
           <div id="sokosequenceinput" class="panel-collapse collapse">
-            <form onsubmit="sequenceInput(document.getElementById('seqinput').value);">
+            <form onsubmit="sequenceInput(document.getElementById('seqinput').value); return false;">
               <textarea data-toggle="tooltip" data-placement="right" 
                 title="example (case insensitive): uudrlurrrlld" 
                 style="resize: vertical; height: 60px; width: 100%;" id="seqinput"></textarea>
@@ -58,8 +61,26 @@
             </form>
           </div>
         </div>
+
+        <!-- raw level input -->
+        <div class="panel" style="background: rgba(0,0,0,0.0); border: 0px;">
+          <div id="sokolevelinput" class="panel-collapse collapse">
+            <form onsubmit="levelInput(); return false;">
+              <textarea style="resize: vertical; height: 160px; width: 100%;" id="levelinput"></textarea>
+              <br>
+              <div style="float: right; margin-top: 3px;">
+                <input type="submit">
+                <input type="reset">
+              </div>
+            </form>
+            <div style="float: left; margin-top: 3px; font-size: 11px;">
+              [<a target="_blank" href="http://sokobano.de/wiki/index.php?title=Level_format">format info</a>]
+              <span id="sokolevelerror"></span>
+            </div>
+          </div>
+        </div>
         
-        <!-- move sequence -->
+        <!-- help -->
         <div class="panel" style="background: rgba(0,0,0,0.0); border: 0px;">
           <div id="options" class="panel-collapse collapse" style="font-size: 12px;">
             <table class="opts">
