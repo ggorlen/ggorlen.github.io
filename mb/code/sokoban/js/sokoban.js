@@ -43,7 +43,7 @@ let Sokoban = function(levels, start) {
     this.level = [];
     this.pushes = 0;
     this.sequence = "";
-    this.storeData = storeData || true;
+    this.storeData = storeData === undefined ? true : storeData;
     
     // only successful if player symbol found in level
     let successful = false;
