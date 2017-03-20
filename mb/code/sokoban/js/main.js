@@ -1,14 +1,16 @@
 "use strict";
 
-// make sokoban object and main functions available in the global scope
-let soko;
+// make main functions available in the global scope
 let showSoko;
 let sequenceInput;
 let levelInput;
 
 // main function
 window.onload = function() {
-    
+  
+  // sokoban object
+  let soko;
+  
   // enable tooltips
   $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip(); 
