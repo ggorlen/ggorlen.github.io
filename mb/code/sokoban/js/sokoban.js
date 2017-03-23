@@ -2,12 +2,12 @@
  * sokoban
  *
  * todo:
- * - add dijkstra's and mouse movement
+ * - add solver
  * - add levelset menu selection
  * - add timer
  * - add redo
  * - add "go to next unfinished puzzle" key
- * - right pad arrays for aesthetic reasons or detect edge?
+ * - detect edges of puzzles for flexible rendering aesthetics
  *
  * http://sokobano.de
  * http://www.sokoban-online.de/
@@ -315,7 +315,7 @@ let Sokoban = function(levels, start) {
     
     // add the origin node to the queue and set its parent to null
     queue.push([this.px, this.py]);
-    visited[JSON.stringify(this.px + " " + this.py)] = null;
+    visited[this.px + " " + this.py] = null;
     
     // while there are still nodes left to visit...
     while (queue.length) {
@@ -328,27 +328,32 @@ let Sokoban = function(levels, start) {
   
         // construct a path stack from the destination point's ancestors
         let path = [];
-        while (!(current[0] === this.px && current[1] === this.py)) {
+        while (current[0] !== this.px || current[1] !== this.py) {
           path.push(current);
-          current = visited[JSON.stringify(current[0] + " " + current[1])];
+          current = visited[current[0] + " " + current[1]];
         }
         
         // execute the moves in the path stack
         while (path.length) {
           let nextMove = path.pop();
           if (nextMove[0] < this.px) {
-            this.move("l");
+            if (!this.move("l")) return false;
           }
           else if (nextMove[0] > this.px) {
-            this.move("r");
+            if (!this.move("r")) return false;
           }
           else if (nextMove[1] < this.py) {
-            this.move("u");
+            if (!this.move("u")) return false;
           }
           else if (nextMove[1] > this.py) {
-            this.move("d");
+            if (!this.move("d")) return false;
+          }
+          else {
+            return false;
           }
         }
+        
+        // this move was successful
         return true;
       }
       
@@ -357,8 +362,8 @@ let Sokoban = function(levels, start) {
       
       // for each unvisited adjacent square, set its parent as the current node and add it to the queue
       for (let i = 0; i < adjacent.length; i++) {
-        if (!visited[JSON.stringify(adjacent[i][0] + " " + adjacent[i][1])]) {
-          visited[JSON.stringify(adjacent[i][0] + " " + adjacent[i][1])] = current;
+        if (!visited[adjacent[i][0] + " " + adjacent[i][1]]) {
+          visited[adjacent[i][0] + " " + adjacent[i][1]] = current;
           queue.push(adjacent[i]);
         }
       }
@@ -376,7 +381,7 @@ let Sokoban = function(levels, start) {
       if (this.level[y+dirs[i][0]] && 
           this.level[y+dirs[i][0]][x+dirs[i][1]] && 
           this.level[y+dirs[i][0]][x+dirs[i][1]] !== "#") {
-          //[" ", ".", "$", "+"].indexOf(this.level[y+dirs[i][0]][x+dirs[i][1]]) >= 0) {
+          //[" ", "."].indexOf(this.level[y+dirs[i][0]][x+dirs[i][1]]) >= 0) {
         neighbors.push([x+dirs[i][1], y+dirs[i][0]]);
       }
     }
@@ -387,7 +392,7 @@ let Sokoban = function(levels, start) {
   this.isFinished = function() {
     for (let i = 0; i < this.level.length; i++) {
       for (let j = 0; j < this.level[i].length; j++) {
-        if (this.level[i][j] === "$" || this.level[i][j] === ".") {
+        if (["$", "."].indexOf(this.level[i][j] >= 0) {
           return false;
         }
       }
