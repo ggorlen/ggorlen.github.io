@@ -306,7 +306,7 @@ let Sokoban = function(levels, start) {
   
   // moves player to a square at (x, y) if possible using BFS
   this.goTo = function(x, y) {
-    
+
     // visited is a hash of the visited node and its parent
     let visited = {};
     
@@ -358,7 +358,7 @@ let Sokoban = function(levels, start) {
       }
       
       // not at destination yet, grab a list of available adjacent squares
-      let adjacent = this.getEmptyNeighbors(current[0], current[1]);
+      let adjacent = this.getEmptyNeighbors(current[0], current[1], x, y);
       
       // for each unvisited adjacent square, set its parent as the current node and add it to the queue
       for (let i = 0; i < adjacent.length; i++) {
@@ -373,15 +373,15 @@ let Sokoban = function(levels, start) {
     return false;
   }; // end goTo
   
-  // return a list of empty neighbors for a coordinate
-  this.getEmptyNeighbors = function(x, y) {
+  // return a list of empty neighbors for a coordinate, plus
+  this.getEmptyNeighbors = function(x, y, includeX, includeY) {
     let dirs = [[-1, 0], [0, -1], [0, 1], [1, 0]];
     let neighbors = [];
     for (let i = 0; i < dirs.length; i++) {
       if (this.level[y+dirs[i][0]] && 
           this.level[y+dirs[i][0]][x+dirs[i][1]] && 
-          this.level[y+dirs[i][0]][x+dirs[i][1]] !== "#") {
-          //[" ", "."].indexOf(this.level[y+dirs[i][0]][x+dirs[i][1]]) >= 0) {
+          ([" ", "."].indexOf(this.level[y+dirs[i][0]][x+dirs[i][1]]) >= 0 ||
+          includeX === x+dirs[i][1] && includeY === y+dirs[i][0])) {
         neighbors.push([x+dirs[i][1], y+dirs[i][0]]);
       }
     }
@@ -392,7 +392,7 @@ let Sokoban = function(levels, start) {
   this.isFinished = function() {
     for (let i = 0; i < this.level.length; i++) {
       for (let j = 0; j < this.level[i].length; j++) {
-        if (["$", "."].indexOf(this.level[i][j] >= 0) {
+        if (["$", "."].indexOf(this.level[i][j] >= 0)) {
           return false;
         }
       }
