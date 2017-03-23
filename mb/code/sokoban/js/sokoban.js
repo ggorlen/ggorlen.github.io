@@ -16,6 +16,7 @@
  * http://www.cs.cornell.edu/andru/xsokoban.html
  * http://sokoban-gild.com/
  * https://www.letslogic.com/
+ * http://sneezingtiger.com/sokoban/levels.html
  *
  * improving localStorage support: 
  * http://crocodillon.com/blog/always-catch-localstorage-security-and-quota-exceeded-errors
@@ -303,6 +304,85 @@ let Sokoban = function(levels, start) {
     return true;
   }; // end moveHandler
   
+  // moves player to a square at (x, y) if possible using BFS
+  this.goTo = function(x, y) {
+    
+    // visited is a hash of the visited node and its parent
+    let visited = {};
+    
+    // queue of nodes pending visit
+    let queue = [];
+    
+    // add the origin node to the queue and set its parent to null
+    queue.push([this.px, this.py]);
+    visited[JSON.stringify(this.px + " " + this.py)] = null;
+    
+    // while there are still nodes left to visit...
+    while (queue.length) {
+        
+      // grab the first in line
+      let current = queue.shift();
+      
+      // check to see if this node is the destination
+      if (current[0] === x && current[1] === y) {
+  
+        // construct a path stack from the destination point's ancestors
+        let path = [];
+        while (!(current[0] === this.px && current[1] === this.py)) {
+          path.push(current);
+          current = visited[JSON.stringify(current[0] + " " + current[1])];
+        }
+        
+        // execute the moves in the path stack
+        while (path.length) {
+          let nextMove = path.pop();
+          if (nextMove[0] < this.px) {
+            this.move("l");
+          }
+          else if (nextMove[0] > this.px) {
+            this.move("r");
+          }
+          else if (nextMove[1] < this.py) {
+            this.move("u");
+          }
+          else if (nextMove[1] > this.py) {
+            this.move("d");
+          }
+        }
+        return true;
+      }
+      
+      // not at destination yet, grab a list of available adjacent squares
+      let adjacent = this.getEmptyNeighbors(current[0], current[1]);
+      
+      // for each unvisited adjacent square, set its parent as the current node and add it to the queue
+      for (let i = 0; i < adjacent.length; i++) {
+        if (!visited[JSON.stringify(adjacent[i][0] + " " + adjacent[i][1])]) {
+          visited[JSON.stringify(adjacent[i][0] + " " + adjacent[i][1])] = current;
+          queue.push(adjacent[i]);
+        }
+      }
+    }
+    
+    // no path is available to the destination
+    return false;
+  }; // end goTo
+  
+  // return a list of empty neighbors for a coordinate
+  this.getEmptyNeighbors = function(x, y) {
+    let dirs = [[-1, 0], [0, -1], [0, 1], [1, 0]];
+    let neighbors = [];
+    for (let i = 0; i < dirs.length; i++) {
+      if (this.level[y+dirs[i][0]] && 
+          this.level[y+dirs[i][0]][x+dirs[i][1]] && 
+          this.level[y+dirs[i][0]][x+dirs[i][1]] !== "#") {
+          //[" ", ".", "$", "+"].indexOf(this.level[y+dirs[i][0]][x+dirs[i][1]]) >= 0) {
+        neighbors.push([x+dirs[i][1], y+dirs[i][0]]);
+      }
+    }
+    return neighbors;
+  }; // end getNeighbors
+  
   // check if the current level has been completed
   this.isFinished = function() {
     for (let i = 0; i < this.level.length; i++) {
@@ -321,7 +401,8 @@ let Sokoban = function(levels, start) {
     for (let i = 0; i < this.level.length; i++) {
       output += "<tr>";
       for (let j = 0; j < this.level[i].length; j++) {
-        output += "<td class='";
+        output += "<td onclick='clickHandler(this);' " +
+          "id='soko-" + i + "-" + j + "' class='";
         switch (this.level[i][j]) {
           case " ": output += "sokospace";   break;
           case "#": output += "sokowall";    break;

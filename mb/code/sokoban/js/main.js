@@ -4,6 +4,8 @@
 let showSoko;
 let sequenceInput;
 let levelInput;
+let clickHandler;
+
 
 // main function
 window.onload = function() {
@@ -56,6 +58,14 @@ window.onload = function() {
     soko.inputMoveSequence(sequence.replace(/\s/g, ""));
     showSoko();
   }; // end sequenceInput
+  
+  // input handler for user to move player to a specific square
+  clickHandler = function(element) {
+    let destination = element.id.slice(5);
+    destination = destination.split("-");
+    soko.goTo(parseInt(destination[1]), parseInt(destination[0]));
+    showSoko();
+  }; // end clickHandler
   
   // displays sokoban html output
   showSoko = function() {
