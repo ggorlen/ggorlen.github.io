@@ -6,12 +6,11 @@ let sequenceInput;
 let levelInput;
 let clickHandler;
 
-
+// sokoban object
+let soko;
+  
 // main function
 window.onload = function() {
-  
-  // sokoban object
-  let soko;
   
   // enable tooltips
   $(document).ready(function(){
