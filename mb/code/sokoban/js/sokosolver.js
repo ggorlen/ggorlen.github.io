@@ -1,84 +1,93 @@
 /**
- * sokoban solver
+ * homebrew sokoban solver
  *
- * in progress
+ * - is BFS the way to go?  (doesn't minimize number of moves)
+ *   what about a combo DFS and BFS?  hmm..
  */
 
-// set of visited positions
-let visited;
  
 // solves a sokoban level if possible
 let solve = function(game) {
-  visited = {};
-  solveHelper(game);
-}; // end solve
 
-// recursive helper function for solve
-let solveHelper = function(game) {
-
-  console.log(game.level);
-
-  // return true if this position is solved
-  if (game.isFinished()) {
-    console.log("Done!");
-    return true;
-  }
-  // return false if the position was already visited
-  else if (visited[JSON.stringify(game.level)]) {
-    return false;
-  }
+  // set of visited positions
+  let visited = {};
   
-  visited[JSON.stringify(game.level)] = true;
-
-  // get list of possible pushes for this position
-  let possiblePushes = getPossiblePushes(game);
-
-  console.log(possiblePushes);
+  // queue for BFS with current position as starting point
+  let queue = [];
+  queue.push(game);
   
-  // if there are no possible pushes for this position, return false
-  if ($.isEmptyObject(possiblePushes)) {
-    return false;
-  }
+  // iterate while there are positions to inspect
+  while (queue.length) {
   
-  // execute each possible push on a copy of the level
-  for (let key in possiblePushes) {
-    if (possiblePushes.hasOwnProperty(key)) {
-      
-      // get the string of moves for this position
-      let moves = possiblePushes[key];
-      let solved = false;
-      
-      for (let i = 0; i < moves.length; i++) {
-          
-        // make a copy of the position
-        //let gameCopy = this.level.map((a) => a.slice());
-        let gameCopy = $.extend(true, {}, game);
-        
-        // execute move
-        if (moves[i] === "u") {
-          gameCopy.goTo(key[0], key[1]+1);
-          gameCopy.move("u", false);
-        }
-        else if (moves[i] === "d") {
-          gameCopy.goTo(key[0], key[1]-1);
-          gameCopy.move("d", false);
-        }
-        else if (moves[i] === "l") {
-          gameCopy.goTo(key[0]+1, key[1]);
-          gameCopy.move("l", false);
-        }
-        else if (moves[i] === "r") {
-          gameCopy.goTo(key[0]-1, key[1]);
-          gameCopy.move("r", false);
-        }
-        
-        // is the new position solvable?
-        solved = solveHelper(gameCopy) ? true : solved;
-      }
-      return solved;
+    // dequeue a position
+    game = queue.shift();
+    
+    // return true if this position is solved
+    if (game.isFinished()) {
+      console.table(game.level);
+      return true;
     }
-  }
-}; // end solveHelper
+    // return false if the position was already visited
+    else if (visited[JSON.stringify(game.level)]) {
+      continue;
+    }
+    console.table(game.level);
+    
+    // set this position as visited
+    visited[JSON.stringify(game.level)] = true;
+    
+    // get list of possible pushes for this position
+    possiblePushes = getPossiblePushes(game);
+    
+    console.log(possiblePushes);
+    
+    // if there are no possible pushes for this position, continue
+    if ($.isEmptyObject(possiblePushes)) {
+      continue;
+    }
+    
+    // execute each possible push on a copy of the level
+    for (let key in possiblePushes) {
+      if (possiblePushes.hasOwnProperty(key)) {
+        
+        // get the string of moves for this position
+        let moves = possiblePushes[key];
+        let solved = false;
+        
+        for (let i = 0; i < moves.length; i++) {
+            
+          // make a copy of the position
+          //let gameCopy = this.level.map((a) => a.slice());
+          let gameCopy = $.extend(true, {}, game);
+          
+          // execute move
+          if (moves[i] === "u") {
+            gameCopy.goTo(key[0], key[1]+1);
+            gameCopy.move("u", false);
+          }
+          else if (moves[i] === "d") {
+            gameCopy.goTo(key[0], key[1]-1);
+            gameCopy.move("d", false);
+          }
+          else if (moves[i] === "l") {
+            gameCopy.goTo(key[0]+1, key[1]);
+            gameCopy.move("l", false);
+          }
+          else if (moves[i] === "r") {
+            gameCopy.goTo(key[0]-1, key[1]);
+            gameCopy.move("r", false);
+          }
+          
+          // enqueue the new position following the push
+          queue.push(gameCopy);
+        }
+      }
+    }
+  } // end while
+  
+  // unsolvable
+  return false;
+}; // end solve
 
 // return a hash of possible pushes in a given position in a game
 // key: x, y location of pushable box.  value: string of possible pushes as udlr
@@ -88,17 +97,8 @@ let getPossiblePushes = function(game) {
   let position = game.level;
     
   // find the player location for this position
-  let px, py;
-  let found = false;
-  for (let i = 0; i < position.length && !found; i++) {
-    for (let j = 0; j < position[i].length && !found; j++) {
-      if (["@", "+"].indexOf(position[i][j]) >= 0) {
-        px = j;
-        py = i;
-        found = true;
-      }
-    }
-  }
+  let px = game.px; 
+  let py = game.py;
   
   // array to store x, y locations of possible pushes for this position
   // along with the direction(s) of the push(es) in udlr format
@@ -119,7 +119,7 @@ let getPossiblePushes = function(game) {
       
     // dequeue the first item
     let current = queue.shift();
-
+  
     // is this a pushable box?  if so, add it to the pushLocations list
     // don't enqueue it either way
     if (["$", "*"].indexOf(position[current[1]][current[0]]) >= 0) {
