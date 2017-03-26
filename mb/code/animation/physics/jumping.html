@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Jumping example</title>
+    <style>
+      canvas { border: 1px solid #000; }
+    </style>
+  </head>
+  <body onload="init();">
+    <canvas id="paper" width=600 height=400></canvas>
+    <script>
+      /**
+       * simple physics example in canvas
+       * not 100% solid but basic idea is using a few variables:
+       * - acceleration: rate of change of velocity
+       * - velocity: speed in a direction at a given time
+       * - gravity: constant downward motion
+       * - bounce factor: percentage of y acceleration lost when bouncing off floor
+       * - drag factor: percentage of x acceleration lost when sliding on floor
+       */
+
+      // create constants
+      const GRAVITY = 2;
+      const MAX_VELOCITY = 0.9; // not sure about this value
+      const BOUNCE_FACTOR = 0.7;
+      const DRAG_FACTOR = 0.8;
+
+      // global variables
+      let canvas = document.getElementById("paper");
+      let ctx = canvas.getContext("2d");
+      let ball;
+      let kbd;
+
+      // represents a jumping ball
+      // v is velocity, a is acceleration
+      let Ball = function(x, y, vx, vy, ax, ay, size) {
+        this.x = x;
+        this.y = y;
+        this.vx = vx;
+        this.vy = vy;
+        this.ax = ax;
+        this.ay = ay;
+        this.size = size;
+        this.landed = false;
+        
+        // handles moving the player
+        this.move = function() {
+
+          // route keyboard input
+          if (kbd.u) {
+            this.jump();
+          }
+          else if (kbd.l) {
+            this.ax = -0.4; // accelerate left
+          }
+          else if (kbd.r) {
+            this.ax = 0.4; // accelerate right
+          }
+          else if (this.landed) { // can only change direction when landed
+            this.ax *= DRAG_FACTOR;
+            this.vx *= DRAG_FACTOR;
+          }
+
+          // add gravity to y velocity
+          if (this.vy <= MAX_VELOCITY && !this.landed) {
+            this.vy += GRAVITY;
+          }
+
+          // update x and y velocity based on x and y acceleration
+          this.vy += this.ay;
+          this.vx += this.ax;
+
+          // update x and y position based on x and y velocity
+	  this.y += this.vy;
+	  this.x += this.vx;
+
+          // check boundaries for bounces
+          this.bounce();
+        };
+
+        // makes the ball jump if landed
+        this.jump = function() {
+          if (this.landed) {
+            this.vy = -40;
+            this.ay = .9;
+            this.landed = false;
+          }
+        };
+
+        // draws the ball on screen
+        this.draw = function() {
+          ctx.strokeStyle = "#000";
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.closePath();
+        };
+
+        // handles collisions with sides, bottom, and top
+        this.bounce = function() {
+          if (this.x + this.size >= canvas.width) {
+            this.x = canvas.width - this.size;
+            this.vx = -this.vx;
+          }
+          else if (this.x - this.size <= 0) {
+            this.x = 0 + this.size;
+            this.vx = -this.vx;
+          }
+
+          if (this.y + this.size >= canvas.height) {
+            this.y = canvas.height - this.size;
+            if (this.ay >= .5) {
+              this.ay *= BOUNCE_FACTOR;
+              this.vy = -this.vy;
+            }
+            else {
+              this.ay = 0;
+              this.vy = 0;
+              this.landed = true;
+            }
+          }
+          else if (this.y <= 0) {
+            this.y = 0;
+            this.ay = 0;
+            this.vy = -this.vy;
+          }
+        };
+      }; // end Ball
+     
+      // callback function for the animation
+      let update = function() {
+        // clear with rgba with alpha set to 0.3 for trails
+        ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ball.move();
+        ball.draw();
+      };
+      
+      // initialize the gamestate
+      let init = function() {
+        // make a ball
+        ball = new Ball(canvas.width / 2, canvas.height / 2, 
+                        0, 7, 0, 1, 15);
+
+        // initialize keyboard handler object
+        kbd = {
+          "u": false,
+          "l": false,
+          "r": false
+        };
+
+        // onkeydown handler
+        document.onkeydown = function(e) {
+          if ([32, 38].indexOf(e.keyCode) >= 0) {
+            kbd.u = true; 
+          }
+          else if (e.keyCode === 37) {
+            kbd.l = true;
+          }
+          else if (e.keyCode === 39) {
+            kbd.r = true;
+          }
+        };
+
+        // onkeyup handler
+        document.onkeyup = function(e) {
+          if (e.keyCode === 39) {
+            kbd.r = false;
+          }
+          else if (e.keyCode === 37) {
+            kbd.l = false;
+          }
+          else if ([38, 32].indexOf(e.keyCode) >= 0) {
+            kbd.u = false;
+          }
+        };
+
+        // start interval
+        let interval = setInterval(update, 1000 / 60);
+      }; // end init
+
+    </script>
+  </body>
+</html>
