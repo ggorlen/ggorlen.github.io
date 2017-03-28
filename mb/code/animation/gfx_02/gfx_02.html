@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>Graphics experiment #2</title>
     <style>
@@ -27,7 +27,6 @@
       
       ctx.strokeStyle = "#fff";
       ctx.fillStyle = "rgba(255, 255, 255, 1)";
-//      ctx.shadowColor = "#fff";
       
       let Box = function(x, y, empty) {
         this.x = x;
@@ -67,6 +66,7 @@
         return neighbors[Math.floor(Math.random() * neighbors.length)];
       }
       
+      // callback interval to update the screen
       let interval = setInterval(() => {
         ctx.clearRect(0, 0, cvs.width, cvs.height);
         
@@ -78,6 +78,7 @@
             }
           }
         }
+        
         let randNeighbor = getRandNeighbor(emptySquare.x, emptySquare.y);
         let temp = emptySquare.x;
         emptySquare.x = randNeighbor.x;
@@ -88,6 +89,7 @@
         boxes[randNeighbor.x][randNeighbor.y].empty = true;
         emptySquare.empty = false;
         
+        // draw boxes
         for (let i = 0; i < boxes.length; i++) {
           for (let j = 0; j < boxes[i].length; j++) {
             ctx.fillRect(boxes[i][j].x, boxes[i][j].y, GRID - 2, GRID - 2);
@@ -95,7 +97,7 @@
             ctx.strokeRect(boxes[i][j].x, boxes[i][j].y, GRID - 2, GRID - 2);          
           }
         }
-      }, 30);
+      }, 1000 / 60);
     </script>
   </body>
 </html>
