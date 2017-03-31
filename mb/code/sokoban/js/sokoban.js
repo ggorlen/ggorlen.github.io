@@ -17,6 +17,7 @@
  * http://sokoban-gild.com/
  * https://www.letslogic.com/
  * http://sneezingtiger.com/sokoban/levels.html
+ * http://www.newthinktank.com/2015/09/object-oriented-javascript/
  *
  * improving localStorage support: 
  * http://crocodillon.com/blog/always-catch-localstorage-security-and-quota-exceeded-errors
