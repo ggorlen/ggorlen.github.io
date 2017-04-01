@@ -19,7 +19,7 @@ function process() {
     output += " is a palindrome.";
   }
   else {
-    output += " is a palindrome.";
+    output += " is not a palindrome.";
   }
   
   // write the output to the document

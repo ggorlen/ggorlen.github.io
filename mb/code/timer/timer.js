@@ -1,7 +1,9 @@
 /* TODO: add pause? http://stackoverflow.com/questions/21277900/javascript-pausing-setinterval */
 
+
 // Create a variable to hold our interval object
 var interval;
+
 
 // This function starts the timer
 function start() {
@@ -14,8 +16,8 @@ function start() {
     document.forms["input"].elements["duration"].value * 60;
   
   /* Validate input and create a new interval object.
-   * The setInterval function takes another function as
-   * an argument.  This anonymous callback function will be 
+   * The setInterval function takes a function as an
+   * argument.  This anonymous callback function will be 
    * called at intervals specified as the second parameter
    * which is the time, in milliseconds, between calls. 
    */
@@ -41,6 +43,7 @@ function start() {
     }, 1000); // 1000 milliseconds = one second
   }
 }
+
 
 // This function stops a timer if active and clears the output div
 function stop() {
