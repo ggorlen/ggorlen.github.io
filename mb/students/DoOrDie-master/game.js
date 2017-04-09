@@ -5,42 +5,44 @@
  */
 
 // Create variables
-var game = new Phaser.Game(1438, 777, Phaser.AUTO, '', { 
+var game = new Phaser.Game(1337, 677, Phaser.AUTO, '', { 
   preload: preload, create: create, update: update 
 });
 var player;
 var cursors;
-    
+var body = document.getElementsByTagName("body")[0];
+body.addEventListener('click', function(e) { console.log(e.clientX, e.clientY )})    
+
 // this will create an array of barriers to check for collisions.
 var barriers = [];
 const BARRIER_LOCATIONS = [
-    [90, 10],
-    [70, 10],
-    [50, 10],
-    [30, 30],
-    [10, 50],
-    [10, 70],
-    [10, 90],
-    [10, 110],
-    [10, 130],
-    [10, 150],
-    [10, 170],
-    [10, 190],
-    [10, 210],
-    [10, 230],
-    [10, 250],
-    [10, 270],
-    [10, 290],
-    [10, 310],
-    [560, 24],
-    [10, 10]
+    //This is the left side of the terrain
+    //the X and Y coordinates are filpped in the barrier locations!!!
+    [522.35, 0],
+    [522.35, 10],
+    [522.35, 60],
+    [522.35, 110],
+    [522.35, 160],
+    [522.35, 210],
+    [522.35, 240],
+    [537.35, 260],
+    [535.25, 260],
+     //right half of the terrain barriers
+    [435.5, 1098],
+    [435.5, 1130],
+    [435.5, 1150],
+    [594, 70],
+    [594, 130],
+    [594, 100]
 ];
 
 function preload() {
-    game.load.image('sky', 'assets/sky.png');
-    game.load.image('sky2', 'assets/sky.png');   
+  
     game.load.image('helicopter', 'assets/dude1.png', 100, 100);
     game.load.image('barrier', 'assets/barriers.png');
+    game.load.image('newterrain3', 'assets/newterrain3.png');
+    //game.load.image('BigCannon', 'assets/terrain.png');
+
 } // end preload
 
 function create() {
@@ -48,10 +50,11 @@ function create() {
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    //  A simple background for our game
-    game.add.sprite(0, 0, 'sky');
-    game.add.sprite(800, 0, 'sky2');
 
+    //add the terrain
+    game.add.sprite(0,0, 'newterrain3');
+    //game.add.sprite(100,250, 'BigCannon');  (image will not show up, maybe too small?)
+    
     // The player and its settings
     player = game.add.sprite(50, game.world.height - 550, 'helicopter');
 
@@ -126,10 +129,10 @@ function update() {
     else
     {
         player.body.acceleration.y = 0;
-    }    
-  {
-        player.body.gravity.y= 100;
-  }
+    }
+    {
+        player.body.gravity.y = 5.5;
+    }
 } // end update
     
 // creates barriers given a set of locations
