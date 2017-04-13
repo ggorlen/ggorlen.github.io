@@ -47,7 +47,10 @@ function initialize() {
   
   // Find a random word from the possible words, 
   // make it lowercase and trim off whitespace
-  word = sample(possibleWords).toLowerCase().trim();
+  word = "";
+  while (!word.length) {
+    word = sample(possibleWords).toLowerCase().trim();
+  }
 
   // Load the hidden array with dots up to the length of the word
   for (let i = 0; i < word.length; i++) {
@@ -93,7 +96,6 @@ function guess(letter) {
     // Write the hidden word to the output, joining the array into a string
     toDOM("hangmanoutput", hidden.join(""));
 
-console.log(missed);
     // Do the same for the missed guesses array
     toDOM("missedoutput", "Missed letters: " + missed.join(" "));
     
@@ -106,8 +108,8 @@ console.log(missed);
       initialize();
     }
     else if (numGuesses >= MAX_GUESSES) {
-      toDOM("victorymessage", "You ran out of guesses!" + 
-        "the word was " + word + ".");
+      toDOM("victorymessage", "You're out of guesses!  " + 
+        "The word was " + word + ".");
         
       // Start a new round
       initialize();
