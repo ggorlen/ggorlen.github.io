@@ -3,7 +3,7 @@
   <head>
     <title>Circle clicker</title>
     <style>
-    #box {
+    #circle {
       position: absolute;
       left: 100px;
       top: 150px;
@@ -15,7 +15,7 @@
     </style>
   </head>
   <body>
-    <div id="box"></div>
+    <div id="circle"></div>
     <script>
     
       // create a function which moves an element 
@@ -23,8 +23,8 @@
       let reposition = function(elem) {
         
         // create random x and y coordinates
-        let rh = Math.floor(Math.random() * window.innerHeight);
-        let rw = Math.floor(Math.random() * window.innerWidth);
+        let rh = Math.floor(Math.random() * (window.innerHeight - 100));
+        let rw = Math.floor(Math.random() * (window.innerWidth - 100));
         
         // set the CSS of the element to the random coordinates
         document.getElementById(elem).style.left = rw + "px";
@@ -33,10 +33,11 @@
       
       // add a click event listener to the box element
       // which calls the reposition function
-      let box = document.getElementById("box");
-      box.addEventListener("click" /*or: "mouseover"*/, function(e) { 
-        reposition("box");
+      let circle = document.getElementById("circle");
+      circle.addEventListener("mouseover" /*or: "click"*/, function(e) { 
+        reposition("circle");
       });
+
     </script>
   </body>
 </html>

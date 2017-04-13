@@ -3,7 +3,7 @@
 // declare constants
 const HEIGHT = 20;
 const WIDTH = 20;
-const INIT_GAME_SPEED = 75;
+const INIT_GAME_SPEED = 90;
 const INIT_TAIL_SIZE = 3;
 
 // declare variables

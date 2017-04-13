@@ -132,10 +132,10 @@ function display() {
 
 // returns whether a square is next to the empty square
 function isAdjacentToEmpty(idx) {
-    return board[idx + 1] === EMPTY_SQUARE && idx % sideLength !== sideLength - 1 ||
-           board[idx - 1] === EMPTY_SQUARE && idx % sideLength !== 0 ||
-           board[idx - sideLength] === EMPTY_SQUARE ||
-           board[idx + sideLength] === EMPTY_SQUARE;
+  return board[idx + 1] === EMPTY_SQUARE && idx % sideLength !== sideLength - 1 ||
+         board[idx - 1] === EMPTY_SQUARE && idx % sideLength !== 0 ||
+         board[idx - sideLength] === EMPTY_SQUARE ||
+         board[idx + sideLength] === EMPTY_SQUARE;
 }
 
 // returns true if a puzzle is solved, false otherwise

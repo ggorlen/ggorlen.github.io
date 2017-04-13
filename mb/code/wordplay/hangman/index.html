@@ -11,7 +11,7 @@
     <style>
       body {
         font-family: monospace, "lucida console";
-        font-size: 20px;
+        font-size: 18px;
       }
     </style>
     
@@ -21,11 +21,11 @@
     <h3>Hangman</h3>
     
     <div id="hangmanoutput"></div>
-    <br>
+    <div id="missedoutput"></div>
+    <br />
     Guess a letter:
     <input id="guess" size="2" autofocus required>
-    <br>
-    <br>
+    <br />
     <div id="victorymessage"></div>
     
     <!-- Include scripts -->
@@ -33,7 +33,7 @@
     <script src="utilities.js"></script>    
     <script>
     
-      $(document).ready(function() {
+      $(document).ready(() => {
       
         // Allow the user to submit a guess with "enter"
         let guessInput = document.getElementById("guess");
