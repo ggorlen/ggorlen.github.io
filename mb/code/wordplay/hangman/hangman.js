@@ -97,7 +97,7 @@ function guess(letter) {
     toDOM("hangmanoutput", hidden.join(""));
 
     // Do the same for the missed guesses array
-    toDOM("missedoutput", "Missed letters: " + missed.join(" "));
+    toDOM("missedoutput", missed.join(" "));
     
     // Check if the word was successfully guessed
     if (hidden.join("") === word) {
