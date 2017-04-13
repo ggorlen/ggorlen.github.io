@@ -1,5 +1,5 @@
 /** 
- * Utility functions 
+ * Utility functions -- requires jQuery
  */
  
 "use strict";

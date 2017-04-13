@@ -19,10 +19,11 @@
     <link href="../css/simple-sidebar.css" rel="stylesheet">
 
     <style>
-        .samplecode {
+        .samplecode th {
+            text-align: center;
         }
         .samplecode th, td {
-            padding: 10px
+            padding: 10px;
         }
     </style>
 
@@ -72,14 +73,41 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <h1>Example code</h1>
-                        <p>In progress!  Check the <a href="https://github.com/ggorlen/ggorlen.github.io/tree/master/mb/code">repository</a> where the code lives in the meantime.
+                        <p class="alert alert-warning">
+                          In progress!  Check the <a href="https://github.com/ggorlen/ggorlen.github.io/tree/master/mb/code">Github repository</a> 
+                          where the example code lives in the meantime.
                         </p>
-                        <table class="samplecode">
+                        <table class="samplecode table-bordered">
                           <tr>
-                            <th>Description</th> <th>Try it</th> <th>Read the code</th>
+                            <th>Try it</th> <th>Read it</th> <th>Description</th> 
                           </tr>
                           <tr>
-                            <td></td> <td></td> <td></td> 
+                            <td><a href="helloworld/">Hello World</a></td> 
+                            <td><a href="https://github.com/ggorlen/ggorlen.github.io/tree/master/mb/code/helloworld">source</a></td> 
+                            <td>The simplest Javascript program that displays output.  Is this thing on?</td> 
+                          </tr>
+                          <tr>
+                            <td><a href="wordplay/notepad/">Notepad</a></td> 
+                            <td><a href="https://github.com/ggorlen/ggorlen.github.io/tree/master/mb/code/wordplay/notepad">source</a></td> 
+                            <td>
+                              A very simple note-taking script using jQuery.
+                            </td> 
+                          </tr>
+                          <tr>
+                            <td><a href="rockpaperscissors/">Rock, Paper, Scissors</a></td> 
+                            <td><a href="https://github.com/ggorlen/ggorlen.github.io/tree/master/mb/code/rockpaperscissors">source</a></td> 
+                            <td>
+                              A great demonstration of variables, arrays, conditionals, functions, and sending text to the DOM, as well as 
+                              writing a simple computer opponent.
+                            </td> 
+                          </tr>
+                          <tr>
+                            <td><a href="worldplay/hangman/">Hangman</a></td> 
+                            <td><a href="https://github.com/ggorlen/ggorlen.github.io/tree/master/mb/code/wordplay/hangman">source</a></td> 
+                            <td>
+                              Illustrates most programming basics, including loops and array functions.  Check the utilities.js file if 
+                              you'd like to see how to get a random element from an array or read a text file.
+                            </td> 
                           </tr>
                         </table>
                     </div>
