@@ -20,21 +20,23 @@ ctx.shadowColor = "#333";
 let drawShape = function(strokeColor, timeOffsetX, timeOffsetY, 
                        sizeX, sizeY, timeIncrement, points) {
   ctx.fillStyle = strokeColor;
+  ctx.beginPath();        
   for (let i = 1; i < points; i++) {
-    let x = Math.cos(i * timeOffsetX + time) * 
-            Math.sin(i * sizeX) * (xtilt++ % 200) + CTR_Y;
+    let x = Math.atan(i * timeOffsetX + time) * 
+            Math.sin(i * sizeX) * (xtilt++ % 100) + CTR_Y;
     let y = Math.cos(i * timeOffsetY + time) * 
-            Math.sin(i * sizeY) * (ytilt-- % 200) + CTR_X;
+            Math.sin(i * sizeY) * (ytilt++ % 100) + CTR_X;
     time += timeIncrement;
     ctx.lineTo(x, y);
     //ctx.moveTo(x, y);
     //ctx.fillRect(x, y, 1, 1);
   }
+  ctx.closePath();
   ctx.stroke();
 };
 
-// callback function for interval
-let interval = setInterval(() => {
+// callback function for the animation
+(function animate() {
   
   // clear background with alpha for trails
   ctx.shadowBlur = 0;
@@ -43,10 +45,10 @@ let interval = setInterval(() => {
   ctx.shadowBlur = 1;
   
   // draw the arc
-  ctx.beginPath();        
   drawShape("#ffffff", 0.0002, 0.05, 0.08, 0.008, 0.00001, 400);
-  ctx.closePath();
-}, 1000 / 60);
+
+  requestAnimationFrame(animate);
+})();
 
 function rFloat(lo, hi) {
   return Math.random() * (hi - lo) + lo;

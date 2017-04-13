@@ -16,12 +16,15 @@ var finishLine;
 // object thats part of the finishline
 var checkPoint;
 
+// number that represents the time
+var timer;
+
 
 function preload() {
-    game.load.image('car1', 'assets/car1.png');
-    game.load.image('car2','assets/car2.png');
-    game.load.image('barrier', 'assets/barrier.png');
-    game.load.image('map','assets/racermap.png');
+    game.load.image('car1', '../assets/car1.png');
+    game.load.image('car2','../assets/car2.png');
+    game.load.image('barrier', '../assets/barrier.png');
+    game.load.image('map','../assets/racermap.png');
     cursors = game.input.keyboard.createCursorKeys();
     game.input.keyboard.addKey(Phaser.Keyboard.A);
 
@@ -34,13 +37,15 @@ function preload() {
 }
 
 function create() { 
+    
+    // 
+    map = game.add.sprite(0,0, 'map');
+    
     //  This creates the scoreboard
-    //scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });//
-    //highScoreText = game.add.text(200, 16, 'High Score: ' + highScore, { fontSize: '32px', //fill: '#fff' });
-
+    timerText = game.add.text(16, 16, 'Score: 0' + timer, { fontSize: '32px', fill: '#fff' });//
+    
 
     //  Our player ship
-    map = game.add.sprite(0,0, 'map');
     car1 = game.add.sprite(350, 75, 'car1');
     car2 = game.add.sprite(350, 125, 'car2');
     car1.anchor.set(0.5);
@@ -52,6 +57,8 @@ function create() {
  
     car1.body.drag.set(150);
     car2.body.drag.set(150);
+    car1.body.bounce.set(0.4);
+    car2.body.bounce.set(0.4); 
     car1.body.maxVelocity.set(200);
     car2.body.maxVelocity.set(200);
     
@@ -75,20 +82,22 @@ function update() {
     move();
     checkBarriersCollision();
     checkCarCollision();
-   // console.log ( "Y:" + game.input.mousePointer.y);
-
-//console.log ( "X:" + game.input.mousePointer.x);
+    
+    
+    // console.log ( "Y:" + game.input.mousePointer.y);
+    //console.log ( "X:" + game.input.mousePointer.x);
 
 } // end update()
 
 function move() {
+    
     if (cursors.up.isDown)  // isDown means key was pressed
     {
-        game.physics.arcade.accelerationFromRotation(car1.rotation, 120, car1.body.acceleration);
+         car1.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(car1.angle, 200));
     }
     else if (cursors.down.isDown)
     {   
-        game.physics.arcade.accelerationFromRotation(car1.rotation, -30, car1.body.acceleration); 
+         car1.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(car1.angle, -30));
     }
     else 
     {
@@ -111,11 +120,11 @@ function move() {
     //----------------------------------------------------------------------------------------------------------------------------------------
      if (wasd.w.isDown)  // isDown means key was pressed
     {
-        game.physics.arcade.accelerationFromRotation(car2.rotation, 120, car2.body.acceleration);
+        car2.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(car2.angle, 200));
     }
     else if (wasd.s.isDown)
     {   
-        game.physics.arcade.accelerationFromRotation(car2.rotation, -30, car2.body.acceleration); 
+        car2.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(car2.angle, -30));
     }
     else 
     {
@@ -361,7 +370,12 @@ function makeBarriers() {
 }
 
 // function that gives us random ...
-function randInt(min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
-}
-
+function startTimer() { 
+timer = 0;
+    interval = setInterval(function() {
+        timer++;
+        
+        timerText.text = 'Timer: ' + timer;
+    },1000);
+};
+startTimer();
