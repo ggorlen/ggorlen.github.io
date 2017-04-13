@@ -21,10 +21,10 @@ var timer;
 
 
 function preload() {
-    game.load.image('car1', '../assets/car1.png');
-    game.load.image('car2','../assets/car2.png');
-    game.load.image('barrier', '../assets/barrier.png');
-    game.load.image('map','../assets/racermap.png');
+    game.load.image('car1', 'assets/car1.png');
+    game.load.image('car2','assets/car2.png');
+    game.load.image('barrier', 'assets/barrier.png');
+    game.load.image('map','assets/racermap.png');
     cursors = game.input.keyboard.createCursorKeys();
     game.input.keyboard.addKey(Phaser.Keyboard.A);
 
