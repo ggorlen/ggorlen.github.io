@@ -107,7 +107,7 @@ function guess(letter) {
       // Start a new round
       initialize();
     }
-    else if (mised.length >= MAX_GUESSES) {
+    else if (missed.length >= MAX_GUESSES) {
       toDOM("victorymessage", "You're out of guesses!  " + 
         "The word was " + word + ".");
         
