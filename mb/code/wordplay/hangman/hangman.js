@@ -95,7 +95,7 @@ function guess(letter) {
 
 console.log(missed);
     // Do the same for the missed guesses array
-    toDOM("missedoutput", missed.join(""));
+    toDOM("missedoutput", "Missed letters: " + missed.join(" "));
     
     // Check if the word was successfully guessed
     if (hidden.join("") === word) {
