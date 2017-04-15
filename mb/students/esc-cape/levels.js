@@ -9,32 +9,31 @@ const LEVELS = [
         player : new Player(PLAYER_SIZE, PLAYER_SIZE, "gray", 10, 100), 
         doors : [
             // width, height, x, y, color
-            new Door (55, 65, 525, 480 - 250 - 65, "purple")
+            new Door (55, 65, 525, 480 - 250 - 65, doorImg)
             //new Door (50, 65, 525, 185, "red")
         ],
         platforms : [
-            // width, height, x, y, color
-            //new Platform (400, 300, 200, 200, "brown"),
-            new Platform (640, 250, 0, 480 - 250, "black")
+            // width, height, x, y, img
+            new Platform (640, 250, 0, 480 - 250, platformL1P1)
         ]
     },
 
     // Level #1
     {
         // width, height, color, x, y
-        player : new Player(PLAYER_SIZE, PLAYER_SIZE, "gray", 10, 300), 
+        player : new Player(PLAYER_SIZE, PLAYER_SIZE, "gray", 20, 300), 
         doors : [
             // width, height, x, y, color
-            new Door (55, 65, 525, 185, "purple")
-            //new Door (50, 65, 525, 185, "red")
+            new Door (55, 65, 525, 60, doorImg)
         ],
         platforms : [
             // width, height, x, y, color
-            //new Platform (400, 300, 200, 200, "brown"),
-            new Platform (290, game.canvas.height, 50, 450, "black"),
-            new Platform (100, 30, 130, 370, "black"),
-            new Platform (150, 30, 160, 280, "black"),
-            new Platform (300, 30, 280, 250, "black")
+            new Platform (640, 50, 0, 480 - 50, "black"),
+            new Platform (100, 30, 475, 350, "black"),
+            new Platform (110, 30, 300, 280, "black"),
+            new Platform (150, 30, 60, 250, "black"),
+            new Platform (120, 30, 270, 150, "black"),
+            new Platform (200, 30, 640 - 200, 125, "black")
         ]
     },
     
@@ -44,7 +43,7 @@ const LEVELS = [
         player : new Player(PLAYER_SIZE, PLAYER_SIZE, "gray", 100, 10),
         doors : [
             // width, height, x, y, color
-            new Door (55, 65, 550, 480 - 120 - 65, "purple")
+            new Door (55, 65, 550, 480 - 120 - 65, doorImg)
         ],
         platforms : [
             // width, height, x, y, color
@@ -62,7 +61,7 @@ const LEVELS = [
         player : new Player(PLAYER_SIZE, PLAYER_SIZE, "gray", 50, 310),
         doors : [
             // width, height, x, y, color
-            new Door (55, 65, 550, 480 - 120 - 65, "purple")
+            new Door (55, 65, 550, 480 - 120 - 65, doorImg)
         ],
         platforms : [
             // width, height, x, y, color
@@ -82,7 +81,7 @@ const LEVELS = [
         player : new Player(PLAYER_SIZE, PLAYER_SIZE, "gray", 50, 310),
         doors : [
             // width, height, x, y, color
-            new Door (55, 65, 550, 480 - 120 - 65, "purple")
+            new Door (55, 65, 550, 480 - 120 - 65, doorImg)
         ],
         platforms : [
             // width, height, x, y, color
