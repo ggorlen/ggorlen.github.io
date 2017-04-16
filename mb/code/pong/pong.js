@@ -2,6 +2,7 @@
  * Pong
  *
  * - Add option to wait for key input on initial serve?
+ * - Add max number of wins -- 11 
  *
  * Table tennis service rules : https://sports.stackexchange.com/questions/5675/who-serves-when-in-ping-pong
  */
@@ -11,7 +12,7 @@
 
 // Declare game constants
 const BALL_SIZE = 5;
-const BALL_SPEED = 10;
+const BALL_SPEED = 12;
 const PADDLE_H = 60;
 const PADDLE_W = 10;
 const PADDLE_SPEED = 8;

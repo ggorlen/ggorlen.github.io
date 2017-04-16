@@ -1,19 +1,27 @@
+/**
+ * Bouncey, a demo of basic graphics physics
+ */
+
 "use strict";
 
-// declare constants
-const GRAVITY = .5;
-const DRAG = 0.98;
-const BOUNCE = .7;
-const NUM_BALLS = 20;
 
-// create variables
+// Declare constants
+const GRAVITY = .3;
+const DRAG = 0.98;
+const BOUNCE = .8;
+const NUM_BALLS = 22;
+const REPULSION = 0.2;
+const PULL_STRENGTH = 0.03;
+
+// Create variables
 let canvas = document.getElementById("bounceycanvas");
 let ctx = canvas.getContext("2d");
-let framerate;
-let interval;
 let ballBox;
 
-// represents a ball
+
+/**
+ * Represents a ball
+ */
 let Ball = function(x, y, vx, vy, size, color) {
   this.x = x;
   this.y = y;
@@ -22,14 +30,13 @@ let Ball = function(x, y, vx, vy, size, color) {
   this.size = size;
   this.color = color;
   
-  // move the ball to a new position
-  this.move = function() {
-    this.vx *= DRAG;
-    this.vy += GRAVITY;
-    this.x += this.vx;
-    this.y += this.vy;
-    
-    // check for collisions
+  /**
+   * Moves the ball to a new x, y coordinate position.
+   * Accepts a parameter array of balls to collide with.
+   */
+  this.move = function(balls) {
+
+    // Check for collisions with walls
     if (this.x + this.size >= canvas.width) {
       this.x = canvas.width - this.size;
       this.vx *= -1;
@@ -46,54 +53,114 @@ let Ball = function(x, y, vx, vy, size, color) {
       this.y = 0 + this.size ;
       this.vy *= -1;
     }
-  };
+
+    // Check for collision with other balls
+    balls.forEach((b) => {
+      if (this !== b) collide(this, b);
+    });
+
+    this.vx *= DRAG;
+    this.vy += GRAVITY;
+    this.x += this.vx;
+    this.y += this.vy;
+  }; // end move
   
-  // draw the ball
-  this.draw = function() {
+  /**
+   * Draws the ball on a canvas context
+   */
+  this.draw = function(ctx) {
+    ctx.fillStyle = this.color;
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
-    ctx.fillStyle = this.color;
     ctx.fill();
-    ctx.closePath();
-  };
-};
+  }; // end draw
+}; // end Ball
 
-// update animation state on each frame
-let update = function() {
-  ctx.fillStyle = "rgba(255,255,255,0.7)";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  for (let i = 0; i < ballBox.length; i++) {
-    ballBox[i].move();
-    ballBox[i].draw();
+// Collides two balls
+function collide(a, b) {
+
+  // Find the distance between the balls
+  let dx = b.x - a.x;
+  let dy = b.y - a.y;
+  let distance = Math.sqrt(dx * dx + dy * dy);
+
+  // Check for a collision
+  if (distance < a.size + b.size) {
+
+    // Find the unit vectors 
+    let ux = dx / distance;
+    let uy = dy / distance;
+
+    // Multiply the collided balls' velocities by 
+    // the unit vector and repulsion factor
+    a.vx -= ux * REPULSION;
+    a.vy -= uy * REPULSION;
+    b.vx += ux * REPULSION;
+    b.vy += uy * REPULSION;
   }
-};
+} // end collide
 
-// initializes the animation
-let init = function() {
-  framerate = 30;
+
+// Updates animation state on each frame
+function update() {
+  ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ballBox.forEach((b) => {
+    b.move(ballBox);
+    b.draw(ctx);
+  });
+  requestAnimationFrame(update);
+} // end update
+
+
+// Initializes and starts the animation
+function init() {
+
+  // Add mouse event listener
+  let elem = document.getElementById("bounceycanvas")
+  elem.addEventListener("mousedown", (e) => {
+    ballBox.forEach((b) => {
+
+      // Find the distance between the ball and the mouse 
+      let dx = e.x - b.x;
+      let dy = e.y - b.y;
+      
+      b.vx += dx * PULL_STRENGTH;
+      b.vy += dy * PULL_STRENGTH;
+    });
+  }); // end addEventListener
+
   ballBox = [];
   for (let i = 0; i < NUM_BALLS; i++) { 
     ballBox.push(makeBall());
   }
-  interval = setInterval(update, framerate);
-};
 
-let makeBall = function() {
-  let x = rInt(0, canvas.width);
-  let y = rInt(0, canvas.height);
-  let vx = rInt(4, 12);
-  let vy = rInt(15, 20);
-  let size = rInt(2, 10);
-  let color = "hsl(" + rInt(0, 255) + ", 50%, 50%)";
+  update();
+} // end init
+
+
+// Generates a new ball with random properties
+function makeBall() {
+  let x = rInt(canvas.width);
+  let y = rInt(canvas.height);
+  let vx = rInt(4, 7);
+  let vy = rInt(2, 8);
+  let size = rInt(4, 13);
+  let color = "hsl(" + rInt(255) + ", 50%, 50%)";
   return new Ball(x, y, vx, vy, size, color);
-};
+} // end makeBall
 
-// generates a random integer between two bounds
+
+// Generates a random integer between two bounds
 function rInt(lo, hi) {
+  if (!hi) {
+    hi = lo;
+    lo = 0;
+  }
+  else if (!lo) {
+    lo = 0;
+    hi = 2;
+  }
   return Math.floor(Math.random() * (hi - lo) + lo);
-}
-
-
-
-init();
+} // end rInt
