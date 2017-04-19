@@ -1,0 +1,19 @@
+"use strict";
+
+// Shuffles an array using Fisher-Yates
+function shuffle(arr) {
+  let i = arr.length;
+  while (i > 0) {
+    let r = Math.floor(Math.random() * i--);
+    let temp = arr[r];
+    arr[r] = arr[i];
+    arr[i] = temp;
+  }
+  return arr;
+} // end shuffle
+
+
+// Randomly chooses an element from an array
+function sample(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+} // end sample

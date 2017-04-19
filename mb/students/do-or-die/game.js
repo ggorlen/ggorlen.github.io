@@ -133,6 +133,7 @@ function preload() {
 // Phaser methods to set up variables and create objects
 function create() {
     
+ function doStuff {
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -186,9 +187,9 @@ function create() {
    
     var heart2 = lives.create( 10 + (30 * 2), 60, 'heart');
         heart2.anchor.setTo(0.5, 0.5);
-
+}
+setTimeout(doStuff, 50);
 } // end create
-
     
 // Checks collisions between barriers and player
 function checkCollisions() {

@@ -1,58 +1,51 @@
-// carves a maze depth-first, creating long, winding passages
+"use strict";
 
+/**
+ * Carves a maze depth-first, creating long, winding passages
+ */
 let Backtracker = function() {};
 
 Backtracker.prototype.carve = function(maze) {
     
-  // start at a random cell
+  // Start at a random cell
   let stack = [maze.grid[Math.floor(Math.random() * maze.grid.length)]
                         [Math.floor(Math.random() * maze.grid[0].length)]];
   
+  // Iterate as long as there are items left in the stack to examine
   while (stack.length) {
   
-    // make the top of the stack the current cell
+    // Make the top of the stack the current cell
     let cell = stack[stack.length - 1];
     
-    // add this cell to the animation queue
+    // Add this cell to the animation queue
     animStates.push(["cell_" + cell.y + "_" + cell.x, cell]);
   
-    // mark this cell visited
+    // Mark this cell visited
     cell.visited = true;
     
-    // get this cell's neighbors in random order
-    let randomNeighbors = shuffle(cell.neighbors.slice());
+    // Get this cell's neighbor keys in random order
+    let randDirs = shuffle(Object.keys(cell.neighbors));
 
-    // find an unvisited neighbor
+    // Find an unvisited neighbor--assume we'll pop the stack at the end
     let pop = true;
-    for (let i = 0; i < randomNeighbors.length && pop; i++) {
-      if (randomNeighbors[i] && !randomNeighbors[i].visited) {
-        stack.push(randomNeighbors[i]);
+    for (let i = 0; i < randDirs.length && pop; i++) {
+
+      // Ensure candidate cell to link to is unvisited
+      if (cell.neighbors[randDirs[i]] && 
+          !cell.neighbors[randDirs[i]].visited) {
+
+        // Add the unvisited neighbor to the stack
+        stack.push(cell.neighbors[randDirs[i]]);
+
+        // Make a path between current cell and unvisited neighbor                      
+        cell.link(cell.neighbors[randDirs[i]]);
+
+        // Flag to exit the loop and not pop the stack
         pop = false;
-        
-        // make a path between current cell and unvisited neighbor                      
-        switch (cell.neighbors.indexOf(randomNeighbors[i])) {
-          case 0: cell.n = randomNeighbors[i].s = true; break;
-          case 1: cell.s = randomNeighbors[i].n = true; break;
-          case 2: cell.e = randomNeighbors[i].w = true; break;
-          case 3: cell.w = randomNeighbors[i].e = true; break;
-          default: console.log("error");
-        }
       }
     }
     
-    // no valid neighbors were found, pop the stack
+    // No valid neighbors were found, pop the stack
     if (pop) stack.pop();
   }
-};
-
-// shuffles an array using fisher-yates
-function shuffle(arr) {
-  let i = arr.length;
-  while (i > 0) {
-    let r = Math.floor(Math.random() * i--);
-    let temp = arr[r];
-    arr[r] = arr[i];
-    arr[i] = temp;
-  }
-  return arr;
-}
+}; // end carve

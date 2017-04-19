@@ -1,7 +1,8 @@
-// represents a maze
-
 "use strict";
 
+/** 
+ * Represents a maze
+ */
 let Maze = function(width, height) {
   this.width = width;
   this.height = height;
@@ -46,7 +47,7 @@ let Maze = function(width, height) {
     // set neighbors for each cell
     for (let i = 0; i < this.grid.length; i++) {
       for (let j = 0; j < this.grid[i].length; j++) {
-        this.grid[i][j].setNeighbors();
+        this.grid[i][j].setNeighbors(this);
       }
     }
   };

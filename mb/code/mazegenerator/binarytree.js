@@ -1,29 +1,34 @@
-// carves a maze with lots of dead ends and a north-east bias
+"use strict";
+
+/** 
+ * Carves a maze with many dead ends and a north-east bias
+ */
 let BinaryTree = function() {};
+
 BinaryTree.prototype.carve = function(maze) {
   let grid = maze.getFlattened();
   
-  // process each cell
+  // Process each cell
   while (grid.length) {
     let cell = grid.shift();
    
-    // add this cell to the animation queue
+    // Add this cell to the animation queue
     animStates.push(["cell_" + cell.y + "_" + cell.x, cell]);
   
-    // mark this cell visited
+    // Mark this cell visited
     cell.visited = true;
     
-    // pick a random north or east neighbor and link.
-    if (cell.neighbors[0] && cell.neighbors[2]) {
-      Math.random() < 0.5 ? cell.n = cell.neighbors[0].s = true :
-                            cell.e = cell.neighbors[2].w = true;
+    // Pick a random north or east neighbor and link
+    if (cell.neighbors['n'] && cell.neighbors['e']) {
+      Math.random() < 0.5 ? cell.link(cell.neighbors['n']) :
+                            cell.link(cell.neighbors['e']);
     }
-    // if there's no east neighbor, choose north, and vice versa.
-    else if (cell.neighbors[0] && !cell.neighbors[2]) {
-      cell.n = cell.neighbors[0].s = true;
+    // If there's no east neighbor, choose north, and vice versa
+    else if (cell.neighbors['n'] && !cell.neighbors['e']) {
+      cell.link(cell.neighbors['n']);
     }
-    else if (cell.neighbors[2] && !cell.neighbors[0]) {
-      cell.e = cell.neighbors[2].w = true;
+    else if (cell.neighbors['e'] && !cell.neighbors['n']) {
+      cell.link(cell.neighbors['e']);
     }
   }
-};
+}; // end carve
