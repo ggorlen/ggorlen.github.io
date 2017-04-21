@@ -13,8 +13,7 @@ function toDOM(element, content) {
 
 // Returns a random element from the parameter array
 function sample(arr) {
-  let randIndex = Math.floor(Math.random() * possibleWords.length);
-  return arr[randIndex];
+  return arr[Math.random() * arr.length | 0];
 } // end sample
 
 

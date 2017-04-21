@@ -208,10 +208,13 @@ function update() {
 
 // Returns a random integer between two bounds, [lo, hi)
 function rInt(lo, hi) {
-  if (!hi) hi = lo;
-  if (!lo) {
+  if (!hi) {
+    hi = lo;
+    lo = 0;
+  }
+  else if (!lo) {
     hi = 2;
     lo = 0;
   }
-  return Math.floor(Math.random() * (hi - lo) + lo);
+  return Math.random() * (hi - lo) + lo | 0;
 } // end rInt

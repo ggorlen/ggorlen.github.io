@@ -3,7 +3,9 @@
  *
  * todo: allow user to specify terrain types
  */
+
 "use strict";
+
  
 // variables
 let height;
@@ -31,8 +33,7 @@ function setTerrain() {
       for (let i = 0; i < homogeneity; i++) {
         options = options.concat(neighbors);
       }
-      let rIdx = Math.floor(Math.random() * options.length)
-      grid[i][j] = options[rIdx];
+      grid[i][j] = options[Math.random() * options.length | 0];
     }
   }
 }

@@ -29,7 +29,7 @@
       
       
       function playSound() {
-        var randomIdx = Math.floor(sounds.length * Math.random());
+        var randomIdx = sounds.length * Math.random() | 0;
         
         var audio = new Audio(sounds[randomIdx]);
         audio.play();
