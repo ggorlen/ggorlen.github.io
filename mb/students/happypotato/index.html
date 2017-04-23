@@ -37,7 +37,7 @@ function preload() {
     game.load.spritesheet('evil', 'assets/EvilPotato.png', 45, 45, 9);
     
 	
-    game.load.audio('aud', ['assets/audio/FlyHigh.mp3', 'assets/audio/FlyHigh.ogg']);
+//    game.load.audio('aud', ['assets/audio/FlyHigh.mp3', 'assets/audio/FlyHigh.ogg']);
 }
 var player;
 var evilplayer;
@@ -57,8 +57,8 @@ var score = 0;
 var scoreText;
 function create() {
 	
-    music = game.add.audio('aud');
-    music.play();
+    //music = game.add.audio('aud');
+    //music.play();
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
     //  A simple background for our game
@@ -163,11 +163,13 @@ function create() {
     }
     
     door.body.gravity.y = 800;
+    
     //  The score
     scoreText = game.add.text(665, 16, 'Score: 0', { fontSize: '32px', fill: '#00b5ff'});
     
     // timer
     timerText = game.add.text(385, 16, '0', { fontSize: '32px', fill: '#00b5ff'});
+    
     //  Our controls.
     cursors = game.input.keyboard.createCursorKeys();
     
