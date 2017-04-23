@@ -31,6 +31,8 @@ var barriers = [];
 // this will place cannons in 4 locations
 var cannons = [];
 
+var ball;
+
 // Array of cannon locations
 const CANNON_LOCATIONS = [      
     [425, 100],
@@ -55,68 +57,26 @@ const BARRIER_LOCATIONS = [
    
     [510, 260], //510
     
-    [529.25, 290], //507.9
-    [529.65, 344], //529.65
-    [529.65, 419], 
-    [508.695, 465], //508.659
-    [508.695, 552],
+    [529, 290], //507.9
+    [530, 344], //529.65
+    [530, 419], 
+    [509, 465], //508.659
+    [509, 552],
     [550, 610],
     [530, 670],
     //right half of the terrain barriers
-    [488.45, 713], //488.45
-    [472.65, 757], //472.65
-    [472.65, 840],
-    [472.65, 886], //472.65
+    [488, 713], //488.45
+    [473, 757], //472.65
+    [473, 840],
+    [473, 886], //472.65
     [510, 950],
-    [488.25, 1004], //488.25
-    [466.65, 1050], //466.65
-    [410.65, 1091], //410.65
-    [410.65, 1130],
-    [410.65, 1193], //410.65
-    [422.65, 1240], //422.65
+    [488, 1004], //488.25
+    [467, 1050], //466.65
+    [411, 1091], //410.65
+    [411, 1130],
+    [411, 1193], //410.65
+    [423, 1240], //422.65
 
-//----------------------------------------------------------------//
-
-/* Note from greg: I wasn't sure which set of barriers to keep.
- * Feel free to delete this section if it's the old set.
- */
-
-/*
-    //This is the left side of the terrain
-    //the X and Y coordinates are filpped in the barrier locations!!
-    [522.35, 10],
-    [522.35, 60],
-    [522.35, 110],
-    [522.35, 160],
-    [522.35, 210],
-    [522.35, 240],
-    [537.35, 260],
-    [537.35, 266],
-    [535.25, 260],
-    [557, 319],
-    [557, 380],
-    [557, 319],
-    [557, 379],
-    [536, 467],
-    [536, 560],
-    [557, 640],
-    //right half of the terrain barriers
-    [515.8, 716],
-    [500, 758],
-    [500, 860],
-    [500, 893],
-    [515.6, 1000],
-    [494, 1051],
-    [438, 1092],
-    [438, 1130],
-    [438, 1150],
-    [438, 1180],
-    [438, 1202],
-    [450, 1210],
-    [450, 1240]
-*/
-
-//----------------------------------------------------------------//
 ]; // end barrier locations array
 
 
@@ -127,13 +87,13 @@ function preload() {
     game.load.image('terrain', 'assets/newterrain3.png');
     game.load.image('cannon', 'assets/bigCannon.png');
     game.load.image('heart','assets/heart.png');
+    game.load.image('cannonball', 'assets/cannonball.png', 10, 10);
 } // end preload
 
 
 // Phaser methods to set up variables and create objects
 function create() {
     
- function doStuff {
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -155,7 +115,7 @@ function create() {
     // Useful spritesheet animation code for when the time comes.
     //player.animations.add('left', [0, 1, 2, 3], 10, true);
     //player.animations.add('right', [5, 6, 7, 8], 10, true);
-
+setInterval(fireCannonBall, 2000);
     // Initialize timer number
     timer = 0;
     
@@ -187,19 +147,65 @@ function create() {
    
     var heart2 = lives.create( 10 + (30 * 2), 60, 'heart');
         heart2.anchor.setTo(0.5, 0.5);
-}
-setTimeout(doStuff, 50);
-} // end create
+
     
+    
+} // end create
+
+function fireCannonBall() {
+    // select random tower to fire
+    
+    //var cannonnumber = Math.round(Math.random()*10) + 3;
+    var upper_bound = 3
+    var lower_bound = 0 
+    var cannonnumber = Math.round(Math.random()*(upper_bound - lower_bound) + lower_bound);
+    
+    //console.log(cannonnumber)
+    
+    var startingBallspot = CANNON_LOCATIONS[cannonnumber];
+    var x_coordinate = startingBallspot[0];
+    var y_coordinate = startingBallspot[1];
+    
+    // add cannonball
+    ball = game.add.sprite(y_coordinate + 25,x_coordinate,'cannonball');
+    
+    //Get the current coordinates of the helicopter
+    var x_coordinate_Helicopter = player.position.x;
+    var y_coordiante_Helicopter = player.position.y;
+    console.log(x_coordinate_Helicopter)
+    
+    //Fire the cannon ball
+    game.physics.arcade.enableBody(ball);
+    ball.body.move = true;
+    
+    //It makes the ball move towards the helicopter
+    ball.rotation = game.physics.arcade.moveToObject(ball, player, 200);
+    
+}
 // Checks collisions between barriers and player
 function checkCollisions() {
     barriers.forEach((barrier) => {
         if (game.physics.arcade.collide(player, barrier)) {
-            //console.log("collision!");
+//            console.log("collision with barrier!");
         }
+       
     });
+     if (game.physics.arcade.collide(player, ball)) {
+            console.log("collision with ball!");
+       takeALife()     
+        }
 } // checkCollisions
 
+function takeALife() {
+    var life = lives.getFirstAlive();
+    life.kill();
+    ball.kill();
+    if(lives.countLiving()=== 0 ) {   
+        console.log ('Game Over!!') 
+        player.kill();
+     
+    }   
+} 
 
 // This is the callback function to update the screen every few milliseconds.
 function update() {

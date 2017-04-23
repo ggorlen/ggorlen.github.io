@@ -2,7 +2,7 @@
 <html lang="en"> 
 <head> 
 	<meta charset="UTF-8" />
-    <title>Happy Potato</title>
+    <title>Happy Potato: The Game</title>
 	<script type="text/javascript" src="js/phaser.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Cinzel+Decorative:700" rel="stylesheet">
     <style type="text/css">
@@ -19,7 +19,7 @@
 </head>
 <body>
     
-    <h1 class="head">Happy Potato</h1>
+    <h1 class="head">Happy Potato: The Game</h1>
 
     <br/>
     
@@ -27,19 +27,28 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 function preload() {
     game.load.image('sky', 'assets/kitchen.png');
-    game.load.image('ground', 'assets/purple.jpg');
+    game.load.image('ground', 'assets/stick2-5.png');
     game.load.image('star', 'assets/sourCream.png');
-		game.load.image('butter', 'assets/BUTTER.png');
-		game.load.image('milk', 'assets/MILK.png');
-		game.load.image('dia', 'assets/dia.png');
-    game.load.spritesheet('dude', 'assets/Potato.png', 45, 45, 9);
+    game.load.image('butter', 'assets/BUTTER.png');
+    game.load.image('milk', 'assets/MILK.png');
+    game.load.image('dia', 'assets/dia.png');
+    game.load.image('door', 'assets/door.png');
+    game.load.spritesheet('dude', 'assets/Potato.png', 45, 45, 20);
+    game.load.spritesheet('evil', 'assets/EvilPotato.png', 45, 45, 9);
+    
 	
     game.load.audio('aud', ['assets/audio/FlyHigh.mp3', 'assets/audio/FlyHigh.ogg']);
 }
 var player;
+var evilplayer;
 var platforms;
 var cursors;
 var music;
+var interval;
+var timerText;
+var timer = 120;
+    
+var doors;
 var stars;
 var butters;
 var milks;
@@ -77,29 +86,41 @@ function create() {
     
     // The player and its settings
     player = game.add.sprite(30, game.world.height - 75, 'dude');
+    evilplayer = game.add.sprite(760, game.world.height - 400, 'evil');
     //  We need to enable physics on the player
     game.physics.arcade.enable(player);
+    game.physics.arcade.enable(evilplayer);
     //  Player physics properties. Give the little guy a slight bounce.
     player.body.bounce.y = 0.3;
     player.body.gravity.y = 800;
     player.body.collideWorldBounds = true;
+    
+    evilplayer.body.bounce.y = 0.3;
+    evilplayer.body.gravity.y = 800;
+    evilplayer.body.collideWorldBounds = true;
     //  Our two animations, walking left and right.
     player.animations.add('left', [0, 1, 2, 3], 10, true);
     player.animations.add('right', [5, 6, 7, 8], 10, true);
     
+    evilplayer.animations.add('left', [0, 1, 2, 3], 10, true);
+    evilplayer.animations.add('right', [5, 6, 7, 8], 10, true);
+    
     stars = game.add.group();
     stars.enableBody = true;
     
-    var starLocations = [[100, 300]];
+/*    var starLocations = [[100, 300]];
     
     for (var i = 0; i < starLocations.length; i++) {
         var star = stars.create(starLocations[i][0], starLocations[i][1], 'star');
-    }
+    } */
     
+    var starloc = Math.floor(Math.random() * 765);
+    var starloc2 = Math.floor(Math.random() * 550);
+    var star = stars.create(starloc, starloc2, 'star');
     star.body.gravity.y = 800;
     star.body.bounce.y = 0.5;
 	
-	  butters = game.add.group();
+    butters = game.add.group();
     butters.enableBody = true;
     
     var butterLocations = [[300, 300]];
@@ -111,7 +132,7 @@ function create() {
     butter.body.gravity.y = 800;
     butter.body.bounce.y = 0.5;
 	
-	  milks = game.add.group();
+    milks = game.add.group();
     milks.enableBody = true;
     
     var milkLocations = [[500, 300]];
@@ -123,16 +144,30 @@ function create() {
     milk.body.gravity.y = 800;
     milk.body.bounce.y = 0.5;
 	
-	  dias = game.add.group();
+    dias = game.add.group();
     dias.enableBody = true;
-		var loc = Math.floor(Math.random() * 765);
+    var loc = Math.floor(Math.random() * 765);
 	
-		var dia = dias.create(loc, 100, 'dia');
+    var dia = dias.create(loc, 100, 'dia');
 	
     dia.body.gravity.y = 800;
     dia.body.bounce.y = 0.5;
+    
+    doors = game.add.group();
+    doors.enableBody = true;
+    
+    var doorLocations = [[750, 0]];
+    
+    for (var i = 0; i < doorLocations.length; i++) {
+        var door = doors.create(doorLocations[i][0], doorLocations[i][1], 'door');
+    }
+    
+    door.body.gravity.y = 800;
     //  The score
     scoreText = game.add.text(665, 16, 'Score: 0', { fontSize: '32px', fill: '#00b5ff'});
+    
+    // timer
+    timerText = game.add.text(385, 16, '0', { fontSize: '32px', fill: '#00b5ff'});
     //  Our controls.
     cursors = game.input.keyboard.createCursorKeys();
     
@@ -140,20 +175,27 @@ function create() {
 function update() {
     //  Collide the player and the stars with the platforms
     game.physics.arcade.collide(player, platforms);
+    game.physics.arcade.collide(evilplayer, platforms);
     game.physics.arcade.collide(stars, platforms);
-	  game.physics.arcade.collide(butters, platforms);
-	  game.physics.arcade.collide(milks, platforms);
-	  game.physics.arcade.collide(dias, platforms);
+    game.physics.arcade.collide(butters, platforms);
+    game.physics.arcade.collide(milks, platforms);
+    game.physics.arcade.collide(dias, platforms);
+    game.physics.arcade.collide(doors, platforms);
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     game.physics.arcade.overlap(player, stars, collectStar, null, this);
+    
+    game.physics.arcade.overlap(player, evilplayer, killPlayer, null, this);
     game.physics.arcade.overlap(player, butters, collectButter, null, this);
 	
     game.physics.arcade.overlap(player, milks, collectMilk, null, this);
 	
-	  game.physics.arcade.overlap(player, dias, collectDia, null, this);
+    game.physics.arcade.overlap(player, dias, collectDia, null, this);
+    
+    game.physics.arcade.overlap(player, doors, exitDoor, null, this);
 	
     //  Reset the players velocity (movement)
     player.body.velocity.x = 0;
+    evilplayer.body.velocity.x = 0;
     if (cursors.left.isDown)
     {
         //  Move to the left
@@ -165,6 +207,12 @@ function update() {
         //  Move to the right
         player.body.velocity.x = 150;
         player.animations.play('right');
+    }
+    else if (cursors.down.isDown)
+    {
+        //  Move to the right
+        player.body.velocity.y = 200;
+        
     }
     else
     {
@@ -178,7 +226,52 @@ function update() {
     {
         player.body.velocity.y = -350;
     }
+    
+// ***************************************
+    
+// Probability of enemy moving
+    if (cursors.left.isDown)
+    {
+        //  Move to the left
+        evilplayer.body.velocity.x = 150;
+            
+        evilplayer.animations.play('right');
+    }
+    else if (cursors.right.isDown)
+    {
+        //  Move to the right
+        evilplayer.body.velocity.x = -150;
+        evilplayer.animations.play('left');
+    }
+    else
+    {
+        //  Stand still
+        evilplayer.animations.stop();
+        evilplayer.frame = 4;
+    }
+    
+    //  Allow the player to jump if they are touching the ground.
+    if (cursors.up.isDown && evilplayer.body.touching.down)
+    {
+        evilplayer.body.velocity.y = -350;
+    }
 }
+  
+function killPlayer (player, evilplayer) {
+    
+    player.kill();
+    
+    platforms.forEach(function(platform) {
+        platform.body.immovable = false;
+    });
+    
+}
+function exitDoor (player, door) {
+    
+    // Removes the star from the screen
+    player.kill();
+}
+    
 function collectStar (player, star) {
     
     // Removes the star from the screen
@@ -186,6 +279,8 @@ function collectStar (player, star) {
     //  Add and update the score
     score += 3;
     scoreText.text = 'Score: ' + score;
+    
+    timer + 10;
 }
 	
 function collectButter (player, butter) {
@@ -209,12 +304,22 @@ function collectDia (player, dia) {
     
     // Removes the diamond from the screen
     dia.kill();
-    player.body.gravity.y = 500;
+    player.body.gravity.y = -300;
 }
 function render() {
 	
     game.debug.soundInfo(music, 20, 32);
 }
+function startTimer() {
+    timer = 120;
+    interval = setInterval(function(){
+    timerText.text = timer--;
+    }, 1000);
+    
+}
+    
+startTimer();
+    
 </script>
 
 </body>

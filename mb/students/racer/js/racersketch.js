@@ -18,6 +18,8 @@ var checkPoint;
 
 // number that represents the time
 var timer;
+var lap1 = 0;
+var lap2 = 0;
 
 
 function preload() {
@@ -42,8 +44,11 @@ function create() {
     map = game.add.sprite(0,0, 'map');
     
     //  This creates the scoreboard
-    timerText = game.add.text(16, 16, 'Score: 0' + timer, { fontSize: '32px', fill: '#fff' });//
+    timerText1 = game.add.text(700, 550, 'Score: 0' + timer, { fontSize: '16px', fill: '#000' });//
     
+     //this notifies player what lap they're on 
+    lapNotifier1 = game.add.text(30, 25,'Red Car Lap: 0' , { fontSize: '16px', fill: '#000'});
+    lapNotifier2 = game.add.text(640, 25,'Blue Car Lap: 0' , { fontSize: '16px', fill: '#000'});
 
     //  Our player ship
     car1 = game.add.sprite(350, 75, 'car1');
@@ -72,7 +77,7 @@ function create() {
     car2.body.setCircle(15);
 
     makeBarriers();
-    
+    createFinishLine();
     
     //reset score
     //score = 0;
@@ -82,7 +87,9 @@ function update() {
     move();
     checkBarriersCollision();
     checkCarCollision();
-    
+    checkFinishLine();
+    checkCheckpoint();
+
     
     // console.log ( "Y:" + game.input.mousePointer.y);
     //console.log ( "X:" + game.input.mousePointer.x);
@@ -160,6 +167,59 @@ function checkBarriersCollision() {
     });
 }
 
+function checkOverlap(spriteA, spriteB) {
+
+    var boundsA = spriteA.getBounds();
+    var boundsB = spriteB.getBounds();
+
+    return Phaser.Rectangle.intersects(boundsA, boundsB);
+
+}
+
+function checkFinishLine() {
+    if (checkOverlap(car1,finishLine)){
+        console.log("touched finishLine")
+        if (car1.alreadyTouchedCheckPoint) {
+            lap1 = lap1 + 1;
+            if (lap1 === 2) {
+                alert(" Red Car Wins");
+                
+                // load next map
+            }
+            car1.alreadyTouchedCheckPoint = false;
+            console.log("number of car1 laps:", lap1);
+            //flashCar1LapNotifier();
+            lapNotifier1.text = 'Red Car Lap: ' + lap1;
+        }
+    }
+    if (checkOverlap(car2,finishLine)){
+        console.log("touched finishLine")
+        if (car2.alreadyTouchedCheckPoint) {
+            lap2 = lap2 + 1;
+            if (lap2 === 2) {
+                alert(" Blue Car Wins");
+                
+                // load next map
+            }
+            car2.alreadyTouchedCheckPoint = false;
+            console.log("number of car2 laps:", lap2);
+            lapNotifier2.text = 'blue Car Lap: ' + lap2;
+        }
+    }
+}
+
+function checkCheckpoint() {
+    if (checkOverlap(car1, checkpoint)) {
+        car1.alreadyTouchedCheckPoint = true;
+        console.log("touched checkPoint");
+    }
+    if (checkOverlap(car2, checkpoint)) {
+        car2.alreadyTouchedCheckPoint = true;
+        console.log("touched checkPoint");
+    }
+}
+
+
 function checkCarCollision() {
     var collided = game.physics.arcade.collide(car1, car2);
     if (collided) {
@@ -169,16 +229,22 @@ function checkCarCollision() {
 
 
 function createFinishLine() {
-    finishLine = game.add.sprite(40, 54, 'barrier'); 
+    finishLine = game.add.sprite(381, 25, 'barrier'); 
+    checkpoint = game.add.sprite(381, 217, 'barrier');
 
-    finishLine.width = 15;
-    finishLine.height = 15;
-
-    //  and its physics settings
-    game.physics.enable(barrier, Phaser.Physics.ARCADE);        
-    barrier.body.moves = false;
+    finishLine.width = 38;
+    finishLine.height = 157;
+    
+    checkpoint.width= 38;
+    checkpoint.height= 180;
+    
+    finishLine.alpha = 0;
+    checkpoint.alpha = 0;
 }
 
+function makeCheckpoint() {
+    var checkPoint = game.add.sprite(398, 245, 'barrier');
+}
 
 function makeBarriers() {
     
@@ -363,6 +429,7 @@ function makeBarriers() {
         game.physics.enable(barrier, Phaser.Physics.ARCADE);        
         barrier.body.moves = false;
         barrier.body.setCircle(10);
+        barrier.alpha = 0;
         
         // add barriers array
         barriers.push(barrier);
@@ -370,12 +437,40 @@ function makeBarriers() {
 }
 
 // function that gives us random ...
-function startTimer() { 
+function startTimer1() { 
 timer = 0;
     interval = setInterval(function() {
         timer++;
         
-        timerText.text = 'Timer: ' + timer;
+        timerText1.text = 'Timer1: ' + timer;
     },1000);
 };
-startTimer();
+startTimer1();
+
+
+function trackLapTime() {
+var car1StartTime = Math.floor(Date.now() / 1000)    
+    // when lap is completed, get lap 1 end time 
+var car1Lap1EndTime = Math.floor(Date.now() / 1000)
+var car1Lap1Time = car1Lap1EndTime - car1StartTime
+    
+
+var car2StartTime = Math.floor(Date.now() / 1000)
+//when lap is completed, get lap 1 end time
+var car2EndTime = Math.floor(Date.now() / 1000)
+var car2Lap1Time = car2Lap1EndTime - car2StartTime
+
+
+}
+
+
+function flashCar1LapNotifier(number) {
+    // show this number on the screen
+
+    LapNotifier1.text = "Lap1"
+}
+function flashCar2LapNotifier(number) {
+    // show this number on the screen
+
+    LapNotifier2.text = "Lap2"
+}

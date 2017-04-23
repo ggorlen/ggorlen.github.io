@@ -14,14 +14,8 @@ const PLAYER_SIZE = 30;
 var player;
 var platforms;
 var doors;
+var spikes;
 var currentLevel;
-
-var platformL1P1 = new Image();
-platformL1P1.src = "imgs/L1-Floor.png";
-
-var doorImg = new Image();
-doorImg.src = "imgs/doorclosed2.png";
-
 
 // Game object for drawing on the canvas
 var game = {
@@ -101,6 +95,7 @@ function loadLevel(level) {
     player = level.player;
     platforms = level.platforms;
     doors = level.doors;
+	spikes = level.spikes;
 } // end loadLevel
 
 
@@ -118,7 +113,7 @@ var Platform = function(width, height, x, y, img) {
     // Renders the platform to the screen
     this.draw = function() {
         ctx = game.context;
-        ctx.drawImage(platformL1P1, this.x, this.y, this.width, this.height);
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 } // end Platform
 
@@ -140,6 +135,24 @@ function Door(width, height, x, y, img) {
         ctx.drawImage(doorImg, this.x, this.y, this.width, this.height);
     }
 } // end Door
+
+/**
+ * Represents a spike with a width, height, 
+ * x and y coordinate for the top left corner, and color
+ */
+function Spike(width, height, x, y, img) {
+    this.x = x;
+    this.y = y;
+    this.img = img;
+    this.height = height;
+    this.width = width;
+    
+    // Renders the spike to the screen
+    this.draw = function() {
+        ctx = game.context;
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    }
+} // end Spike
 
 
 /**
@@ -334,12 +347,15 @@ function update() {
     
     // Draw platforms
     platforms.forEach((p) => p.draw());
+	
+	// Draw spikes
+    spikes.forEach((s) => s.draw());
 } // end update
 
 
 // Starts a new game from scratch
 function init() {
-    currentLevel = 1;
+    currentLevel = 0;
     game.start(); // canvas not created until this function is called
     loadLevel(LEVELS[currentLevel]);
 } // end init
