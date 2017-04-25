@@ -184,7 +184,7 @@
         switch (userForm["algorithm"].selectedIndex) {
           case 0: new Backtracker().carve(maze); break;
           case 1: new BinaryTree().carve(maze);  break;
-          //case 2: new Prims().carve(maze);       break;
+          case 2: new Prims().carve(maze);       break;
           default: console.log("invalid algorithm selection");
         }
         
