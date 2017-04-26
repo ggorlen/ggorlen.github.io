@@ -15,19 +15,19 @@ body {
 }
 
 #mazeout td.n {
-  border-top: 0px solid #fff;
+  border-top: 1px solid #fff;
 }
 
 #mazeout td.s {
-  border-bottom: 0px solid #fff;
+  border-bottom: 1px solid #fff;
 }
 
 #mazeout td.e {
-  border-right: 0px solid #fff;
+  border-right: 1px solid #fff;
 }
 
 #mazeout td.w {
-  border-left: 0px solid #fff;
+  border-left: 1px solid #fff;
 }
 
 #mazecanvas canvas {
