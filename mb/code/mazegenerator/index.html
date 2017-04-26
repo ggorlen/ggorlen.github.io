@@ -15,64 +15,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
       integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     
-    <style>
-    
-      body {
-        font-family: monospace;
-        width: 97%;
-        margin: 15px;
-      }
-      
-      #mazeout table {
-        table-layout: fixed;
-        width: 1px;
-      }
-      
-      #mazeout td {
-        overflow: hidden;
-      }
-      
-      #mazeout td.n {
-        border-top: 0px;
-      }
-      
-      #mazeout td.s {
-        border-bottom: 0px;
-      }
-      
-      #mazeout td.e {
-        border-right: 0px;
-      }
-      
-      #mazeout td.w {
-        border-left: 0px;
-      }
-      
-      #mazecanvas canvas {
-        background-color: #fff;
-      }
-      
-      #mazetable td {
-        padding: 5px 10px 5px 5px;
-      }
-      
-      .grid {
-        background-color: #fff;
-        border: 1px solid #000;
-        height: 5px;
-        width: 5px;
-      }
-      
-      .gridactive {
-        background-color: #ff0000;
-        border: 1px solid #000;
-        height: 5px;
-        width: 5px;
-      }
-      
-    </style>
+    <!-- Custom stylesheet -->
+    <link rel="stylesheet" href="style.css">
   </head>
-
   <body>
   
     <h4>Maze generator</h4>
@@ -92,8 +37,8 @@
             <br>
             <select name="algorithm">
               <option value="backtracker">Recursive Backtracker</option>
-              <option value="binarytree">Binary Tree</option>
               <option value="prims">Prim's Algorithm</option>
+              <option value="binarytree">Binary Tree</option>
             </select>
           </td>
         </tr>
@@ -103,9 +48,9 @@
         </tr>
         <tr>
           <td>
-            animate: <input name="animate" type="checkbox" checked>
+            animate: <input name="animate" type="checkbox">
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="submit"> <input type="reset">
+            <input autofocus type="submit"> <input type="reset">
           </td>
         </tr>
       </table>
@@ -128,6 +73,7 @@
       /* Todo:
        *
        * fix animation speed problem
+       * fix moz animation glitch
        * add djikstra's, solver
        * https://en.wikipedia.org/wiki/Maze_solving_algorithm
        *
@@ -135,19 +81,22 @@
        * http://stackoverflow.com/questions/17719662/animating-a-recursive-backtracking-algorithm-in-javascript
        * http://stackoverflow.com/questions/29588816/animate-javascript-canvas-while-in-recursive-calculation
        *
+       * CSS border problems:
+       * http://stackoverflow.com/questions/5894642/how-to-fix-this-white-dot-border-issue-in-a-drop-down-menu
        */
       
+
       // Global variables
-      let canvas
-        , ctx
-        , grid
-        , width 
-        , height
-        , animate
-        , animationSpeed
-        , maze
-        , animStates
-        , interval;
+      let canvas;
+      let ctx;
+      let grid;
+      let width; 
+      let height;
+      let animate;
+      let animationSpeed;
+      let maze;
+      let animStates;
+      let interval;
       
       // Processes the user's form submission
       function process() {
@@ -163,6 +112,7 @@
         let userForm = document.forms["mazein"].elements;
         width = parseInt(userForm["width"].value) || 20;
         height = parseInt(userForm["height"].value) || 20;
+        grid = userForm["gridsize"].value || 10;
         animate = userForm["animate"].checked;
         
         // Create animation vars
@@ -174,28 +124,28 @@
         maze.init();
         document.getElementById("mazeout").innerHTML = maze.toHTML();
       
+        switch (userForm["algorithm"].selectedIndex) {
+          case 0: new Backtracker().carve(maze); break;
+          case 1: new Prims().carve(maze);       break;
+          case 2: new BinaryTree().carve(maze);  break;
+          default: console.log("invalid algorithm selection");
+        }
+      
         // Create a cylindrical maze
         // aluminum can : 50x115 grid: 8 .. 13in x 5.75in in gimp (?)
         //for (let i = 0; i < height; i++) {
         //  maze.grid[i][width - 1].neighbors[2] = maze.grid[i][0];
         //  maze.grid[i][0].neighbors[3] = maze.grid[i][width - 1];
         //}
-      
-        switch (userForm["algorithm"].selectedIndex) {
-          case 0: new Backtracker().carve(maze); break;
-          case 1: new BinaryTree().carve(maze);  break;
-          case 2: new Prims().carve(maze);       break;
-          default: console.log("invalid algorithm selection");
-        }
         
         // Add entrance and exit
-        maze.grid[0][0].n = true;
-        maze.grid[maze.height - 1][maze.width - 1].s = true;
+        //maze.grid[0][0].n = true;
+        //maze.grid[maze.height - 1][maze.width - 1].s = true;
         
         // Display maze, either as an animation or directly
         if (animate) {
           let frame;
-          interval = setInterval(() => {
+          interval = setInterval(function() {
             if (animStates.length) {
               if (frame) {
                 document.getElementById(frame[0]).className = 
@@ -217,7 +167,6 @@
         }
         
         // Set up the grid's CSS properties
-        grid = userForm["gridsize"].value || 10;
         $(".grid").css('width', grid + "px");
         $(".grid").css('height', grid + "px");
       }

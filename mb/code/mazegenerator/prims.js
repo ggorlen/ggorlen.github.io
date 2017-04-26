@@ -39,7 +39,7 @@ Prims.prototype.carve = function(maze) {
     // Mark this cell as part of the maze
     cell.visited = true;
 
-    // Carve a path between this cell and a cell already in the maze
+    // Carve a path between this cell and a random neighbor cell already in the maze
     let randDirs = shuffle(Object.keys(cell.neighbors)); 
 
     for (let i = 0; i < randDirs.length; i++) {
@@ -50,8 +50,8 @@ Prims.prototype.carve = function(maze) {
       }
     }
 
-    // Add this cell's neighbors to the frontier if they aren't already
-    // a member of the frontier or part of the maze
+    // Add this cell's neighbors to the frontier if they aren't 
+    // already a member of the frontier or part of the maze
     for (let dir in cell.neighbors) {
       let neighbor = cell.neighbors[dir];
       if (neighbor && frontier.indexOf(neighbor) < 0 && !neighbor.visited) {

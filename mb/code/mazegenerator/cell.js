@@ -24,8 +24,8 @@ Cell.prototype.toHTML = function() {
  * Returns a CSS class representation
  */
 Cell.prototype.getClass = function() {
-  let output = "grid ";
-  if (this.links.n) output += "n";
+  let output = "grid";
+  if (this.links.n) output += " n";
   if (this.links.s) output += " s";
   if (this.links.e) output += " e";
   if (this.links.w) output += " w";
