@@ -2,7 +2,7 @@
 
 
 /**
- * Prim's algorithm -- in progress!
+ * Simplified Prim's algorithm
  *
  * http://sebastianthomas.net/prims-algorithm.html
  * http://weblog.jamisbuck.org/2011/1/10/maze-generation-prim-s-algorithm

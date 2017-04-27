@@ -1,5 +1,6 @@
 "use strict";
 
+
 /** 
  * Carves a maze with many dead ends and a north-east bias
  */

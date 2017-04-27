@@ -39,6 +39,7 @@
               <option value="backtracker">Recursive Backtracker</option>
               <option value="prims">Prim's Algorithm</option>
               <option value="binarytree">Binary Tree</option>
+              <option value="aldousbroder">Aldous-Broder</option>
             </select>
           </td>
         </tr>
@@ -65,6 +66,7 @@
     <script src="backtracker.js"></script>
     <script src="binarytree.js"></script>
     <script src="prims.js"></script>
+    <script src="aldousbroder.js"></script>
     <script src="utility.js"></script>
     <script>
     
@@ -72,9 +74,7 @@
 
       /* Todo:
        *
-       * fix animation speed problem
-       * fix moz animation glitch
-       * add djikstra's, solver
+       * add djikstra's, solver with various algorithms such as recursive backtracker
        * https://en.wikipedia.org/wiki/Maze_solving_algorithm
        *
        * animate algorithm help:
@@ -82,6 +82,7 @@
        * http://stackoverflow.com/questions/29588816/animate-javascript-canvas-while-in-recursive-calculation
        *
        * CSS border problems:
+       * http://stackoverflow.com/questions/1339084/css-issue-on-firefox-border-not-show-correctly
        * http://stackoverflow.com/questions/5894642/how-to-fix-this-white-dot-border-issue-in-a-drop-down-menu
        */
       
@@ -125,9 +126,10 @@
         document.getElementById("mazeout").innerHTML = maze.toHTML();
       
         switch (userForm["algorithm"].selectedIndex) {
-          case 0: new Backtracker().carve(maze); break;
-          case 1: new Prims().carve(maze);       break;
-          case 2: new BinaryTree().carve(maze);  break;
+          case 0 : new Backtracker().carve(maze);  break;
+          case 1 : new Prims().carve(maze);        break;
+          case 2 : new BinaryTree().carve(maze);   break;
+          case 3 : new AldousBroder().carve(maze); break;
           default: console.log("invalid algorithm selection");
         }
       
@@ -166,14 +168,10 @@
           document.getElementById("mazeout").innerHTML = maze.toHTML();
         }
         
-        // Set up the grid's CSS properties
+        // Set the grid's CSS properties
         $(".grid").css('width', grid + "px");
         $(".grid").css('height', grid + "px");
-
-        // Render maze to canvas
-        //maze.draw(ctx,grid);
       }
-  
     </script>
     
     <!-- jQuery script to prevent forms from refreshing the page on submit -->

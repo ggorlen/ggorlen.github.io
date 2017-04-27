@@ -33,14 +33,14 @@ Cell.prototype.getClass = function() {
 }; // end getClass
   
 /** 
- * Renders cell to a canvas context given a grid size in pixels TODO: fix rendering bug--move to maze class?
+ * Renders cell to a canvas context
  */
 Cell.prototype.draw = function(ctx, grid) {
   let x = this.x * grid + 1;
   let y = this.y * grid + 1;
   
-  ctx.strokeStyle = "#000000";
   ctx.beginPath();
+  ctx.strokeStyle = "#000000";
   ctx.moveTo(x, y);
   
   this.links.n ? ctx.moveTo(x + grid, y) : 
@@ -52,6 +52,7 @@ Cell.prototype.draw = function(ctx, grid) {
   this.links.w ? ctx.moveTo(x, y) : 
                  ctx.lineTo(x, y);
            
+  ctx.closePath();
   ctx.stroke();
 }; // end draw
 
