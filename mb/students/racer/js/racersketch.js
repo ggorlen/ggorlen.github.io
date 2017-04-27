@@ -21,15 +21,18 @@ var timer;
 var lap1 = 0;
 var lap2 = 0;
 
-
+//gmae.load.image means to upload image
 function preload() {
     game.load.image('car1', 'assets/car1.png');
     game.load.image('car2','assets/car2.png');
     game.load.image('barrier', 'assets/barrier.png');
     game.load.image('map','assets/racermap.png');
+    
+    //cursors are up, down, right, left keyboard
     cursors = game.input.keyboard.createCursorKeys();
     game.input.keyboard.addKey(Phaser.Keyboard.A);
 
+    //wasd means wasd keyboards and their controls what to do
     wasd = {
       w: game.input.keyboard.addKey(Phaser.Keyboard.W),
       s: game.input.keyboard.addKey(Phaser.Keyboard.S),
@@ -39,12 +42,13 @@ function preload() {
 }
 
 function create() { 
-    
-    // 
     map = game.add.sprite(0,0, 'map');
     
     //  This creates the scoreboard
-    timerText1 = game.add.text(700, 550, 'Score: 0' + timer, { fontSize: '16px', fill: '#000' });//
+    timerText1 = game.add.text(700, 550, 'Score: 0' + timer, { fontSize: '16px', fill: '#000' });
+    
+    // set timer to 0
+startTimer1();
     
      //this notifies player what lap they're on 
     lapNotifier1 = game.add.text(30, 25,'Red Car Lap: 0' , { fontSize: '16px', fill: '#000'});
@@ -60,6 +64,8 @@ function create() {
     game.physics.enable(car1, Phaser.Physics.ARCADE);
     game.physics.enable(car2, Phaser.Physics.ARCADE);
  
+    // height width offset_h offset_w
+    car1.body.setSize(15, 30, 0, 0);
     car1.body.drag.set(150);
     car2.body.drag.set(150);
     car1.body.bounce.set(0.4);
@@ -83,6 +89,7 @@ function create() {
     //score = 0;
 }
 
+//update means the image or object reloads every ms
 function update() {
     move();
     checkBarriersCollision();
@@ -124,7 +131,7 @@ function move() {
     {
         car1.body.angularVelocity = 0;
     }
-    //----------------------------------------------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------------------
      if (wasd.w.isDown)  // isDown means key was pressed
     {
         car2.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(car2.angle, 200));
@@ -158,11 +165,11 @@ function checkBarriersCollision() {
         //checkWorldPosition(a);
         var collided = game.physics.arcade.collide(car1, a);
         if (collided) {
-            console.log("collision!");
+           // console.log("collision!");
         }
         collided = game.physics.arcade.collide(car2, a);
         if (collided) {
-            console.log("collision!");
+          //  console.log("collision!");
         }
     });
 }
@@ -178,31 +185,31 @@ function checkOverlap(spriteA, spriteB) {
 
 function checkFinishLine() {
     if (checkOverlap(car1,finishLine)){
-        console.log("touched finishLine")
+        //console.log("touched finishLine")
         if (car1.alreadyTouchedCheckPoint) {
             lap1 = lap1 + 1;
-            if (lap1 === 2) {
+            if (lap1 === 3) {
                 alert(" Red Car Wins");
                 
                 // load next map
             }
             car1.alreadyTouchedCheckPoint = false;
-            console.log("number of car1 laps:", lap1);
+           // console.log("number of car1 laps:", lap1);
             //flashCar1LapNotifier();
             lapNotifier1.text = 'Red Car Lap: ' + lap1;
         }
     }
     if (checkOverlap(car2,finishLine)){
-        console.log("touched finishLine")
+       // console.log("touched finishLine")
         if (car2.alreadyTouchedCheckPoint) {
             lap2 = lap2 + 1;
-            if (lap2 === 2) {
+            if (lap2 === 3) {
                 alert(" Blue Car Wins");
-                
+                game.state.restart();
                 // load next map
             }
             car2.alreadyTouchedCheckPoint = false;
-            console.log("number of car2 laps:", lap2);
+            //console.log("number of car2 laps:", lap2);
             lapNotifier2.text = 'blue Car Lap: ' + lap2;
         }
     }
@@ -211,11 +218,11 @@ function checkFinishLine() {
 function checkCheckpoint() {
     if (checkOverlap(car1, checkpoint)) {
         car1.alreadyTouchedCheckPoint = true;
-        console.log("touched checkPoint");
+       // console.log("touched checkPoint");
     }
     if (checkOverlap(car2, checkpoint)) {
         car2.alreadyTouchedCheckPoint = true;
-        console.log("touched checkPoint");
+       // console.log("touched checkPoint");
     }
 }
 
@@ -223,7 +230,7 @@ function checkCheckpoint() {
 function checkCarCollision() {
     var collided = game.physics.arcade.collide(car1, car2);
     if (collided) {
-        console.log("collision between cars!");
+      //  console.log("collision between cars!");
     }
 }
 
@@ -445,7 +452,6 @@ timer = 0;
         timerText1.text = 'Timer1: ' + timer;
     },1000);
 };
-startTimer1();
 
 
 function trackLapTime() {

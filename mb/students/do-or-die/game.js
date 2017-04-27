@@ -8,7 +8,7 @@
 /* Create variables */
 
 // Create the Phaser game object
-var game = new Phaser.Game(1337, 677, Phaser.AUTO, '', { 
+var game = new Phaser.Game(1337, 677, Phaser.AUTO, 'HA', { 
   preload: preload, create: create, update: update 
 });
 
@@ -31,7 +31,9 @@ var barriers = [];
 // this will place cannons in 4 locations
 var cannons = [];
 
-var ball;
+// this will place add balls
+var balls = [];
+
 
 // Array of cannon locations
 const CANNON_LOCATIONS = [      
@@ -112,6 +114,8 @@ function create() {
     // Player physics properties. 
     player.body.collideWorldBounds = true;
 
+    player.body.setSize(80, 48, 20, 20);
+
     // Useful spritesheet animation code for when the time comes.
     //player.animations.add('left', [0, 1, 2, 3], 10, true);
     //player.animations.add('right', [5, 6, 7, 8], 10, true);
@@ -140,7 +144,7 @@ setInterval(fireCannonBall, 2000);
     // Add a group of lives, or heart containers
     lives = game.add.group();
    
-    game.add.text(10 , 10, 'Lives : ', { font: '34px Arial', fill: '#fff' });
+    game.add.text(10 , 10, 'Lives : ', { font: '34px Helvetica', fill: '#fff' });
 
     var heart = lives.create( 10 + (30 * 1), 60, 'heart');
         heart.anchor.setTo(0.5, 0.5);
@@ -155,24 +159,20 @@ setInterval(fireCannonBall, 2000);
 function fireCannonBall() {
     // select random tower to fire
     
-    //var cannonnumber = Math.round(Math.random()*10) + 3;
     var upper_bound = 3
     var lower_bound = 0 
     var cannonnumber = Math.round(Math.random()*(upper_bound - lower_bound) + lower_bound);
-    
-    //console.log(cannonnumber)
-    
+        
     var startingBallspot = CANNON_LOCATIONS[cannonnumber];
     var x_coordinate = startingBallspot[0];
     var y_coordinate = startingBallspot[1];
     
     // add cannonball
-    ball = game.add.sprite(y_coordinate + 25,x_coordinate,'cannonball');
+    var ball = game.add.sprite(y_coordinate + 25,x_coordinate,'cannonball');
     
     //Get the current coordinates of the helicopter
     var x_coordinate_Helicopter = player.position.x;
     var y_coordiante_Helicopter = player.position.y;
-    console.log(x_coordinate_Helicopter)
     
     //Fire the cannon ball
     game.physics.arcade.enableBody(ball);
@@ -180,6 +180,7 @@ function fireCannonBall() {
     
     //It makes the ball move towards the helicopter
     ball.rotation = game.physics.arcade.moveToObject(ball, player, 200);
+    balls.push(ball);
     
 }
 // Checks collisions between barriers and player
@@ -190,22 +191,24 @@ function checkCollisions() {
         }
        
     });
-     if (game.physics.arcade.collide(player, ball)) {
-            console.log("collision with ball!");
-       takeALife()     
+    balls.forEach((ball) => {
+        if (game.physics.arcade.collide(player, ball)) {
+            takeALife(ball);     
         }
-} // checkCollisions
+    });
+}
+            // checkCollisions
 
-function takeALife() {
+function takeALife(ball) {
     var life = lives.getFirstAlive();
     life.kill();
     ball.kill();
     if(lives.countLiving()=== 0 ) {   
-        console.log ('Game Over!!') 
+        game.state.restart();
         player.kill();
      
-    }   
-} 
+    }
+}
 
 // This is the callback function to update the screen every few milliseconds.
 function update() {
@@ -235,13 +238,7 @@ function update() {
         player.body.acceleration.x = 150;
         //player.animations.play('right');
     }
-    else
-    {
-        //  Stand still
-        //player.animations.stop();
-        //player.frame = 4;
-    }
-    
+   
     //  Allow the player to move up
     if (cursors.up.isDown)
     {
