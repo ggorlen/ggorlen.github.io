@@ -7,66 +7,80 @@ let Maze = function(width, height) {
   this.width = width;
   this.height = height;
   this.grid;
+}; // end Maze
   
-  // for each on this grid
-  this.onGrid = function(callback) {
-    for (let i = 0; i < this.grid.length; i++) {
-      for (let j = 0; j < this.grid[i].length; j++) {
-        this.grid[i][j].callback();
-      }
+/** 
+ * For each on this grid--TODO implement!
+ */
+Maze.prototype.onGrid = function(callback) {
+  for (let i = 0; i < this.grid.length; i++) {
+    for (let j = 0; j < this.grid[i].length; j++) {
+      this.grid[i][j].callback();
     }
-  };
-  
-  // returns a flattened grid
-  this.getFlattened = function() {
-    let tempGrid = [];
-    for (let i = 0; i < maze.grid.length; i++) {
-      for (let j = 0; j < maze.grid[i].length; j++) {
-        tempGrid.push(maze.grid[i][j]);
-      }
-    }
-    return tempGrid;
-  };
+  }
+}; // end onGrid
 
-  // initializes this maze
-  this.init = function() {
-  
-    // make a new 2d maze array
-    this.grid = new Array(this.height);
-    for (let i = 0; i < this.grid.length; i++) {
-      this.grid[i] = new Array(this.width);
+/** 
+ * Returns a flattened grid
+ */
+Maze.prototype.getFlattened = function() {
+  let tempGrid = [];
+  for (let i = 0; i < maze.grid.length; i++) {
+    for (let j = 0; j < maze.grid[i].length; j++) {
+      tempGrid.push(maze.grid[i][j]);
     }
-  
-    // add cells to maze array
-    for (let i = 0; i < this.grid.length; i++) {
-      for (let j = 0; j < this.grid[i].length; j++) {
-        this.grid[i][j] = new Cell(j, i);
-      }
+  }
+  return tempGrid;
+}; // end getFlattened
+
+/**
+ * Initializes this maze
+ */ 
+Maze.prototype.init = function() {
+
+  // Make a new 2d maze array
+  this.grid = new Array(this.height);
+  for (let i = 0; i < this.grid.length; i++) {
+    this.grid[i] = new Array(this.width);
+  }
+
+  // Add cells to maze array
+  for (let i = 0; i < this.grid.length; i++) {
+    for (let j = 0; j < this.grid[i].length; j++) {
+      this.grid[i][j] = new Cell(j, i);
     }
-    
-    // set neighbors for each cell
-    for (let i = 0; i < this.grid.length; i++) {
-      for (let j = 0; j < this.grid[i].length; j++) {
-        this.grid[i][j].setNeighbors(this);
-      }
-    }
-  };
+  }
   
-  // renders the maze as a table
-  this.toHTML = function() {
-    let s = "<table>";
-    for (let i = 0; i < this.grid.length; i++) {
-      s += "<tr>";
-      for (let j = 0; j < this.grid[i].length; j++) {
-        s += this.grid[i][j].toHTML();
-      }
-      s += "</tr>";
+  // Set neighbors for each cell
+  for (let i = 0; i < this.grid.length; i++) {
+    for (let j = 0; j < this.grid[i].length; j++) {
+      this.grid[i][j].setNeighbors(this);
     }
-    return s + "</table>";
-  };
-  
-  // renders the maze to canvas
-  this.draw = function() {
-    this.onGrid(draw);
-  };
-}; // end Maze class
+  }
+}; // end init
+
+/**
+ * Renders the maze as an HTML table
+ */
+Maze.prototype.toHTML = function() {
+  let s = "<table>";
+  for (let i = 0; i < this.grid.length; i++) {
+    s += "<tr>";
+    for (let j = 0; j < this.grid[i].length; j++) {
+      s += this.grid[i][j].toHTML();
+    }
+    s += "</tr>";
+  }
+  return s + "</table>";
+}; // end toHTML
+
+/**
+ * Renders the maze to canvas
+ */
+Maze.prototype.draw = function(ctx, gridSize) {
+  for (let i = 0; i < this.grid.length; i++) {
+    for (let j = 0; j < this.grid[i].length; j++) {
+      this.grid[i][j].draw(ctx, gridSize);
+    }
+  }
+}; // end draw
