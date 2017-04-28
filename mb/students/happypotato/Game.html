@@ -15,6 +15,7 @@
             color: #6b42f4;
             font-family: 'Cinzel Decorative', cursive;
         }
+
     </style>
 </head>
 <body>
@@ -24,21 +25,26 @@
     <br/>
     
 <script type="text/javascript">
+
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
 function preload() {
+
     game.load.image('sky', 'assets/kitchen.png');
-    game.load.image('ground', 'assets/stick2-5.jpg');
+    game.load.image('ground', 'assets/blue.jpg');
     game.load.image('star', 'assets/sourCream.png');
     game.load.image('butter', 'assets/BUTTER.png');
     game.load.image('milk', 'assets/MILK.png');
     game.load.image('dia', 'assets/dia.png');
-    game.load.image('door', 'assets/Door.png');
+    game.load.image('door', 'assets/door.png');
     game.load.spritesheet('dude', 'assets/Potato.png', 45, 45, 20);
     game.load.spritesheet('evil', 'assets/EvilPotato.png', 45, 45, 9);
     
 	
-//    game.load.audio('aud', ['assets/audio/FlyHigh.mp3', 'assets/audio/FlyHigh.ogg']);
+    game.load.audio('aud', ['assets/audio/FlyHigh.mp3', 'assets/audio/FlyHigh.ogg']);
+
 }
+
 var player;
 var evilplayer;
 var platforms;
@@ -46,7 +52,8 @@ var cursors;
 var music;
 var interval;
 var timerText;
-var timer = 120;
+var x;
+var timer;
     
 var doors;
 var stars;
@@ -55,29 +62,38 @@ var milks;
 var dias;
 var score = 0;
 var scoreText;
+
 function create() {
 	
-    //music = game.add.audio('aud');
-    //music.play();
+    music = game.add.audio('aud');
+
+    music.play();
+
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
+
     //  A simple background for our game
     game.add.sprite(0, 0, 'sky');
+
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = game.add.group();
+
     //  We will enable physics for any object that is created in this group
     platforms.enableBody = true;
+
     // Here we create the ground.
     var ground = platforms.create(0, game.world.height - 32, 'ground');
+
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
     ground.scale.setTo(2, 2);
+
     //  This stops it from falling away when you jump on it
     ground.body.immovable = true;
     
     var platformLocations = [[250, 480], [0, 480], [700, 550], [0, 460],
                              [75, 380], [90, 300], [400, 300], [0, 175],
                              [110, 175], [600, 230], [-385, 450], [-390, 310], 
-                             [400, 70]];
+                             [400, 70], [700, 390]];
     
     for (var i = 0; i < platformLocations.length; i++) {
         var ledge = platforms.create(platformLocations[i][0], platformLocations[i][1], 'ground');
@@ -86,10 +102,12 @@ function create() {
     
     // The player and its settings
     player = game.add.sprite(30, game.world.height - 75, 'dude');
-    evilplayer = game.add.sprite(760, game.world.height - 400, 'evil');
+    evilplayer = game.add.sprite(750, game.world.height - 390, 'evil');
+
     //  We need to enable physics on the player
     game.physics.arcade.enable(player);
     game.physics.arcade.enable(evilplayer);
+
     //  Player physics properties. Give the little guy a slight bounce.
     player.body.bounce.y = 0.3;
     player.body.gravity.y = 800;
@@ -98,6 +116,7 @@ function create() {
     evilplayer.body.bounce.y = 0.3;
     evilplayer.body.gravity.y = 800;
     evilplayer.body.collideWorldBounds = true;
+
     //  Our two animations, walking left and right.
     player.animations.add('left', [0, 1, 2, 3], 10, true);
     player.animations.add('right', [5, 6, 7, 8], 10, true);
@@ -108,22 +127,19 @@ function create() {
     stars = game.add.group();
     stars.enableBody = true;
     
-/*    var starLocations = [[100, 300]];
+    var starLocations = [[740, 340]];
     
     for (var i = 0; i < starLocations.length; i++) {
         var star = stars.create(starLocations[i][0], starLocations[i][1], 'star');
-    } */
+    }
     
-    var starloc = Math.floor(Math.random() * 765);
-    var starloc2 = Math.floor(Math.random() * 550);
-    var star = stars.create(starloc, starloc2, 'star');
     star.body.gravity.y = 800;
     star.body.bounce.y = 0.5;
 	
     butters = game.add.group();
     butters.enableBody = true;
     
-    var butterLocations = [[300, 300]];
+    var butterLocations = [[300, 270], [500, 270], [400, 370]];
     
     for (var i = 0; i < butterLocations.length; i++) {
         var butter = butters.create(butterLocations[i][0], butterLocations[i][1], 'butter');
@@ -135,7 +151,7 @@ function create() {
     milks = game.add.group();
     milks.enableBody = true;
     
-    var milkLocations = [[500, 300]];
+    var milkLocations = [[450, 270], [40, 270]];
     
     for (var i = 0; i < milkLocations.length; i++) {
         var milk = milks.create(milkLocations[i][0], milkLocations[i][1], 'milk');
@@ -146,6 +162,7 @@ function create() {
 	
     dias = game.add.group();
     dias.enableBody = true;
+
     var loc = Math.floor(Math.random() * 765);
 	
     var dia = dias.create(loc, 100, 'dia');
@@ -163,18 +180,20 @@ function create() {
     }
     
     door.body.gravity.y = 800;
-    
+
     //  The score
     scoreText = game.add.text(665, 16, 'Score: 0', { fontSize: '32px', fill: '#00b5ff'});
     
     // timer
     timerText = game.add.text(385, 16, '0', { fontSize: '32px', fill: '#00b5ff'});
-    
+
     //  Our controls.
     cursors = game.input.keyboard.createCursorKeys();
     
 }
+
 function update() {
+
     //  Collide the player and the stars with the platforms
     game.physics.arcade.collide(player, platforms);
     game.physics.arcade.collide(evilplayer, platforms);
@@ -183,10 +202,12 @@ function update() {
     game.physics.arcade.collide(milks, platforms);
     game.physics.arcade.collide(dias, platforms);
     game.physics.arcade.collide(doors, platforms);
+
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     game.physics.arcade.overlap(player, stars, collectStar, null, this);
     
     game.physics.arcade.overlap(player, evilplayer, killPlayer, null, this);
+
     game.physics.arcade.overlap(player, butters, collectButter, null, this);
 	
     game.physics.arcade.overlap(player, milks, collectMilk, null, this);
@@ -198,16 +219,19 @@ function update() {
     //  Reset the players velocity (movement)
     player.body.velocity.x = 0;
     evilplayer.body.velocity.x = 0;
+
     if (cursors.left.isDown)
     {
         //  Move to the left
         player.body.velocity.x = -150;
+
         player.animations.play('left');
     }
     else if (cursors.right.isDown)
     {
         //  Move to the right
         player.body.velocity.x = 150;
+
         player.animations.play('right');
     }
     else if (cursors.down.isDown)
@@ -220,6 +244,7 @@ function update() {
     {
         //  Stand still
         player.animations.stop();
+
         player.frame = 4;
     }
     
@@ -230,6 +255,7 @@ function update() {
     }
     
 // ***************************************
+
     
 // Probability of enemy moving
     if (cursors.left.isDown)
@@ -243,12 +269,14 @@ function update() {
     {
         //  Move to the right
         evilplayer.body.velocity.x = -150;
+
         evilplayer.animations.play('left');
     }
     else
     {
         //  Stand still
         evilplayer.animations.stop();
+
         evilplayer.frame = 4;
     }
     
@@ -257,72 +285,99 @@ function update() {
     {
         evilplayer.body.velocity.y = -350;
     }
+
 }
   
-function killPlayer (player, evilplayer) {
+function killPlayer () {
     
     player.kill();
+    evilplayer.kill();
     
     platforms.forEach(function(platform) {
         platform.body.immovable = false;
     });
     
+    timer = 0;
+
 }
+
 function exitDoor (player, door) {
     
     // Removes the star from the screen
     player.kill();
+    
+    timer = 0;
+
 }
     
 function collectStar (player, star) {
     
     // Removes the star from the screen
     star.kill();
+
     //  Add and update the score
-    score += 3;
+    score += 10;
     scoreText.text = 'Score: ' + score;
     
     timer + 10;
+
 }
 	
 function collectButter (player, butter) {
     
     // Removes the butter from the screen
     butter.kill();
+
     //  Add and update the score
     score += 1;
     scoreText.text = 'Score: ' + score;
+
 }
 	
 function collectMilk (player, milk) {
     
     // Removes the milk from the screen
     milk.kill();
+
     //  Add and update the score
     score += 2;
     scoreText.text = 'Score: ' + score;
+
 }
+
 function collectDia (player, dia) {
     
     // Removes the diamond from the screen
     dia.kill();
+
     player.body.gravity.y = -300;
+
 }
+
 function render() {
 	
     game.debug.soundInfo(music, 20, 32);
+
 }
+
 function startTimer() {
     timer = 120;
     interval = setInterval(function(){
-    timerText.text = timer--;
+    if (timer >= 0) {
+        timerText.text = timer.toString();
+    }
+    else {
+        killPlayer();
+        clearInterval(timer);
+    }
+    timer--;
     }, 1000);
-    
 }
-    
+
 startTimer();
     
 </script>
-
+	
 </body>
+	
 </html>

@@ -45,14 +45,14 @@ function create() {
     map = game.add.sprite(0,0, 'map');
     
     //  This creates the scoreboard
-    timerText1 = game.add.text(700, 550, 'Score: 0' + timer, { fontSize: '16px', fill: '#000' });
+      timerText1 = game.add.text(640, 550, 'Score: 0' + timer, { fontSize: '24px', fill: '#' });
     
     // set timer to 0
 startTimer1();
     
      //this notifies player what lap they're on 
-    lapNotifier1 = game.add.text(30, 25,'Red Car Lap: 0' , { fontSize: '16px', fill: '#000'});
-    lapNotifier2 = game.add.text(640, 25,'Blue Car Lap: 0' , { fontSize: '16px', fill: '#000'});
+    lapNotifier1 = game.add.text(30, 25,'Red Car Lap: 0' , { fontSize: '24px', fill: '#F00'});
+    lapNotifier2 = game.add.text(590, 25,'Blue Car Lap: 0' , { fontSize: '24px', fill: '#00F'});
 
     //  Our player ship
     car1 = game.add.sprite(350, 75, 'car1');

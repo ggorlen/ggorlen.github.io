@@ -6,7 +6,8 @@ const LEVELS = [
     // Level #0
     {
         // width, height, color, x, y
-        player : new Player(PLAYER_SIZE, PLAYER_SIZE, "gray", 10, 100), 
+        playerX : 10,
+        playerY : 100,
         doors : [
             // width, height, x, y, color
             new Door (55, 65, 525, 480 - 250 - 65, doorImg)
@@ -23,7 +24,8 @@ const LEVELS = [
     // Level #1
     {
         // width, height, color, x, y
-        player : new Player(PLAYER_SIZE, PLAYER_SIZE, "gray", 80, 350), 
+        playerX : 80,
+        playerY : 350,
         doors : [
             // width, height, x, y, color
             new Door (55, 65, 525, 60, doorImg),
@@ -50,34 +52,45 @@ const LEVELS = [
             new Platform (200, 30, 640 - 200, 125, L1P1)
         ],
 		spikes : [
-			new Spike (100, 100, 320, 240, testImg)
+			new Spike (0, 0, 320, 240, testImg)
 		]
     },
     
     // Level #2
     {
         // width, height, color, x, y
-        player : new Player(PLAYER_SIZE, PLAYER_SIZE, "gray", 100, 10),
+        playerX : 25,
+        playerY : 125,
         doors : [
             // width, height, x, y, color
-            new Door (55, 65, 550, 480 - 120 - 65, doorImg)
+            new Door (55, 65, 580, 175, doorImg)
         ],
         platforms : [
             // width, height, x, y, color
-            new Platform (640 / 3, 120, 0, 480 - 120, testImg),
-            new Platform (640 / 6, 200, 640 / 3, 480 - 200, testImg),
-            new Platform (640 / 6, 280, 640 / 3 + 640 / 6, 480 - 280, testImg),
-            new Platform (640 / 3, 120, 640 - 640 / 3, 480 - 120, testImg)
+            
+            // Floor
+            new Platform (100, 240, 0, 240, Transparent),
+            new Platform (100, 240, 100, 240, Transparent),
+            new Platform (50, 240, 200, 240, Transparent),
+            //new Platform (100, 240, 300, 240, Transparent),
+            new Platform (100, 240, 400, 240, Transparent),
+            new Platform (100, 240, 500, 240, Transparent),
+            new Platform (40, 240, 600, 240, Transparent),
+            
+            // Platforms
+            new Platform (80, 80, 175, 160, L2P1),
+            new Platform (130, 150, 390, 95, testImg)
         ],
 		spikes : [
-			new Spike (100, 100, 320, 240, testImg)
+			new Spike (150, 40, 250, 440, L2Spike1)
 		]
     },
     
     // Level #3
     {
         // width, height, color, x, y
-        player : new Player(PLAYER_SIZE, PLAYER_SIZE, "gray", 50, 310),
+        playerX : 50,
+        playerY : 310,
         doors : [
             // width, height, x, y, color
             new Door (55, 65, 550, 480 - 120 - 65, doorImg)
@@ -86,10 +99,10 @@ const LEVELS = [
             // width, height, x, y, color
             new Platform (640 / 4, 120, 0, 480 - 120, testImg),
             new Platform (640 / 2, 435, 640 / 4, 480 - 435, testImg),
-            new Platform (30, 40, 640 / 4 - 30, 480 - 225, testImg),
-            new Platform (30, 40, 0, 480 - 330, testImg),
-            new Platform (30, 40, 640 / 4 - 30, 480 - 435, testImg),
-            new Platform (640 / 4, 120, 640 - 640 / 4, 480 - 120, testImg)
+            new Platform (30, 40, 130, 255, testImg),
+            new Platform (30, 40, 0, 150, testImg),
+            new Platform (30, 40, 130, 45, testImg),
+            new Platform (160, 120, 480, 360, testImg)
         ],
 		spikes : [
 			new Spike (100, 100, 320, 240, testImg)
@@ -99,44 +112,54 @@ const LEVELS = [
     // Level #4
     {
         // width, height, color, x, y
-        player : new Player(PLAYER_SIZE, PLAYER_SIZE, "gray", 50, 310),
+        playerX : 50,
+        playerY : 310,
         doors : [
             // width, height, x, y, color
-            new Door (55, 65, 585, 480 - 175 - 65, doorImg)
+            new Door (55, 65, 585, 240, doorImg)
         ],
         platforms : [
             // width, height, x, y, color
-            new Platform (640 / 4, 240, 0, 480 - 240, testImg),
-            new Platform (640 / 4 - 25, 200, 0, 0, testImg),
+            
+            // Bottom Left
+            new Platform (160, 240, 0, 240, testImg),
+            // Top Left
+            new Platform (130, 200, 0, 0, testImg),
+            // Bottom Right
+            new Platform (130, 175, 540, 305, testImg),
+            // Top Right
+            new Platform (160, 240, 540, 0, testImg),
+            // Platform 1
             new Platform (80, 20, 230, 135, testImg),
-            new Platform (80, 20, 380, 340, testImg),
-            new Platform (640 / 4 - 25, 175, 640 - 100, 480 - 175, testImg),
-            new Platform (640 / 4, 240, 640 - 100, 0, testImg)
+            // Platform 2
+            new Platform (80, 20, 380, 340, testImg)
         ],
 		spikes : [
             // width, height, x, y, color
-			new Spike (380, 100, 160, 480 - 100, testImg)
+            //(380, 100, 160, 480 - 100, testImg)
+			new Spike (0, 0, 160, 480 - 100, testImg)
 		]
     },
     
     // Level #5
     {
         // width, height, color, x, y
-        player : new Player(PLAYER_SIZE, PLAYER_SIZE, "gray", 75, 390),
+        playerX : 75,
+        playerY : 90,
         doors : [
             // width, height, x, y, color
-            new Door (55, 65, 585, 0, doorImg)
+            new Door (55, 65, 585, 5, doorImg)
         ],
         platforms : [
             // width, height, x, y, color
             // Bottom Floor
-            new Platform (100, 30, 0, 480 - 30, testImg),
-            new Platform (100, 30, 100, 480 - 30, testImg),
-            new Platform (100, 30, 200, 480 - 30, testImg),
-            new Platform (100, 30, 300, 480 - 30, testImg),
-            new Platform (100, 30, 400, 480 - 30, testImg),
-            new Platform (100, 30, 500, 480 - 30, testImg),
-            new Platform (40, 30, 600, 480 - 30, testImg),
+            new Platform (100, 30, 0, 450, testImg),
+            new Platform (100, 30, 100, 450, testImg),
+            new Platform (100, 30, 200, 450, testImg),
+            new Platform (100, 30, 300, 450, testImg),
+            new Platform (100, 30, 400, 450, testImg),
+            new Platform (100, 30, 500, 450, testImg),
+            new Platform (40, 30, 600, 450, testImg),
             
             // Entrance Door
             new Platform (55, 65, 0, 480 - 95, entranceImg),
@@ -163,11 +186,11 @@ const LEVELS = [
             new Platform (100, 30, 400, 150, testImg),
             
             // Fourth floor
-            new Platform (100, 30, 140, 65, testImg),
-            new Platform (100, 30, 240, 65, testImg),
-            new Platform (100, 30, 340, 65, testImg),
-            new Platform (100, 30, 440, 65, testImg),
-            new Platform (100, 30, 540, 65, testImg)
+            new Platform (100, 30, 140, 70, testImg),
+            new Platform (100, 30, 240, 70, testImg),
+            new Platform (100, 30, 340, 70, testImg),
+            new Platform (100, 30, 440, 70, testImg),
+            new Platform (100, 30, 540, 70, testImg)
         ],
 		spikes : [
             // width, height, x, y, color
@@ -181,29 +204,78 @@ const LEVELS = [
     // Level #6
     {
         // width, height, color, x, y
-        player : new Player(PLAYER_SIZE, PLAYER_SIZE, "gray", 50, 30),
+        playerX : 50,
+        playerY : 30,
         doors : [
             // width, height, x, y, color
             new Door (55, 65, 575, 385, doorImg)
         ],
         platforms : [
             // width, height, x, y, color
-            // Bottom Floor
-            new Platform (100, 400, 0, 80, testImg),
-            new Platform (100, 30, 100, 480 - 30, testImg),
-            new Platform (100, 30, 200, 480 - 30, testImg),
             
+            // Starting Block
+            new Platform (100, 100, 0, 80, testImg),
+            new Platform (100, 100, 0, 180, testImg),
+            new Platform (100, 100, 0, 280, testImg),
+            new Platform (100, 100, 0, 380, testImg),
+            
+            // Bottom Floor
+            new Platform (100, 30, 100, 450, testImg),
+            new Platform (100, 30, 200, 450, testImg),
+            new Platform (100, 30, 300, 450, testImg),
+            new Platform (100, 30, 400, 450, testImg),
+            
+            new Platform (100, 30, 500, 450, testImg),
+            new Platform (40, 30, 600, 450, testImg),
+            
+            // Block with Spikes
             new Platform (100, 400, 200, 0, testImg),
             
-            new Platform (100, 30, 300, 480 - 30, testImg),
-            new Platform (100, 400, 400, 80, testImg),
+            // 
+            new Platform (25, 50, 400, 350, testImg),
+            new Platform (25, 50, 300, 250, testImg),
+            new Platform (25, 50, 400, 150, testImg),
             
-            new Platform (100, 30, 500, 480 - 30, testImg),
-            new Platform (40, 30, 600, 480 - 30, testImg)
+            // Going up block
+            new Platform (100, 100, 425, 80, testImg),
+            new Platform (100, 100, 425, 180, testImg),
+            new Platform (100, 100, 425, 280, testImg),
+            new Platform (100, 70, 425, 380, testImg)
         ],
 		spikes : [
             // width, height, x, y, img
             new Spike (20, 290, 180, 100, L6SpikeLeft)
+            //new Spike (20, 20, 180, 420, testImg)
 		]
+        
+        
+    },
+    
+    // Level #7
+    {
+        // width, height, color, x, y
+        playerX : 50,
+        playerY : 30,
+        doors : [
+            // width, height, x, y, color
+            //new Door (55, 65, 575, 385, doorImg)
+            new Door (0, 0, 575, 385, doorImg)
+        ],
+        platforms : [
+            // width, height, x, y, color
+            
+            // Bottom Left
+            new Platform (250, 370, 0, 110, Transparent),
+            new Platform (250, 30, 0, 0, Transparent),
+            // Top Right
+            new Platform (250, 90, 390, 390, Transparent),
+            // Bottom Left 
+            new Platform (250, 310, 390, 0, Transparent)
+        ],
+		spikes : [
+            // width, height, x, y, img
+            //new Spike (0, 480, 180, 100, L6SpikeLeft)
+		]
+        
     }
 ];

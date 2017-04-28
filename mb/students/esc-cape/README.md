@@ -1,19 +1,31 @@
 <h1> Esc-cape </h1>
-<h2> To-Do List </h2>
+<p> why do i even make this </p>
+<p> probably just to remind myself of what i need to do </p>
+<p> so sahd lyfe </p>
 
+<h2>DEMO DAY TO-DO</h2>
 <ul>
-<li>Various platform imgs for differnet levels</li>
-<li>Spikes' design, coding, etc.</li>
-<li>Pause button?</li>
-<li>Implement level desins to build</li>
-<li>Brainstorm level ideas</li>
-<li>Multiple doors per level???</li>
+<li>Base 10 Levels (Connected, Linear Narrative-ish Game)</li>
+<li>Background designs for 10 Levels</li>
+<li>Player design (Static -> Sprite Animation)</li>
+<li>Static Enemies designs (Spikes, Fire, etc.)</li>
+<li>Separate Background Level Designs</li>
+<li>Platform Designs</li>
+<li>Player acceleration (Adding realism; *edit levels to accomadate)</li>
+<li>Change Title of Game?</li>
+<li>Title Screen?</li>
+<li>End of Game screen?</li>
 </ul>
 
-<h2>DEMO DAY MINIMUM</h2>
+<h2>DEMO DAY (OPTIONAL)</h2>
 <ul>
-<li>At least 10 levels</li>
-<li>Smooth jumping</li>
-<li>Fix collision detection bugs</li>
-<li>Linear progression game</li>
+<li>Pause button</li>
+<li>Fix Collision Detection bugs/problems</li>
+<li>Edit Player jumping (More smooth or other; *edit levels to accomadate)</li>
+</ul>
+
+<h2>Extra</h2>
+<ul>
+<li>Multiple Doors</li>
+<li>Resize canvas and all assets</li>
 </ul>
