@@ -52,7 +52,7 @@ const LEVELS = [
             new Platform (200, 30, 640 - 200, 125, L1P1)
         ],
 		spikes : [
-			new Spike (0, 0, 320, 240, testImg)
+			//new Spike (0, 0, 320, 240, testImg)
 		]
     },
     
@@ -72,7 +72,6 @@ const LEVELS = [
             new Platform (100, 240, 0, 240, Transparent),
             new Platform (100, 240, 100, 240, Transparent),
             new Platform (50, 240, 200, 240, Transparent),
-            //new Platform (100, 240, 300, 240, Transparent),
             new Platform (100, 240, 400, 240, Transparent),
             new Platform (100, 240, 500, 240, Transparent),
             new Platform (40, 240, 600, 240, Transparent),
@@ -275,6 +274,100 @@ const LEVELS = [
 		spikes : [
             // width, height, x, y, img
             //new Spike (0, 480, 180, 100, L6SpikeLeft)
+		]
+        
+    },
+    
+    // Level #8
+    {
+        // width, height, color, x, y
+        playerX : 70,
+        playerY : 260,
+        doors : [
+            // width, height, x, y, color
+            //new Door (55, 65, 575, 385, doorImg)
+            new Door (55, 65, 585, 45, doorImg)
+        ],
+        platforms : [
+            // width, height, x, y, color
+            
+            // Starting platform
+            new Platform (100, 180, 0, 300, testImg),
+            //new Platform (55, 65, 0, 215, entranceImg),
+            
+            // First Series platforms
+            new Platform (50, 20, 140, 300, testImg),
+            new Platform (50, 20, 270, 300, testImg),
+            new Platform (50, 20, 400, 300, testImg),
+            
+            // Second series platforms
+            new Platform (50, 20, 490, 250, testImg),
+            new Platform (50, 20, 335, 170, testImg),
+            new Platform (50, 20, 200, 120, testImg),
+            new Platform (50, 20, 370, 60, testImg),
+            
+            // Exit Platform
+            new Platform (100, 370, 540, 110, testImg),
+        ],
+		spikes : [
+            // width, height, x, y, img
+            new Spike (440, 150, 100, 330, lava)
+		]
+        
+    },
+    
+    // Level #9
+    {
+        // width, height, color, x, y
+        playerX : 70,
+        playerY : 10,
+        doors : [
+            // width, height, x, y, color
+            //new Door (55, 65, 575, 385, doorImg)
+            new Door (55, 65, 470, 100, doorImg)
+        ],
+        platforms : [
+            // width, height, x, y, color
+            
+            // Starting platform
+            new Platform (100, 25, 0, 50, testImg),
+            new Platform (100, 25, 100, 50, testImg),
+            new Platform (100, 25, 200, 50, testImg),
+            new Platform (100, 25, 300, 50, testImg),
+            new Platform (100, 25, 400, 50, testImg),
+            new Platform (50, 25, 500, 50, testImg),
+            
+            new Platform (25, 100, 525, 75, testImg),
+            new Platform (25, 100, 525, 175, testImg),
+            new Platform (25, 100, 525, 275, testImg),
+            new Platform (25, 25, 525, 375, testImg),
+            
+            new Platform (100, 25, 425, 375, testImg),
+            new Platform (100, 25, 325, 375, testImg),
+            new Platform (100, 25, 225, 375, testImg),
+            new Platform (100, 25, 125, 375, testImg),
+            
+            new Platform (100, 25, 325, 270, testImg),
+            new Platform (100, 25, 225, 270, testImg),
+            new Platform (100, 25, 125, 270, testImg),
+            new Platform (100, 25, 25, 270, testImg),
+            new Platform (25, 25, 0, 270, testImg),
+            
+            new Platform (100, 25, 325, 165, testImg),
+            new Platform (100, 25, 225, 165, testImg),
+            new Platform (100, 25, 125, 165, testImg),
+            new Platform (100, 25, 425, 165, testImg),
+        ],
+		spikes : [
+            // width, height, x, y, img
+            new Spike (30, 480, 610, 0, testSpike),
+            new Spike (350, 25, 125, 400, testSpike),
+            new Spike (30, 185, 0, 295, testSpike),
+            new Spike (375, 25, 30, 295, testSpike),
+            new Spike (30, 185, 495, 190, testSpike),
+            new Spike (345, 25, 150, 190, testSpike),
+            new Spike (30, 195, 0, 75, testSpike),
+            new Spike (395, 25, 30, 75, testSpike),
 		]
         
     }

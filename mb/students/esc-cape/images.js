@@ -4,6 +4,12 @@ playerImg.src = "imgs/testplayer1.png";
 var testImg = new Image();
 testImg.src = "imgs/black.png";
 
+var testBG = new Image();
+testBG.src = "imgs/testBG.png";
+
+var testSpike = new Image();
+testSpike.src = "imgs/red.png";
+
 var doorImg = new Image();
 doorImg.src = "imgs/doorclosed2.png";
 
@@ -73,3 +79,12 @@ L6SpikeLeft.src = "imgs/L6SpikeLeft.png";
 
 var L7BG = new Image();
 L7BG.src = "imgs/NewLevelBG.png";
+
+var L8BG = new Image();
+L8BG.src = "imgs/testBG.png";
+
+var L9BG = new Image();
+L9BG.src = "";
+
+var lava = new Image();
+lava.src = "imgs/lava.gif";
