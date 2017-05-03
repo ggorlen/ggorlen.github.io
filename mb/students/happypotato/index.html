@@ -141,7 +141,7 @@ function create() {
     butters = game.add.group();
     butters.enableBody = true;
     
-    var butterLocations = [[300, 270], [500, 270], [400, 370]];
+    var butterLocations = [[300, 270], [500, 270], [400, 360], [150, 50], [250, 25]];
     
     for (var i = 0; i < butterLocations.length; i++) {
         var butter = butters.create(butterLocations[i][0], butterLocations[i][1], 'butter');
@@ -153,7 +153,7 @@ function create() {
     milks = game.add.group();
     milks.enableBody = true;
     
-    var milkLocations = [[450, 270], [40, 270]];
+    var milkLocations = [[450, 270], [40, 270], [500, 10], [700, 25]];
     
     for (var i = 0; i < milkLocations.length; i++) {
         var milk = milks.create(milkLocations[i][0], milkLocations[i][1], 'milk');
