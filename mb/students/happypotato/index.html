@@ -31,7 +31,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create
 function preload() {
 
     game.load.image('sky', 'assets/kitchen.png');
-	game.load.image('GameOver', 'assets/GameOver.gif');
+    game.load.image('GameOver', 'assets/New Piskel (2).gif');
     game.load.image('ground', 'assets/blue.jpg');
     game.load.image('star', 'assets/sourCream.png');
     game.load.image('butter', 'assets/BUTTER.png');
@@ -63,6 +63,7 @@ var milks;
 var dias;
 var score = 0;
 var scoreText;
+var winText;
 
 function create() {
 	
@@ -128,7 +129,7 @@ function create() {
     stars = game.add.group();
     stars.enableBody = true;
     
-    var starLocations = [[740, 340]];
+    var starLocations = [[750, 0]];
     
     for (var i = 0; i < starLocations.length; i++) {
         var star = stars.create(starLocations[i][0], starLocations[i][1], 'star');
@@ -311,6 +312,9 @@ function exitDoor (player, door) {
     player.kill();
     
     timer = 0;
+    
+    winText = game.add.text(360, 300, 'You Win!', { fontSize: '32px', fill: '#00b5ff'});
+    setTimeout(function() { location.reload(); }, 3000);
 
 }
     
@@ -323,7 +327,7 @@ function collectStar (player, star) {
     score += 10;
     scoreText.text = 'Score: ' + score;
     
-    timer + 10;
+    timer += 10;
 
 }
 	
@@ -357,7 +361,8 @@ function collectDia (player, dia) {
     player.body.gravity.y = -300;
     
     doors.forEach(function(door) {
-        door.position.x = 0;
+        door.body.position.x = 730;
+        door.body.position.y = 330;
     });
 
 }
