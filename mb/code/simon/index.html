@@ -21,9 +21,9 @@
         width: 95%;
         overflow-y: scroll; /* force scrollbar always */
         background: url("wallpaper.png");    
-        margin-top: 50px;
-        font-family: "lucida console", "courier new";
-        font-size: 11px;
+        margin-top: 40px;
+        font-family: monospace, "lucida console", "courier new";
+        font-size: 13px;
       }
 
       input { 
@@ -40,16 +40,16 @@
         text-align: center;
         margin-left: auto;
         margin-right: auto;
-        background-color: rgba(0, 0, 0, 0.02);
-        border-collapse:separate;
-        border-spacing: 1px;
+        background-color: rgba(255, 255, 255, 0.6);
+        border-collapse: collapse;
+        /*border-spacing: 1px;*/
       }
       
       #simon td {
-        padding: 0px;
-        border: 1px solid rgba(0, 0, 0, 0.3);
-        width: 40px;
-        height: 40px;
+        padding: 10px;
+        border: 1px solid #888;
+        width: 80px;
+        height: 80px;
       }
       
       #simon td:hover {
@@ -60,12 +60,12 @@
   </head>
   <body onload="init();">
     <div class="center">
-      <h5>Simon</h5>
-      <br>
+      <h4><strong>Simon</strong></h4>
+      <br />
       <div id="simon"></div>
-      <br>
+      <br />
       <div id="simonscore"></div>
-      <br>
+      <br />
       <form id="sizeinput">
         size: <input type="text" size="2" name="size" value="2">
         <input type="submit" value="New Game" onclick="init();">

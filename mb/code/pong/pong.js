@@ -12,10 +12,10 @@
 
 // Declare game constants
 const BALL_SIZE = 5;
-const BALL_SPEED = 12;
-const PADDLE_H = 60;
+const BALL_SPEED = 11;
+const PADDLE_H = 80;
 const PADDLE_W = 10;
-const PADDLE_SPEED = 8;
+const PADDLE_SPEED = 7;
 const MAX_ANGLE = 3.5 * Math.PI / 12;
 
 // Declare global variables
@@ -40,7 +40,7 @@ let kbd = {
 /**
  * Represents a Pong paddle
  */
-let Paddle = function(x, y) {
+let Paddle = function (x, y) {
   this.height = PADDLE_H;
   this.width = PADDLE_W;
   this.x = x;
@@ -50,25 +50,29 @@ let Paddle = function(x, y) {
   /**
    * Updates the position of the paddle
    */
-  this.move = function(dir) {
+  this.move = function (dir) {
     switch (dir) {
       case "u": this.vy = -PADDLE_SPEED; break;
       case "d": this.vy = PADDLE_SPEED;  break;
       default : this.vy = 0;
     }
+
+    // Update paddle position
+    this.y += this.vy;
+
+    // Prevent the paddle from exiting the game area
     if (this.y < 0) {
       this.y = 0;
     }
     else if (this.y + this.height > canvas.height) {
       this.y = canvas.height - this.height;
     }
-    this.y += this.vy;
   }; // end move
   
   /**
    * Draws the paddle on a canvas context
    */
-  this.draw = function(ctx) {
+  this.draw = function (ctx) {
     ctx.fillStyle = "#000";
     ctx.fillRect(this.x, this.y, this.width, this.height);
   }; // end draw
@@ -78,7 +82,7 @@ let Paddle = function(x, y) {
 /**
  * Represents a Pong ball
  */
-let Ball = function(x, y, vx, vy){
+let Ball = function (x, y, vx, vy){
   this.size = BALL_SIZE;
   this.x = x;
   this.y = y;
@@ -88,7 +92,7 @@ let Ball = function(x, y, vx, vy){
   /**
    * Updates the position of the ball
    */
-  this.move = function(paddles) {
+  this.move = function (paddles) {
 
     // Check for a collision with a paddle
     paddles.forEach((p) => {
@@ -126,7 +130,7 @@ let Ball = function(x, y, vx, vy){
   /**
    * Draws this ball on a canvas context
    */
-  this.draw = function(ctx) {
+  this.draw = function (ctx) {
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
     ctx.closePath();

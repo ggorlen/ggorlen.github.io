@@ -1,0 +1,35 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+  <head> 
+    <meta charset="UTF-8" />
+    <title>Phaser template</title>
+    <script type="text/javascript" src="phaser.min.js"></script>
+  </head>
+  <body>
+    <script>
+
+      // Create a main game object which will contain all of the different game states
+      let myGame = {};
+
+    </script>
+
+    <!-- Include each state -->
+    <script src="menu.js"></script>
+    <script src="game.js"></script>
+
+    <script>
+
+      // Create the Phaser game object -- the number 
+      // parameters are the screen dimensions
+      let game = new Phaser.Game(800, 600, Phaser.AUTO, 'example');
+      
+      // Add game states
+      game.state.add('menu', myGame.menu);
+      game.state.add('game', myGame.game);
+      
+      // Start the menu state
+      game.state.start('menu');
+
+    </script>
+  </body>
+</html>

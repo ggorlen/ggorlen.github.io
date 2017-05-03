@@ -1,5 +1,8 @@
 // todo: add thumb piano sound/colors, fix interval bug: fixed?
 
+"use strict";
+
+
 const ANIMATION_SPEED = 1000;
 let size;
 let sequence;
@@ -12,9 +15,7 @@ let backgroundColors;
 function init() {
   size = document.forms["sizeinput"].elements["size"].value;
   if (!size || isNaN(size) || size < 2) size = 2;
-  bestScore = parseInt(
-    localStorage["simonBestScore" + size]
-  ) || "n/a";
+  bestScore = parseInt(localStorage["simonBestScore" + size]) || "n/a";
   idx = 0;
   sequence = [];
   backgroundColors = {};
@@ -27,16 +28,13 @@ function init() {
 
 function setBackgroundColors() {
   for (let i = 0; i < size * size; i++) {
-    let r = Math.floor(Math.random() * 230);
-    let g = Math.floor(Math.random() * 230);
-    let b = Math.floor(Math.random() * 230);
-    backgroundColors[i] = "rgba("+r+","+g+","+b+",0.6)";
+    backgroundColors[i] = "hsl(" + randInt(0, 255) + ", 90%, 80%)";
   }
 }
 
 function showScore() {
   setId("simonscore", 
-    "current : " + sequence.length + 
+    "streak : " + sequence.length + 
     "<br>best : " + bestScore
   );
 }
@@ -123,9 +121,7 @@ function testSequence(choice) {
 }
 
 function extendSequence() {
-  sequence.push(Math.floor(
-    Math.random() * size * size
-  ));
+  sequence.push(Math.random() * size * size | 0);
 }
 
 function setId(id, content) {
@@ -133,4 +129,8 @@ function setId(id, content) {
   if (document.getElementById(id)) {
     document.getElementById(id).innerHTML = content;
   }
+}
+
+function randInt(lo, hi) {
+  return Math.random() * (hi - lo) + lo | 0;
 }
