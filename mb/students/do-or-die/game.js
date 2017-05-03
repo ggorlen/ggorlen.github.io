@@ -38,6 +38,8 @@ var cannons = [];
 // this will place add balls
 var balls = [];
 
+//music
+var music;
 
 // Array of cannon locations
 const CANNON_LOCATIONS = [      
@@ -91,14 +93,19 @@ function preload() {
     game.load.image('helicopter', 'assets/dude1.png', 100, 100);
     game.load.image('barrier', 'assets/barriers.png');
     game.load.image('terrain', 'assets/newterrain3.png');
-    game.load.image('cannon', 'assets/bigCannon.png');
+    game.load.image('cannon', 'assets/BigCannon.png');
     game.load.image('heart','assets/heart.png');
     game.load.image('cannonball', 'assets/cannonball.png', 10, 10);
+    game.load.audio('aud', 'assets/NeverGonnaGiveYouUp.mp3');
 } // end preload
 
 
 // Phaser methods to set up variables and create objects
 function create() {
+    
+    music = game.add.audio('aud');
+    
+    music.play();
     
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -107,7 +114,10 @@ function create() {
     game.add.sprite(0,0, 'terrain');
 
     // This creates the scoreboard
-    timerText = game.add.text(1150, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });//
+    timerText = game.add.text(895, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });
+  
+    //High score 
+    highScoreText = game.add.text(1075, 16, 'High Score: ' + localStorage.highScore, { fontSize: '32px', fill: '#fff' });
 
     // The player and its settings
     player = game.add.sprite(50, game.world.height - 550, 'helicopter');
@@ -208,7 +218,7 @@ function takeALife(ball) {
     ball.kill();
     if(lives.countLiving()=== 0 ) {   
         game.state.start("menu");
-     
+        music.pause();
     }
 }
 
@@ -221,6 +231,7 @@ function update() {
     
     // show the timer text
     timerText.text = 'Score: ' + timer;
+
     
     // Check for collisions between player and barriers
     checkCollisions();
