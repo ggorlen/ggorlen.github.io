@@ -2,6 +2,7 @@
 <br>
 <h2>DEMO DAY TO-DO</h2>
 <ul>
+<li>Shorten spike on L1 by two pixels or more!</li>
 <li>Presentation rehearsal practice</li>
 <li>Level Designs (Platforms, BG, spikes, etc.)</li>
 <li>Finish and Test Player Sprite Animation</li>
