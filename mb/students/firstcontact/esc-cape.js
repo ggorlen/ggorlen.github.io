@@ -105,7 +105,7 @@ function loadLevel(level) {
     // level's stored values for these pieces of data. 
     playerX = level.playerX;
     playerY = level.playerY;
-    player = new Player(20, 30, "gray", playerX, playerY);
+    player = new Player(PLAYER_SIZE, PLAYER_SIZE, "gray", playerX, playerY);
     platforms = level.platforms;
     doors = level.doors;
 	spikes = level.spikes;
@@ -404,11 +404,11 @@ function update() {
 		game.context.font = "50px Arial";
 		game.context.fillStyle = "orange";
 		game.context.textAlign = "center";
-		game.context.fillText("Game Paused", game.canvas.width / 2, game.canvas.height / 2);
+		game.context.fillText("Press P to begin", game.canvas.width / 2, game.canvas.height / 2);
 		game.context.font = "20px Comic Sans MS";
-		game.context.fillText("Press P to continue", game.canvas.width / 2, game.canvas.height / 2 + 30);
+		game.context.fillText("OBJECTIVE: Find the alien!", game.canvas.width / 2, game.canvas.height / 2 + 40);
 		game.context.font = "15px Comic Sans MS";
-		game.context.fillText("(In development)", game.canvas.width / 2, game.canvas.height / 2 + 60);
+		//game.context.fillText("(In development)", game.canvas.width / 2, game.canvas.height / 2 + 60);
 		game.context.globalAlpha = 0.5;
 		game.context.fillStyle = "#004487";
 		//game.context.fillRect(0,0,480,270);
@@ -455,7 +455,7 @@ function init() {
     let ctx = game.canvas.getContext("2d");
     
     clearInterval(game.interval);
-    ctx.drawImage(testBG, 0, 0);
+    ctx.drawImage(testTitle, 0, 0);
     
     setTimeout(function() {
         game.interval = setInterval(update, 1000 / 60);

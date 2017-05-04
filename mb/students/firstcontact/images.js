@@ -33,6 +33,9 @@ testBG.src = "imgs/testBG.png";
 var testSpike = new Image();
 testSpike.src = "imgs/red.png";
 
+var testTitle = new Image();
+testTitle.src = "imgs/testTitle.png";
+
 var doorImg = new Image();
 doorImg.src = "imgs/doorclosed2.png";
 
@@ -76,13 +79,13 @@ var L3Spike1 = new Image();
 L3Spike1.src = "imgs/L3Spike1.png";
 
 var L4BG = new Image();
-L4BG.src = "";
+L4BG.src = "imgs/L4-BG.png";
 
 var L5BG = new Image();
 L5BG.src = "imgs/L5-BG.png";
 
 var L6BG = new Image();
-L6BG.src = "";
+L6BG.src = "imgs/L6-BG.png";
 
 // Spike pointing Up
 var L6Spike1 = new Image();
@@ -101,7 +104,7 @@ var L6Spike4 = new Image();
 L6Spike4.src = "imgs/L6Spike4.png";
 
 var L7BG = new Image();
-L7BG.src = "";
+L7BG.src = "imgs/L7-BG.png";
 
 var L7SpikeLeft = new Image();
 L7SpikeLeft.src = "imgs/L7SpikeLeft.png";
@@ -110,10 +113,13 @@ var L8BG = new Image();
 L8BG.src = "imgs/L8-BG.png";
 
 var L9BG = new Image();
-L9BG.src = "imgs/testBG.png";
+L9BG.src = "imgs/L9-BG.png";
 
-//var L10BG = new Image();
-//L10BG.src = "";
+var L10BG = new Image();
+L10BG.src = "imgs/L10-BG.png";
 
 var lava = new Image();
 lava.src = "imgs/lava.gif";
+
+var L11BG = new Image();
+L11BG.src = "imgs/testEnd.png";

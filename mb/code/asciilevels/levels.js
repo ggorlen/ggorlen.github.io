@@ -6,7 +6,8 @@
 
 
 /**
- * An object to represent the game
+ * An object to represent the game, which takes 
+ * a list of level objects in its constructor
  */
 let Game = function(levels) {
   this.levels = levels;
@@ -41,10 +42,10 @@ let Game = function(levels) {
       }
     }
     
-    // check if the level has been exited
+    // Check if the level has been exited
     if (this.level[this.playerY][this.playerX] === ".") {
         
-      // level was just exited; go to next level
+      // Level was just exited; go to next level
       this.currentLevel = ++this.currentLevel % this.levels.length;
       this.level = levels[this.currentLevel].grid;
       this.playerX = levels[this.currentLevel].playerX;
@@ -53,7 +54,7 @@ let Game = function(levels) {
   }; // end move
   
   /** 
-   * renders the current state to HTML
+   * Renders the current game state to HTML
    */
   this.toHTML = function() {
     let output = "<table>";
@@ -61,7 +62,7 @@ let Game = function(levels) {
       output += "<tr>";
       for (let j = 0; j < this.level[i].length; j++) {
           
-        /* handle game style here -- the below is just simple HTML/CSS
+        /* Handle game style here -- the below is just simple HTML/CSS
          * you'd probably want to draw canvas here and use images,
          * or avoid using a grid and ASCII, etc, but the 
          * point is that the ASCII used to represent levels 
@@ -87,7 +88,7 @@ let Game = function(levels) {
 };
 
 
-/* create a list of levels--each level is an object
+/* Create a list of levels--each level is an object
  * which stores the properties for that level.
  * note that the level doesn't have to be ascii,
  * it could be represented with a grid of points
@@ -139,15 +140,15 @@ let levels = [
 ]; // end levels
 
 
-// main function which will execute when the DOM loads
-window.onload = function() {
+// Main function which will execute when the DOM loads
+window.onload = function () {
     
-  // create the game             
+  // Create the game             
   let game = new Game(levels);
   document.getElementById("output").innerHTML = game.toHTML();
   
-  // add a key listener
-  document.onkeydown = (e) => {
+  // Add a key listener
+  document.onkeydown = function (e) {
     let dir;
     switch (e.keyCode) {
       case 37: dir = "left";  break;

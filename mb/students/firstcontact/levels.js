@@ -36,7 +36,7 @@ const LEVELS = [
             new Platform (640, 250, 0, 480 - 250, Transparent)
         ],
 		spikes : [
-			new Spike (95, 15, 250, 215, Transparent)
+			new Spike (85, 15, 255, 215, Transparent)
 		]
     },
 
@@ -97,7 +97,7 @@ const LEVELS = [
             
             // Platforms
             new Platform (80, 80, 175, 160, L3P1),
-            new Platform (130, 150, 390, 95, testImg)
+            new Platform (130, 150, 390, 95, L3P2)
         ],
 		spikes : [
 			new Spike (150, 40, 250, 440, L3Spike1)
@@ -115,15 +115,15 @@ const LEVELS = [
         ],
         platforms : [
             // width, height, x, y, color
-            new Platform (640 / 4, 120, 0, 480 - 120, testImg),
-            new Platform (640 / 2, 435, 640 / 4, 480 - 435, testImg),
-            new Platform (30, 40, 130, 255, testImg),
-            new Platform (30, 40, 0, 150, testImg),
-            new Platform (30, 40, 130, 45, testImg),
-            new Platform (160, 120, 480, 360, testImg)
+            new Platform (160, 120, 0, 360, Transparent),
+            new Platform (320, 435, 160, 45, Transparent),
+            new Platform (30, 40, 130, 255, Transparent),
+            new Platform (30, 40, 0, 150, Transparent),
+            new Platform (30, 40, 130, 45, Transparent),
+            new Platform (160, 120, 480, 360, Transparent)
         ],
 		spikes : [
-			new Spike (100, 100, 320, 240, testImg)
+			new Spike (0, 0, 720, 740, testImg)
 		]
     },
     
@@ -171,44 +171,44 @@ const LEVELS = [
         platforms : [
             // width, height, x, y, color
             // Bottom Floor
-            new Platform (100, 30, 0, 450, testImg),
-            new Platform (100, 30, 100, 450, testImg),
-            new Platform (100, 30, 200, 450, testImg),
-            new Platform (100, 30, 300, 450, testImg),
-            new Platform (100, 30, 400, 450, testImg),
-            new Platform (100, 30, 500, 450, testImg),
-            new Platform (40, 30, 600, 450, testImg),
+            new Platform (100, 30, 0, 450, Transparent),
+            new Platform (100, 30, 100, 450, Transparent),
+            new Platform (100, 30, 200, 450, Transparent),
+            new Platform (100, 30, 300, 450, Transparent),
+            new Platform (100, 30, 400, 450, Transparent),
+            new Platform (100, 30, 500, 450, Transparent),
+            new Platform (40, 30, 600, 450, Transparent),
             
             // Entrance Door
             new Platform (55, 65, 0, 480 - 95, entranceImg),
             
             // First floor
-            new Platform (100, 30, 0, 350, testImg),
-            new Platform (100, 30, 100, 350, testImg),
-            new Platform (100, 30, 200, 350, testImg),
-            new Platform (100, 30, 300, 350, testImg),
-            new Platform (100, 30, 400, 350, testImg),
+            new Platform (100, 30, 0, 350, Transparent),
+            new Platform (100, 30, 100, 350, Transparent),
+            new Platform (100, 30, 200, 350, Transparent),
+            new Platform (100, 30, 300, 350, Transparent),
+            new Platform (100, 30, 400, 350, Transparent),
             
             // Second floor
-            new Platform (100, 30, 140, 250, testImg),
-            new Platform (100, 30, 240, 250, testImg),
-            new Platform (100, 30, 340, 250, testImg),
-            new Platform (100, 30, 440, 250, testImg),
-            new Platform (100, 30, 540, 250, testImg),
+            new Platform (100, 30, 140, 250, Transparent),
+            new Platform (100, 30, 240, 250, Transparent),
+            new Platform (100, 30, 340, 250, Transparent),
+            new Platform (100, 30, 440, 250, Transparent),
+            new Platform (100, 30, 540, 250, Transparent),
             
             // Third Floor
-            new Platform (100, 30, 0, 150, testImg),
-            new Platform (100, 30, 100, 150, testImg),
-            new Platform (100, 30, 200, 150, testImg),
-            new Platform (100, 30, 300, 150, testImg),
-            new Platform (100, 30, 400, 150, testImg),
+            new Platform (100, 30, 0, 150, Transparent),
+            new Platform (100, 30, 100, 150, Transparent),
+            new Platform (100, 30, 200, 150, Transparent),
+            new Platform (100, 30, 300, 150, Transparent),
+            new Platform (100, 30, 400, 150, Transparent),
             
             // Fourth floor
-            new Platform (100, 30, 140, 70, testImg),
-            new Platform (100, 30, 240, 70, testImg),
-            new Platform (100, 30, 340, 70, testImg),
-            new Platform (100, 30, 440, 70, testImg),
-            new Platform (100, 30, 540, 70, testImg)
+            new Platform (100, 30, 140, 70, Transparent),
+            new Platform (100, 30, 240, 70, Transparent),
+            new Platform (100, 30, 340, 70, Transparent),
+            new Platform (100, 30, 440, 70, Transparent),
+            new Platform (100, 30, 540, 70, Transparent)
         ],
 		spikes : [
             // width, height, x, y, color
@@ -232,38 +232,40 @@ const LEVELS = [
             // width, height, x, y, color
             
             // Starting Block
-            new Platform (100, 100, 0, 80, testImg),
-            new Platform (100, 100, 0, 180, testImg),
-            new Platform (100, 100, 0, 280, testImg),
+            new Platform (100, 100, 0, 80, Transparent),
+            new Platform (100, 100, 0, 180, Transparent),
+            new Platform (100, 100, 0, 280, Transparent),
             new Platform (100, 100, 0, 380, testImg),
             
             // Bottom Floor
-            new Platform (100, 30, 100, 450, testImg),
-            new Platform (100, 30, 200, 450, testImg),
-            new Platform (100, 30, 300, 450, testImg),
-            new Platform (100, 30, 400, 450, testImg),
+            new Platform (100, 30, 100, 450, Transparent),
+            new Platform (100, 30, 200, 450, Transparent),
+            new Platform (100, 30, 300, 450, Transparent),
+            new Platform (100, 30, 400, 450, Transparent),
             
-            new Platform (100, 30, 500, 450, testImg),
-            new Platform (40, 30, 600, 450, testImg),
+            new Platform (100, 30, 500, 450, Transparent),
+            new Platform (40, 30, 600, 450, Transparent),
             
             // Block with Spikes
-            new Platform (100, 400, 200, 0, testImg),
+            new Platform (100, 400, 200, 0, Transparent),
             
-            // 
-            new Platform (25, 50, 400, 350, testImg),
-            new Platform (25, 50, 300, 250, testImg),
-            new Platform (25, 50, 400, 150, testImg),
+            // Jumping platforms
+            new Platform (25, 50, 400, 350, Transparent),
+            new Platform (25, 50, 300, 250, Transparent),
+            new Platform (25, 50, 400, 150, Transparent),
             
             // Going up block
-            new Platform (100, 100, 425, 80, testImg),
-            new Platform (100, 100, 425, 180, testImg),
-            new Platform (100, 100, 425, 280, testImg),
-            new Platform (100, 70, 425, 380, testImg)
+            new Platform (100, 100, 425, 80, Transparent),
+            new Platform (100, 100, 425, 180, Transparent),
+            new Platform (100, 100, 425, 280, Transparent),
+            new Platform (100, 70, 425, 380, Transparent)
         ],
 		spikes : [
             // width, height, x, y, img
-            new Spike (20, 290, 180, 100, L7SpikeLeft)
-            //new Spike (20, 20, 180, 420, testImg)
+            new Spike (20, 290, 180, 100, Transparent),
+            new Spike (25, 50, 300, 300, Transparent),
+            new Spike (25, 50, 400, 200, Transparent),
+            new Spike (25, 365, 615, 0, Transparent)
 		]
         
         
@@ -292,7 +294,7 @@ const LEVELS = [
         ],
 		spikes : [
             // width, height, x, y, img
-            //new Spike (0, 480, 180, 100, L6SpikeLeft)
+            new Spike (140, 30, 250, 460, Transparent)
 		]
         
     },
@@ -305,32 +307,32 @@ const LEVELS = [
         doors : [
             // width, height, x, y, color
             //new Door (55, 65, 575, 385, doorImg)
-            new Door (55, 65, 585, 45, doorImg)
+            new Door (55, 65, 585, 45, Transparent)
         ],
         platforms : [
             // width, height, x, y, color
             
             // Starting platform
-            new Platform (100, 180, 0, 300, testImg),
+            new Platform (100, 180, 0, 300, Transparent),
             //new Platform (55, 65, 0, 215, entranceImg),
             
             // First Series platforms
-            new Platform (50, 20, 140, 300, testImg),
-            new Platform (50, 20, 270, 300, testImg),
-            new Platform (50, 20, 400, 300, testImg),
+            new Platform (50, 20, 140, 300, Transparent),
+            new Platform (50, 20, 270, 300, Transparent),
+            new Platform (50, 20, 400, 300, Transparent),
             
             // Second series platforms
-            new Platform (50, 20, 490, 250, testImg),
-            new Platform (50, 20, 335, 170, testImg),
-            new Platform (50, 20, 200, 120, testImg),
-            new Platform (50, 20, 370, 60, testImg),
+            new Platform (50, 20, 490, 250, Transparent),
+            new Platform (50, 20, 335, 170, Transparent),
+            new Platform (50, 20, 200, 120, Transparent),
+            new Platform (50, 20, 370, 60, Transparent),
             
             // Exit Platform
-            new Platform (100, 370, 540, 110, testImg),
+            new Platform (100, 370, 540, 110, Transparent),
         ],
 		spikes : [
             // width, height, x, y, img
-            new Spike (440, 150, 100, 330, lava)
+            new Spike (440, 150, 100, 330, Transparent)
 		]
         
     },
@@ -343,51 +345,69 @@ const LEVELS = [
         doors : [
             // width, height, x, y, color
             //new Door (55, 65, 575, 385, doorImg)
-            new Door (55, 65, 470, 100, doorImg)
+            new Door (55, 65, 470, 100, Transparent)
         ],
         platforms : [
             // width, height, x, y, color
             
             // Starting platform
-            new Platform (100, 25, 0, 50, testImg),
-            new Platform (100, 25, 100, 50, testImg),
-            new Platform (100, 25, 200, 50, testImg),
-            new Platform (100, 25, 300, 50, testImg),
-            new Platform (100, 25, 400, 50, testImg),
-            new Platform (50, 25, 500, 50, testImg),
+            new Platform (100, 25, 0, 50, Transparent),
+            new Platform (100, 25, 100, 50, Transparent),
+            new Platform (100, 25, 200, 50, Transparent),
+            new Platform (100, 25, 300, 50, Transparent),
+            new Platform (100, 25, 400, 50, Transparent),
+            new Platform (50, 25, 500, 50, Transparent),
             
-            new Platform (25, 100, 525, 75, testImg),
-            new Platform (25, 100, 525, 175, testImg),
-            new Platform (25, 100, 525, 275, testImg),
-            new Platform (25, 25, 525, 375, testImg),
+            new Platform (25, 100, 525, 75, Transparent),
+            new Platform (25, 100, 525, 175, Transparent),
+            new Platform (25, 100, 525, 275, Transparent),
+            new Platform (25, 25, 525, 375, Transparent),
             
-            new Platform (100, 25, 425, 375, testImg),
-            new Platform (100, 25, 325, 375, testImg),
-            new Platform (100, 25, 225, 375, testImg),
-            new Platform (100, 25, 125, 375, testImg),
+            new Platform (100, 25, 425, 375, Transparent),
+            new Platform (100, 25, 325, 375, Transparent),
+            new Platform (100, 25, 225, 375, Transparent),
+            new Platform (100, 25, 125, 375, Transparent),
             
-            new Platform (100, 25, 325, 270, testImg),
-            new Platform (100, 25, 225, 270, testImg),
-            new Platform (100, 25, 125, 270, testImg),
-            new Platform (100, 25, 25, 270, testImg),
-            new Platform (25, 25, 0, 270, testImg),
+            new Platform (100, 25, 325, 270, Transparent),
+            new Platform (100, 25, 225, 270, Transparent),
+            new Platform (100, 25, 125, 270, Transparent),
+            new Platform (100, 25, 25, 270, Transparent),
+            new Platform (25, 25, 0, 270, Transparent),
             
-            new Platform (100, 25, 325, 165, testImg),
-            new Platform (100, 25, 225, 165, testImg),
-            new Platform (100, 25, 125, 165, testImg),
-            new Platform (100, 25, 425, 165, testImg),
+            new Platform (100, 25, 325, 165, Transparent),
+            new Platform (100, 25, 225, 165, Transparent),
+            new Platform (100, 25, 125, 165, Transparent),
+            new Platform (100, 25, 425, 165, Transparent),
         ],
 		spikes : [
             // width, height, x, y, img
-            new Spike (30, 480, 610, 0, testSpike),
-            new Spike (350, 25, 125, 400, testSpike),
-            new Spike (30, 185, 0, 295, testSpike),
-            new Spike (375, 25, 30, 295, testSpike),
-            new Spike (30, 185, 495, 190, testSpike),
-            new Spike (345, 25, 150, 190, testSpike),
-            new Spike (30, 195, 0, 75, testSpike),
-            new Spike (395, 25, 30, 75, testSpike),
+            new Spike (30, 480, 610, 0, Transparent),
+            new Spike (350, 25, 125, 400, Transparent),
+            new Spike (30, 185, 0, 295, Transparent),
+            new Spike (375, 25, 30, 295, Transparent),
+            new Spike (30, 185, 495, 190, Transparent),
+            new Spike (345, 25, 150, 190, Transparent),
+            new Spike (30, 195, 0, 75, Transparent),
+            new Spike (395, 25, 30, 75, Transparent),
 		]
         
-    }
+    },
+    
+    // Level #11 - THE END (so far)
+    {
+        // width, height, color, x, y
+        playerX : 710,
+        playerY : 700,
+        doors : [
+            // width, height, x, y, color
+            new Door (0, 0, 700, 700, doorImg)
+        ],
+        platforms : [
+            // width, height, x, y, img
+            new Platform (0, 0, 700, 700, L0Floor)
+        ],
+		spikes : [
+			new Spike (0, 0, 320, 240, testImg)
+		]
+    },
 ];

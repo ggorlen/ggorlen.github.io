@@ -18,92 +18,10 @@
   </head>
   <body>
 
-    <!-- create a canvas object -->
+    <!-- Create a canvas element -->
     <canvas id="mycanvas" height="500" width="500"></canvas>
       
-    <script>
-      
-      // save the canvas and context in variables
-      var canvas = document.getElementById("mycanvas");
-      var ctx = canvas.getContext("2d");
-
-      // declare constants
-      var INIT_X = canvas.width / 2;
-      var INIT_Y = canvas.height / 2;
-      var SIZE = 15;
-      
-      // declare variables
-      var x = INIT_X;
-      var y = INIT_Y;
-      var xDirection = 1;
-      var yDirection = -1;
-      
-      function collisionDetection() {
-      
-        // left side
-        if (x <= 0 + SIZE) {
-          x = 0 + SIZE;
-          xDirection = (Math.floor(Math.random() * 6) - 3);
-        }
-        
-        // top of canvas
-        if (y <= 0 + SIZE) {
-          y = 0 + SIZE;
-          yDirection = (Math.floor(Math.random() * 6) - 3);
-        }
-        
-        // right side
-        if (x >= canvas.width - SIZE) {
-          x = canvas.width - SIZE;
-          xDirection = -1 * (Math.floor(Math.random() * 6) - 3);
-        }
-        
-        // bottom of screen
-        if (y >= canvas.height - SIZE) {
-          y = canvas.height - SIZE;
-          yDirection = -1 * (Math.floor(Math.random() * 6) - 3);
-        }
-      }
-      
-      function drawBall() {
-        ctx.beginPath();
-
-        // make a circle        
-        ctx.arc(x, y, SIZE, 0, Math.PI * 2);
-      
-        // set a color for our fill.  hex also works here
-        ctx.fillStyle = "rgb(255, 0, 100)";
-
-        ctx.fill();
-        ctx.closePath(); 
-      }
-      
-      // update will be called each frame
-      var update = function() {
-      
-        // clears canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        // or, add shadow effect by dimming 
-        // background (comment out clearRect())
-        //ctx.fillStyle = "rgba(255, 255, 255, .3)";
-        //ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
-        // check for collisions
-        collisionDetection();
-        
-        // update coordinates
-        x += xDirection;
-        y += yDirection;
-        
-        // draw ball
-        drawBall();
-      };
-
-      /* Main timer with update function and 
-         interval duration as parameters */
-      setInterval(update, 5);
-      
-    </script>
+    <!-- Include the script -->
+    <script src="canvasdemo.js"></script>
   </body>
 </html>
