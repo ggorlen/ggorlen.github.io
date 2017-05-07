@@ -11,14 +11,13 @@ myGame.menu.prototype = {
   create: function () {
 
     // Add some text
-    game.add.text(300, 250, 'Press button to play', { fontSize: '20px', fill: '#fff' });
+    game.add.text(235, 250, 'Press any key to begin', { fontSize: '32px', fill: '#fff' });
 
-    // Add a button which, when clicked, will activate the game state
-    var button = game.add.button(390, 350, 'button', function () {
-       game.state.start('game');
+    // Start the game when a key is pressed
+    document.addEventListener("keydown", function (e) {
+      document.removeEventListener("keydown", function (e) { });
+      game.state.start('game');   
     });
-
-    button.anchor.setTo(0.5);
   }, // end create
   update: function () { }
 };

@@ -9,6 +9,10 @@ myGame.game.prototype = {
 };
 
 
+// Global variables
+let text;
+
+
 // Phaser method to load assets (images, sounds, etc)
 function preload() {
 
@@ -21,7 +25,7 @@ function preload() {
 function create() {
 
   // Add some text
-  let text = game.add.text(300, 280, 'Hello World!', { fontSize: '32px', fill: '#fff' });
+  text = game.add.text(300, 280, '', { fontSize: '32px', fill: '#fff' });
 
 } // end create
 
@@ -30,6 +34,6 @@ function create() {
 function update() {
     
     // Show mouse coordinates for debugging and placing objects
-    console.log("Y: " + game.input.mousePointer.y);
-    console.log("X: " + game.input.mousePointer.x);
+    text.setText("X: " + game.input.mousePointer.x + "  Y: " + game.input.mousePointer.y);
+
 } // end update
