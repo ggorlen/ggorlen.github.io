@@ -36,11 +36,11 @@
     <script src="utilities.js"></script>    
     <script>
     
-      $(document).ready(() => {
+      $(document).ready(function () {
       
         // Allow the user to submit a guess with "enter"
         let guessInput = document.getElementById("guess");
-        guessInput.addEventListener("keydown", (e) => {
+        guessInput.addEventListener("keydown", function (e) {
           if (e.keyCode === 13) {
           
             // The user pressed the enter key; call guess
@@ -55,7 +55,7 @@
         });
       
         // Populate the possibleWords array with an external word list
-        readFile("dictionary.txt", (data) => { 
+        readFile("dictionary.txt", function (data) { 
           possibleWords = data.split("\n");
           
           // Start the hangman game!

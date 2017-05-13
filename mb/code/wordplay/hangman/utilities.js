@@ -23,6 +23,6 @@ function readFile(file, handler) {
     url: file,
     type: 'get',
     dataType: 'text',
-    success: (data) => handler(data)
+    success: function (data) { handler(data); }
   });
 } // end readFile
