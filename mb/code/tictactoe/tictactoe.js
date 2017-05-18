@@ -15,6 +15,10 @@ function TicTacToe() {
   this.currentPlayer = "X";
 } // end TicTacToe
 
+/**
+ * Moves the current player to the parameter 
+ * square and switches sides
+ */
 TicTacToe.prototype.move = function (square) {
   if (parseInt(this.board[square]) >= 0) {
     this.board[square] = this.currentPlayer;
@@ -30,8 +34,12 @@ TicTacToe.prototype.move = function (square) {
   return false;
 }; // end move
 
-// TODO refactor to use sets
+/**
+ * Returns whether the current position has a winner
+ */
 TicTacToe.prototype.isWon = function () {
+
+  // TODO refactor to use sets
   for (let i = 0; i < this.wins.length; i++) {
     let xWon = true;
     let oWon = true;
@@ -48,15 +56,17 @@ TicTacToe.prototype.isWon = function () {
   return false;
 }; // end isWon
 
+/**
+ * Determines whether the game is drawn
+ * Note: must be called after isWon()
+ */
 TicTacToe.prototype.isDrawn = function () {
-  for (let i = 0; i < this.board.length; i++) {
-    if (parseInt(this.board[i]) >= 0) {
-      return false;
-    }
-  }
-  return true;
+  return this.xMoves.length + this.oMoves.length >= 9;
 }; // end isDrawn
 
+/**
+ * Returns an array of valid moves for this board
+ */
 TicTacToe.prototype.getMoves = function () {
   let moves = [];
   for (let i = 0; i < this.board.length; i++) {
@@ -67,6 +77,9 @@ TicTacToe.prototype.getMoves = function () {
   return moves;
 }; // end getMoves
 
+/**
+ * Renders the current game board to HTML
+ */
 TicTacToe.prototype.toHTML = function () {
   let output = "<table>";
   for (let i = 0; i < this.board.length; i++) {
@@ -92,6 +105,9 @@ TicTacToe.prototype.toHTML = function () {
   return output;
 }; // end toHTML
 
+/**
+ * Produces a clone of this gamestate
+ */
 TicTacToe.prototype.clone = function () {
   let ttt = new TicTacToe();
   ttt.board = this.board.slice();
