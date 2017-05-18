@@ -3,7 +3,7 @@
 }
 
 body {
-  background: url("wallpaper.png");
+  background: url("../assets/wallpaper.png");
   margin: 10px;
   width: 95%;
 }
@@ -27,13 +27,13 @@ body {
 }
 
 .empty:hover {
-  background: url("x.png");
+  background: url("../assets/x.png");
 }
 
 .x {
-  background: url("x.png");
+  background: url("../assets/x.png");
 }
 
 .o {
-  background: url("o.png");
+  background: url("../assets/o.png");
 }

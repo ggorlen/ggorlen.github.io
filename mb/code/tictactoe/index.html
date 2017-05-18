@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <title>Tic tac toe</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="stylesheets/style.css">
   </head>
   <body>
     <div class="main">
@@ -11,45 +11,19 @@
       <div id="tttout"></div>
     </div>
 
-    <script src="minimax.js"></script>
-    <script src="negamax.js"></script>
-    <script src="tictactoe.js"></script>
+    <script src="js/minimax.js"></script>
+    <script src="js/negamax.js"></script>
+    <script src="js/tttboard.js"></script>
+    <script src="js/tictactoe.js"></script>
     <script>
-    
-      "use strict";
 
-      let ttt;
-      let playable;
-
-      // Creates a new game of Tic Tac Toe
-      function init() {
-        ttt = new TicTacToe();
-        playable = true;
-        document.getElementById("tttout").innerHTML = ttt.toHTML();
-      } // end init
-
-      // Handles a turn of Tic Tac Toe
-      function doTurn(square) {
-        if (playable) {
-          ttt.move(square);
-          let mm = new Minimax();
-          ttt.move(mm.getBestMove(ttt));
-          document.getElementById("tttout").innerHTML = ttt.toHTML();
-          if (ttt.isWon()) {
-            let winner = ttt.currentPlayer === "X" ? "O" : "X";
-            document.getElementById("tttout").innerHTML += 
-              "<p>" + winner + " wins! <a href='' onclick='init();'>Play again</a></p>";
-            playable = false;
-          }
-          else if (ttt.isDrawn()) {
-            document.getElementById("tttout").innerHTML += 
-              "<p>Draw! <a href='' onclick='init();'>Play again</a></p>";
-            playable = false;
-          }
-        }
-      } // end doTurn
-
-      init();
+       // Tic Tac Toe game object
+       let ttt;
+       function init() {
+         ttt = new TicTacToe("tttout");
+         ttt.toDOM();
+       }
+       init();
 
     </script>
   </body>
