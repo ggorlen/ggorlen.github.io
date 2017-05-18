@@ -154,7 +154,6 @@ function newServe(initSpeedX) {
 // Initializes a new game
 function init() {
   scores = [0, 0];
-  newServe();
 
   // Add event listeners to handle key events
   document.addEventListener("keydown", (e) => {
@@ -174,6 +173,7 @@ function init() {
     }
   });
 
+  newServe();
   update();
 }; // end init
 

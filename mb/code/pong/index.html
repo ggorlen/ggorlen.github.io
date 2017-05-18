@@ -3,13 +3,33 @@
   <head>
     <title>Pong</title>
     <style>
+      * {
+        font-family: monospace, "courier new", "lucida console";
+      }
+
+      body {
+        background: url("wallpaper.png");
+        width: 95%;
+        margin: 10px
+      }
+
+      .main {
+        width: 720px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
       #paper {
         border: 1px solid #000;
       }
     </style>
   </head>
   <body onload="init();">
-    <canvas height="400" width="720" id="paper"></canvas>
+    <div class="main">
+      <h2 style="text-align: center;">Pong</h2>
+      <br>
+      <canvas height="400" width="720" id="paper"></canvas>
+    </div>
     <script src="pong.js"></script>
   </body>
 </html>

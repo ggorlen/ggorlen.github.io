@@ -1,23 +1,23 @@
 /* This script generates pairs given an array of items */
 
-var students = [ 
-                "Dovran",
-                "Eric R.",
-                "Aaron",
-                "Perry",
-                "Bin",
-                "Emi",
-                "Faisal",
-                "Mary",
-                "Marshawn",
-                "Nathan",
-                "Ada",
-                "Liana",
-                "Johan",
-                "Christian",
-                "Eric D.",
-                "Vlad"
-               ];
+let students = [ 
+  "Dovran",
+  "Eric R.",
+  "Aaron",
+  "Perry",
+  "Bin",
+  "Emi",
+  "Faisal",
+  "Mary",
+  "Marshawn",
+  "Nathan",
+  "Ada",
+  "Liana",
+  "Johan",
+  "Christian",
+  "Eric D.",
+  "Vlad"
+];
            
 printRandomPairs(students, "output");
 
@@ -26,13 +26,13 @@ printRandomPairs(students, "output");
 function printRandomPairs(arr, element) {
   
   // copy the old array so randomization won't affect it.
-  var tempArr = arr.slice(0);
+  let tempArr = arr.slice(0);
   
   // shuffle the array
   shuffleArray(tempArr);
   
   // create a string to hold the output as HTML
-  var output = "";
+  let output = "";
   
   // if the array length is odd, make a trio
   if (tempArr.length % 2 !== 0) {
@@ -40,7 +40,7 @@ function printRandomPairs(arr, element) {
   }
   
   // loop through the array, pairing every two items
-  for (var i = 0; i < tempArr.length - 1; i += 2) {
+  for (let i = 0; i < tempArr.length - 1; i += 2) {
     output += tempArr[i] + " & " + tempArr[i + 1] + "<br>";
   }
   
@@ -50,10 +50,10 @@ function printRandomPairs(arr, element) {
 
 // shuffles an array using the fisher-yates algorithm
 function shuffleArray(arr) {
-  var i = arr.length;
+  let i = arr.length;
   while (i > 0) {
-    var r = Math.floor(Math.random() * i--);
-    var temp = arr[r];
+    let r = Math.floor(Math.random() * i--);
+    let temp = arr[r];
     arr[r] = arr[i];
     arr[i] = temp;
   }

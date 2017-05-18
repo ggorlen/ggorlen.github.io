@@ -3,19 +3,14 @@
   <head>
     
     <!-- include jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js">
-    </script>
+    <script src="../../js/jquery.js"></script>
     
     <!-- include Bootstrap -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
-      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
-    </script>
+    <script src="../../js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
-      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../css/bootstrap.css">
 
     <!-- include custom CSS -->
-    
     <link rel="stylesheet" href="css/style.css">
       
     <title>Sokoban</title>
@@ -32,7 +27,7 @@
         [<a data-toggle="collapse" data-parent="#accordion" 
           href="#sokosequence" style="color: #000 !important;">show move sequence</a>]
         [<a data-toggle="collapse" data-parent="#accordion" 
-          href="#sokosequenceinput" style="color: #000 !important;">input move sequence</a>]
+          href="#sokosequenceinput" style="color: #000 !important;">input move sequence</a>]<br>
         [<a data-toggle="collapse" data-parent="#accordion" 
           href="#sokolevelinput" style="color: #000 !important;">input level</a>]
         [<a data-toggle="collapse" data-parent="#accordion" 
@@ -83,7 +78,7 @@
         <!-- help -->
         <div class="panel" style="background: rgba(0,0,0,0.0); border: 0px;">
           <div id="options" class="panel-collapse collapse" style="font-size: 12px;">
-            <table class="opts">
+            <table class="opts" style="margin-left: auto; margin-right: auto;">
               <tr>
                 <th class="ralign">action</th>
                 <th>key(s)</th>
@@ -129,9 +124,11 @@
         </div>
       </div> 
     </div>
+
     <script src="levels/original.js"></script>
     <script src="js/sokoban.js"></script>
     <script src="js/sokosolver.js"></script>
     <script src="js/main.js"></script>
+
   </body>
 </html>

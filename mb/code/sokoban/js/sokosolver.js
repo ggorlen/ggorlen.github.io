@@ -1,8 +1,10 @@
 /**
  * homebrew sokoban solver
  *
+ * in progress...
+ *
  * - is BFS the way to go?  (doesn't minimize number of moves)
- *   what about a combo DFS and BFS?  hmm..
+ *   what about a combo DFS and BFS? Heuristics.. hmm..
  */
 
  
