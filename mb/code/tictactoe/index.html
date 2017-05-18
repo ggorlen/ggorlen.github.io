@@ -9,6 +9,7 @@
       }
 
       body {
+        background: url("wallpaper.png");
         margin: 10px;
         width: 95%;
       }
@@ -76,11 +77,13 @@
           document.getElementById("tttout").innerHTML = ttt.toHTML();
           if (ttt.isWon()) {
             let winner = ttt.currentPlayer === "X" ? "O" : "X";
-            document.getElementById("tttout").innerHTML += "<p>" + winner + " wins!  <a href='' onclick='init();'>Play again</a></p>";
+            document.getElementById("tttout").innerHTML += 
+              "<p>" + winner + " wins! <a href='' onclick='init();'>Play again</a></p>";
             playable = false;
           }
           else if (ttt.isDrawn()) {
-            document.getElementById("tttout").innerHTML += "<p>Draw!  <a href='' onclick='init();'>Play again</a></p>";
+            document.getElementById("tttout").innerHTML += 
+              "<p>Draw! <a href='' onclick='init();'>Play again</a></p>";
             playable = false;
           }
         }
