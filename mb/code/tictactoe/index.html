@@ -3,15 +3,91 @@
   <head>
     <title>Tic tac toe</title>
     <style>
-      
+
+      * {
+        font-family: monospace, "courier new", "lucida console";
+      }
+
+      body {
+        margin: 10px;
+        width: 95%;
+      }
+
+      #tttout table {
+        border-collapse: collapse;
+      }
+
+      #tttout td {
+        border: 2px solid #000;
+        width: 50px;
+        height: 50px;
+      }
+
+      .main {
+        text-align: center;
+        margin-top: 50px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 160px;
+      }
+
+      .empty:hover {
+        background: url("x.png");
+      }
+
+      .x {
+        background: url("x.png");
+      }
+
+      .o {
+        background: url("o.png");
+      }
     </style>
   </head>
   <body>
     <div class="main">
+      <h2>Tic Tac Toe</h2>
+      <br>
       <div id="tttout"></div>
     </div>
 
     <script src="minimax.js"></script>
     <script src="tictactoe.js"></script>
+    <script>
+    
+      "use strict";
+
+      let ttt;
+      let playable;
+
+      // Creates a new game of Tic Tac Toe
+      function init() {
+        ttt = new TicTacToe();
+        playable = true;
+        document.getElementById("tttout").innerHTML = ttt.toHTML();
+      } // end init
+
+      // Handles a turn of Tic Tac Toe
+      function doTurn(square) {
+        if (playable) {
+          ttt.move(square);
+          let mm = new Minimax(ttt);
+          ttt.move(mm.getBestMove());
+          document.getElementById("tttout").innerHTML = ttt.toHTML();
+          if (ttt.isWon()) {
+            let winner = ttt.currentPlayer === "X" ? "O" : "X";
+            document.getElementById("tttout").innerHTML += "<p>" + winner + " wins!  <a href='' onclick='init();'>Play again</a></p>";
+            playable = false;
+          }
+          else if (ttt.isDrawn()) {
+            document.getElementById("tttout").innerHTML += "<p>Draw!  <a href='' onclick='init();'>Play again</a></p>";
+            playable = false;
+          }
+        }
+      } // end doTurn
+
+      init();
+
+    </script>
   </body>
 </html>

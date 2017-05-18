@@ -2,7 +2,7 @@
 
 
 /**
- * Tic tac toe
+ * Tic tac toe game logic 
  */
 function TicTacToe() {
   this.wins = [
@@ -48,6 +48,25 @@ TicTacToe.prototype.isWon = function () {
   return false;
 }; // end isWon
 
+TicTacToe.prototype.isDrawn = function () {
+  for (let i = 0; i < this.board.length; i++) {
+    if (parseInt(this.board[i]) >= 0) {
+      return false;
+    }
+  }
+  return true;
+}; // end isDrawn
+
+TicTacToe.prototype.getMoves = function () {
+  let moves = [];
+  for (let i = 0; i < this.board.length; i++) {
+    if (parseInt(this.board[i]) >= 0) {
+      moves.push(i);
+    }
+  }
+  return moves;
+}; // end getMoves
+
 TicTacToe.prototype.toHTML = function () {
   let output = "<table>";
   for (let i = 0; i < this.board.length; i++) {
@@ -56,11 +75,15 @@ TicTacToe.prototype.toHTML = function () {
     }
 
     if (this.board[i] === "X") {
-      output += "<td class='x'></td>";
+      output += "<td class='x'";
     }
     else if (this.board[i] === "O") {
-      output += "<td class='o'></td>";
+      output += "<td class='o'";
     }
+    else {
+      output += "<td class='empty' onclick='doTurn(" + i + ");'";
+    }
+    output += "></td>";
 
     if ((i + 1) % 3 === 0) {
       output += "</tr>";
@@ -69,12 +92,11 @@ TicTacToe.prototype.toHTML = function () {
   return output;
 }; // end toHTML
 
-
-let ttt = new TicTacToe();
-ttt.move(0);
-ttt.move(8);
-ttt.move(1);
-ttt.move(4);
-ttt.move(2);
-console.log(ttt.isWon());
-document.getElementById("tttout").innerHTML = ttt.toHTML();
+TicTacToe.prototype.clone = function () {
+  let ttt = new TicTacToe();
+  ttt.board = this.board.slice();
+  ttt.xMoves = this.xMoves.slice();
+  ttt.oMoves = this.oMoves.slice();
+  ttt.currentPlayer = this.currentPlayer;
+  return ttt;
+}; // end clone
