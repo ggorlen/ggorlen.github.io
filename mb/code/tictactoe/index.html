@@ -2,48 +2,7 @@
 <html lang="en">
   <head>
     <title>Tic tac toe</title>
-    <style>
-
-      * {
-        font-family: monospace, "courier new", "lucida console";
-      }
-
-      body {
-        background: url("wallpaper.png");
-        margin: 10px;
-        width: 95%;
-      }
-
-      #tttout table {
-        border-collapse: collapse;
-      }
-
-      #tttout td {
-        border: 2px solid #000;
-        width: 50px;
-        height: 50px;
-      }
-
-      .main {
-        text-align: center;
-        margin-top: 50px;
-        margin-left: auto;
-        margin-right: auto;
-        width: 160px;
-      }
-
-      .empty:hover {
-        background: url("x.png");
-      }
-
-      .x {
-        background: url("x.png");
-      }
-
-      .o {
-        background: url("o.png");
-      }
-    </style>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <div class="main">
@@ -73,8 +32,8 @@
       function doTurn(square) {
         if (playable) {
           ttt.move(square);
-          let mm = new Minimax(ttt);
-          ttt.move(mm.getBestMove());
+          let mm = new Minimax();
+          ttt.move(mm.getBestMove(ttt));
           document.getElementById("tttout").innerHTML = ttt.toHTML();
           if (ttt.isWon()) {
             let winner = ttt.currentPlayer === "X" ? "O" : "X";

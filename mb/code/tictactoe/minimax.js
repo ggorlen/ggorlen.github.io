@@ -4,13 +4,12 @@
  * Minimax algorithm to find the best move in a 
  * two-player, perfect information game position
  */
-function Minimax(game) {
-  this.game = game;
-} // end Minimax
+function Minimax() { }
 
-Minimax.prototype.getBestMove = function () {
+Minimax.prototype.getBestMove = function (board) {
+  this.board = board;
   this.bestMove;
-  this.getBestMoveHelper(this.game, 0, true);
+  this.getBestMoveHelper(this.board, 0, true);
   return this.bestMove;
 }; // end getBestMove
 

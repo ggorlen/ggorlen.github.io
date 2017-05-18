@@ -3,17 +3,18 @@
 /**
  * Negamax algorithm to find the best move in a 
  * two-player, perfect information game position
+ *
+ * TODO not yet working
  */
-function Negamax(game) {
-  this.game = game;
-} // end Negamax
+function Negamax() { }
 
 /**
  * Returns best move in this position
  */
-Negamax.prototype.getBestMove = function () {
+Negamax.prototype.getBestMove = function (board) {
+  this.board = board;
   this.bestMove;
-  this.getBestMoveHelper(this.game, 0, -1);
+  this.getBestMoveHelper(this.board, 0, -1);
   return this.bestMove;
 }; // end getBestMove
 
