@@ -26,8 +26,6 @@ Minimax.prototype.getBestMoveHelper = function (node, depth, maximizingPlayer) {
       let childVal = this.getBestMoveHelper(nextNode, depth + 1, false);
       bestVal = Math.max(bestVal, childVal);
       if (depth === 0 && bestVal <= childVal) {
-      
-      console.log("move: " + moves[i] + "  bestVal: " + bestVal); 
         this.bestMove = moves[i];
       }
     }
