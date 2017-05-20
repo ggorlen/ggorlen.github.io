@@ -11,10 +11,10 @@ function Negamax() { }
  * performing a DFS with alpha-beta pruning
  *
  * @param  originNode the origin position of the search
- * @return bestMove   the best move in the position
+ * @return the best move in the position
  */
 Negamax.prototype.getBestMove = function (originNode) {
-  this.getBestMoveHelper(originNode, 0, -Infinity, Infinity, 1);
+  this.getBestMoveHelper(originNode, 0, -Infinity, Infinity);
   return this.bestMove;
 }; // end getBestMove
 
@@ -26,11 +26,12 @@ Negamax.prototype.getBestMove = function (originNode) {
  * @param a     alpha value
  * @param b     beta value
  * @param color specifying the player to maximize
+ * @return the best value in the position
  */
-Negamax.prototype.getBestMoveHelper = function (node, depth, a, b, color) {
+Negamax.prototype.getBestMoveHelper = function (node, depth, a, b) {
 
   // Return the node's value if the position is terminal
-  if (node.isWon()) return -color;
+  if (node.isWon()) return -1;
   if (node.isDrawn()) return 0;
 
   // Set the best value low
@@ -44,7 +45,7 @@ Negamax.prototype.getBestMoveHelper = function (node, depth, a, b, color) {
     nextNode.move(moves[i]);
 
     // Determine the value for this child
-    let childVal = -this.getBestMoveHelper(nextNode, depth + 1, -b, -a, color);
+    let childVal = -this.getBestMoveHelper(nextNode, depth + 1, -b, -a);
 
     // Set best values and alpha based on this child's evaluation
     bestVal = Math.max(bestVal, childVal);

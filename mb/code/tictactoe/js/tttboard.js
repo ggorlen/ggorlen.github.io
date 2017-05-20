@@ -1,57 +1,62 @@
 "use strict";
 
-
 /**
- * Tic tac toe game logic 
+ * Class representing tic tac toe game logic 
  */
 function TicTacToeBoard() {
-  this.winPositions = [
-    [0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], 
-    [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]
-  ];
-  this.position = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-  this.xMoves = [];
-  this.oMoves = [];
-  this.currentPlayer = "X";
+  this.xMoves = {};
+  this.oMoves = {};
+  this.ply = 0;
 } // end TicTacToe
 
+// List of win positions in tic tac toe
+TicTacToeBoard.winPositions = [
+  [0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], 
+  [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]
+];
+
 /**
- * Moves the current player to the parameter 
- * square and switches sides
+ * Moves the current player to the parameter square
+ *
+ * @param the destination square in the range 0-8
+ * @return true if move was executed, false otherwise
  */
 TicTacToeBoard.prototype.move = function (square) {
-  if (parseInt(this.position[square]) >= 0) {
-    this.position[square] = this.currentPlayer;
-    if (this.currentPlayer === "X") {
-      this.xMoves.push(square);
+  if (square >= 0 && square <= 8) { 
+    if (this.ply & 1 && !(square in this.oMoves)) {
+      this.oMoves[square] = true;
+      this.ply++;
+      return true;
     }
-    else {
-      this.oMoves.push(square);
+    else if (!(this.ply & 1 || square in this.xMoves)) {
+      this.xMoves[square] = true;
+      this.ply++;
+      return true;
     }
-    this.currentPlayer = this.currentPlayer === "X" ? "O" : "X";
-    return true;
   }
   return false;
 }; // end move
 
 /**
  * Returns whether the current position has a winner
+ *
+ * @return true if a player has won, false otherwise
  */
 TicTacToeBoard.prototype.isWon = function () {
-
-  // TODO refactor to use sets
-  for (let i = 0; i < this.winPositions.length; i++) {
-    let xWon = true;
-    let oWon = true;
-    for (let j = 0; j < this.winPositions[i].length && (xWon || oWon); j++) {
-      if (this.xMoves.indexOf(this.winPositions[i][j]) < 0) {
-        xWon = false;
+  if (this.ply >= 5) {
+    for (let i = 0; i < TicTacToeBoard.winPositions.length; i++) {
+      let xWon = true;
+      let oWon = true;
+      for (let j = 0; j < TicTacToeBoard.winPositions[i].length && (xWon || oWon); j++) {
+        if (!(TicTacToeBoard.winPositions[i][j] in this.xMoves)) {
+          xWon = false;
+        }
+        if (!(TicTacToeBoard.winPositions[i][j] in this.oMoves)) {
+          oWon = false;
+        }
       }
-      if (this.oMoves.indexOf(this.winPositions[i][j]) < 0) {
-        oWon = false;
-      }
+      if (xWon || oWon) return true;
     }
-    if (xWon || oWon) return true;
   }
   return false;
 }; // end isWon
@@ -59,32 +64,35 @@ TicTacToeBoard.prototype.isWon = function () {
 /**
  * Determines whether the game is drawn
  * Note: must be called after isWon()
+ *
+ * @return true if more than 
  */
 TicTacToeBoard.prototype.isDrawn = function () {
-  return this.xMoves.length + this.oMoves.length >= 9;
+  return this.ply >= 9;
 }; // end isDrawn
 
 /**
  * Returns an array of valid moves for this board
+ *
+ * @return valid moves array
  */
 TicTacToeBoard.prototype.getMoves = function () {
-  let moves = [];
-  for (let i = 0; i < this.position.length; i++) {
-    if (parseInt(this.position[i]) >= 0) {
-      moves.push(i);
-    }
-  }
-  return moves;
+  let xMoves = this.xMoves;
+  let oMoves = this.oMoves;
+  return [0, 1, 2, 3, 4, 5, 6, 7, 8].filter(function(e) {
+    return !(e in xMoves || e in oMoves);
+  });
 }; // end getMoves
 
 /**
  * Produces a clone of this gamestate
+ *
+ * @return TicTacToeBoard clone
  */
 TicTacToeBoard.prototype.clone = function () {
   let ttt = new TicTacToeBoard();
-  ttt.position = this.position.slice();
-  ttt.xMoves = this.xMoves.slice();
-  ttt.oMoves = this.oMoves.slice();
-  ttt.currentPlayer = this.currentPlayer;
+  ttt.xMoves = JSON.parse(JSON.stringify(this.xMoves));
+  ttt.oMoves = JSON.parse(JSON.stringify(this.oMoves));
+  ttt.ply = this.ply;
   return ttt;
 }; // end clone

@@ -26,7 +26,7 @@ TicTacToe.prototype.doTurn = function (square) {
     this.board.move(this.negamax.getBestMove(this.board));
     this.toDOM();
     if (this.board.isWon()) {
-      let winner = this.board.currentPlayer === "X" ? "O" : "X";
+      let winner = this.board.ply & 1 ? "X" : "O";
       document.getElementById(this.domElement).innerHTML += 
         "<p>" + winner + " wins! <a href='' onclick='init();'>Play again</a></p>";
       this.playable = false;
@@ -41,18 +41,20 @@ TicTacToe.prototype.doTurn = function (square) {
   
 /**
  * Renders the current game board to HTML
+ * 
+ * @return the HTML string
  */
 TicTacToe.prototype.toHTML = function () {
   let output = "<table>";
-  for (let i = 0; i < this.board.position.length; i++) {
+  for (let i = 0; i < 9; i++) {
     if ((i + 1) % 3 === 1) {
       output += "<tr>";
     }
 
-    if (this.board.position[i] === "X") {
+    if (i in this.board.xMoves) {
       output += "<td class='x'";
     }
-    else if (this.board.position[i] === "O") {
+    else if (i in this.board.oMoves) {
       output += "<td class='o'";
     }
     else {
