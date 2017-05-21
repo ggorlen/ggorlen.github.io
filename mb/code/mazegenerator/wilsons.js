@@ -29,7 +29,7 @@ Wilsons.prototype.carve = function(maze) {
     while (walking) {
     
       // Add this cell to the animation queue
-      animStates.push(cell);
+      animStates.push(cell.clone());
 
       let randNeighbor = cell.getRandNeighbor();
       if (!randNeighbor.visited) {

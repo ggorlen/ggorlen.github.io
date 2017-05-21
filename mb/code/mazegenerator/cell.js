@@ -31,6 +31,7 @@ Cell.prototype.getClass = function() {
   if (this.links.s) output += " s";
   if (this.links.e) output += " e";
   if (this.links.w) output += " w";
+  if (!this.visited) output += " gridunvisited";
   return output;
 }; // end getClass
   
@@ -105,3 +106,22 @@ Cell.prototype.link = function(otherCell) {
 Cell.prototype.getRandNeighbor = function () {
   return shuffle(Object.values(this.neighbors))[0] 
 }; // end getRandNeighbor
+
+/**
+ * Creates a copy of this cell
+ * @return the copy cell
+ */
+Cell.prototype.clone = function () {
+  let cell = new Cell(); 
+  cell.x = this.x;
+  cell.y = this.y;
+
+  // Avoid circular references in copy of neighbors object
+  cell.neighbors = {};
+  for (let direction in this.neighbors) {
+    cell.neighbors[direction] = this.neighbors[direction]; 
+  }
+  cell.links = JSON.parse(JSON.stringify(this.links));
+  cell.visited = this.visited;
+  return cell;
+}; // end clone

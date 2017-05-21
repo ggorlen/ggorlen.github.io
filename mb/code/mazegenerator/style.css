@@ -45,9 +45,10 @@ body {
   width: 5px;
 }
 
+.gridunvisited {
+  background-color: #ddd;
+}
+
 .gridactive {
   background-color: #f00;
-  border: 1px solid #000;
-  height: 5px;
-  width: 5px;
 }
