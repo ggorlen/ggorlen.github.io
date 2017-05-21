@@ -2,11 +2,13 @@
 
 
 /** 
+ * Binary Tree
+ *
  * Carves a maze with many dead ends and a north-east bias
  */
-let BinaryTree = function() {};
+let BinaryTree = function () {};
 
-BinaryTree.prototype.carve = function(maze) {
+BinaryTree.prototype.carve = function (maze) {
   let grid = maze.getFlattened();
   
   // Process each cell

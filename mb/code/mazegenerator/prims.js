@@ -8,9 +8,9 @@
  * http://weblog.jamisbuck.org/2011/1/10/maze-generation-prim-s-algorithm
  * https://en.wikipedia.org/wiki/Maze_generation_algorithm#Randomized_Prim.27s_algorithm
  */
-let Prims = function() {};
+let Prims = function () {};
 
-Prims.prototype.carve = function(maze) {
+Prims.prototype.carve = function (maze) {
   let grid = maze.getFlattened(); 
 
   // Set of cells left to explore

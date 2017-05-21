@@ -4,10 +4,15 @@
 /**
  * Wilson's Algorithm
  *
+ * Carves a maze by selecting a random cell and marking it part of the maze, then
+ * choosing another random cell outside of the maze and creating a loopless
+ * random walk path which will eventually encounter a part of the maze, 
+ * at which point the path is added to the maze and another non-maze cell is 
+ * selected at random.
  */
-let Wilsons = function() {};
+let Wilsons = function () {};
 
-Wilsons.prototype.carve = function(maze) {
+Wilsons.prototype.carve = function (maze) {
   let grid = maze.getFlattened(); 
 
   // Randomly select an unvisited cell from the grid and mark it part of the maze

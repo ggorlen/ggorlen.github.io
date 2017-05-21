@@ -4,10 +4,15 @@
 /**
  * Aldous-Broder
  *
+ * Carves a maze by marking a random cell as part of the maze, then
+ * choosing a neighbor at random and marking it part of the maze if
+ * it isn't already. If it is already part of the maze, make it the
+ * current cell and continue inspecting its neighbors until all cells
+ * are in the maze.
  */
-let AldousBroder = function() {};
+let AldousBroder = function () {};
 
-AldousBroder.prototype.carve = function(maze) {
+AldousBroder.prototype.carve = function (maze) {
   let grid = maze.getFlattened(); 
   let cellsLeft = grid.length;
 

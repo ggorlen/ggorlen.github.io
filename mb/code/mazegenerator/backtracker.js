@@ -1,11 +1,13 @@
 "use strict";
 
 /**
+ * Recursive Backtracker
+ *
  * Carves a maze depth-first, creating long, winding passages
  */
-let Backtracker = function() {};
+let Backtracker = function () {};
 
-Backtracker.prototype.carve = function(maze) {
+Backtracker.prototype.carve = function (maze) {
     
   // Start at a random cell
   let stack = [maze.grid[Math.floor(Math.random() * maze.grid.length)]

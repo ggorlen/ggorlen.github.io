@@ -1,9 +1,10 @@
 "use strict";
 
+
 /** 
  * Represents a maze
  */
-let Maze = function(width, height) {
+let Maze = function (width, height) {
   this.width = width;
   this.height = height;
   this.grid;
@@ -12,7 +13,7 @@ let Maze = function(width, height) {
 /** 
  * For each on this grid--TODO implement!
  */
-Maze.prototype.onGrid = function(callback) {
+Maze.prototype.onGrid = function (callback) {
   for (let i = 0; i < this.grid.length; i++) {
     for (let j = 0; j < this.grid[i].length; j++) {
       this.grid[i][j].callback();
@@ -23,7 +24,7 @@ Maze.prototype.onGrid = function(callback) {
 /** 
  * Returns a flattened grid
  */
-Maze.prototype.getFlattened = function() {
+Maze.prototype.getFlattened = function () {
   let tempGrid = [];
   for (let i = 0; i < maze.grid.length; i++) {
     for (let j = 0; j < maze.grid[i].length; j++) {
@@ -36,7 +37,7 @@ Maze.prototype.getFlattened = function() {
 /**
  * Initializes this maze
  */ 
-Maze.prototype.init = function() {
+Maze.prototype.init = function () {
 
   // Make a new 2d maze array
   this.grid = new Array(this.height);
@@ -62,7 +63,7 @@ Maze.prototype.init = function() {
 /**
  * Renders the maze as an HTML table
  */
-Maze.prototype.toHTML = function() {
+Maze.prototype.toHTML = function () {
   let s = "<table>";
   for (let i = 0; i < this.grid.length; i++) {
     s += "<tr>";
@@ -77,7 +78,7 @@ Maze.prototype.toHTML = function() {
 /**
  * Renders the maze to canvas
  */
-Maze.prototype.draw = function(ctx, gridSize) {
+Maze.prototype.draw = function (ctx, gridSize) {
   for (let i = 0; i < this.grid.length; i++) {
     for (let j = 0; j < this.grid[i].length; j++) {
       this.grid[i][j].draw(ctx, gridSize);

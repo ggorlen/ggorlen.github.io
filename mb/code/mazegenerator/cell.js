@@ -3,7 +3,7 @@
 /** 
  * Represents a maze cell
  */
-let Cell = function(x, y) {
+let Cell = function (x, y) {
   this.x = x;
   this.y = y;
   this.neighbors = {};
@@ -15,7 +15,7 @@ let Cell = function(x, y) {
  * Prepares cell for HTML output
  * @return string HTML tag for this cell
  */
-Cell.prototype.toHTML = function() {
+Cell.prototype.toHTML = function () {
   return "<td id='cell_" + this.y + 
     "_" + this.x + "' class='" + 
     this.getClass() + "'></td>";
@@ -25,7 +25,7 @@ Cell.prototype.toHTML = function() {
  * Returns a CSS class representation of this cell
  * @return string of CSS
  */
-Cell.prototype.getClass = function() {
+Cell.prototype.getClass = function () {
   let output = "grid";
   if (this.links.n) output += " n";
   if (this.links.s) output += " s";
@@ -38,7 +38,7 @@ Cell.prototype.getClass = function() {
 /** 
  * Renders cell to a canvas context
  */
-Cell.prototype.draw = function(ctx, grid) {
+Cell.prototype.draw = function (ctx, grid) {
   let x = this.x * grid + 1;
   let y = this.y * grid + 1;
   
@@ -63,7 +63,7 @@ Cell.prototype.draw = function(ctx, grid) {
  * Sets the neighbors for this cell
  * @param maze the maze this cell is a member of
  */
-Cell.prototype.setNeighbors = function(maze) {        
+Cell.prototype.setNeighbors = function (maze) {        
   let dirs = { 'n': [-1, 0], 's': [1, 0], 'e': [0, 1], 'w': [0, -1] };
   for (let dir in dirs) { 
     if (this.y + dirs[dir][0] >= 0 &&
@@ -80,23 +80,23 @@ Cell.prototype.setNeighbors = function(maze) {
  * Links this and parameter cell
  * @param otherCell the cell to link to this
  */
-Cell.prototype.link = function(otherCell) {
+Cell.prototype.link = function (otherCell) {
 
   // Set this cell's link
   for (let neighbor in this.neighbors) {
     if (this.neighbors[neighbor] === otherCell) {
       this.links[neighbor] = true;
-      break;
-    }
-  }
 
-  // Set the other cell's link
-  for (let neighbor in otherCell.neighbors) {
-    if (this === otherCell.neighbors[neighbor]) {
-      otherCell.links[neighbor] = true;
-      break;
+      // Set the other cell's link
+      for (let neighbor in otherCell.neighbors) {
+        if (this === otherCell.neighbors[neighbor]) {
+          otherCell.links[neighbor] = true;
+          return true;
+        }
+      }
     }
   }
+  return false;
 }; // end link
 
 /**
