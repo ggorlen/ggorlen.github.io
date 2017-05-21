@@ -61,6 +61,7 @@ function process() {
     case 3 : new AldousBroder().carve(maze); break;
     case 4 : new Wilsons().carve(maze);      break;
     case 5 : new Sidewinder().carve(maze);   break;
+    case 6 : new HuntAndKill().carve(maze);  break;
     default: console.log("Error: invalid algorithm selection");
   }
 

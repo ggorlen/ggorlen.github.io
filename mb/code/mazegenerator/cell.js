@@ -100,11 +100,11 @@ Cell.prototype.link = function (otherCell) {
 }; // end link
 
 /**
- * Returns a random neighbor or undefined if no neighbors
- * @return the random neighbor
+ * Returns an array of random neighbors or undefined if no neighbors
+ * @return array of random neighbors
  */ 
-Cell.prototype.getRandNeighbor = function () {
-  return shuffle(Object.values(this.neighbors))[0] 
+Cell.prototype.getRandNeighbors = function () {
+  return shuffle(Object.values(this.neighbors));
 }; // end getRandNeighbor
 
 /**

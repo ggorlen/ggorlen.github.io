@@ -40,7 +40,7 @@ Prims.prototype.carve = function (maze) {
     cell.visited = true;
 
     // Carve a path between this cell and a random neighbor cell already in the maze
-    let randNeighbors = shuffle(Object.values(cell.neighbors)); 
+    let randNeighbors = cell.getRandNeighbors();
 
     for (let i = 0; i < randNeighbors.length; i++) {
       let neighbor = randNeighbors[i];

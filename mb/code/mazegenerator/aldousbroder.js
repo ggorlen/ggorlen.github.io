@@ -29,7 +29,7 @@ AldousBroder.prototype.carve = function (maze) {
 
     // Pick a random neighbor--if it's unvisited, add it
     // to the maze, else make it the current cell
-    let randNeighbor = cell.getRandNeighbor();
+    let randNeighbor = cell.getRandNeighbors()[0];
     if (!randNeighbor.visited) {
       cell.link(randNeighbor);
       randNeighbor.visited = true;

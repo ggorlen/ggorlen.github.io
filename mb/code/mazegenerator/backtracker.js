@@ -26,7 +26,7 @@ Backtracker.prototype.carve = function (maze) {
     cell.visited = true;
     
     // Get this cell's neighbors in random order
-    let randNeighbors = shuffle(Object.values(cell.neighbors));
+    let randNeighbors = cell.getRandNeighbors();
 
     // Find an unvisited neighbor--assume we'll pop the stack at the end
     let pop = true;
