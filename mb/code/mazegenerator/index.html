@@ -28,7 +28,7 @@
           <td>
             h: <input name="height" value=20 size=2>&nbsp;
             w: <input name="width" value=20 size=2>&nbsp;
-            grid size: <input name="gridsize" value=10 size=2>&nbsp;
+            grid size: <input name="gridsize" value=15 size=2>&nbsp;
           </td>
         </tr>
         <tr>
@@ -40,6 +40,7 @@
               <option value="prims">Prim's Algorithm</option>
               <option value="binarytree">Binary Tree</option>
               <option value="aldousbroder">Aldous-Broder</option>
+              <option value="wilsons">Wilson's Algorithm</option>
             </select>
           </td>
         </tr>
@@ -67,6 +68,7 @@
     <script src="binarytree.js"></script>
     <script src="prims.js"></script>
     <script src="aldousbroder.js"></script>
+    <script src="wilsons.js"></script>
     <script src="utility.js"></script>
     <script>
     
@@ -130,6 +132,7 @@
           case 1 : new Prims().carve(maze);        break;
           case 2 : new BinaryTree().carve(maze);   break;
           case 3 : new AldousBroder().carve(maze); break;
+          case 4 : new Wilsons().carve(maze);      break;
           default: console.log("invalid algorithm selection");
         }
       
@@ -146,21 +149,21 @@
         
         // Display maze, either as an animation or directly
         if (animate) {
-          let frame;
+          let cell;
+          let cellClass;
           interval = setInterval(function() {
             if (animStates.length) {
-              if (frame) {
-                document.getElementById(frame[0]).className = 
-                  frame[1].getClass();
+              if (cell) {
+                document.getElementById(cellClass).className = cell.getClass();
               }
-              frame = animStates.shift();
-              document.getElementById(frame[0]).className = 
-                frame[1].getClass() + " gridactive";
+              cell = animStates.shift();
+              cellClass = "cell_" + cell.y + "_" + cell.x;
+              document.getElementById(cellClass).className = 
+                cell.getClass() + " gridactive";
             }
             else {
               clearInterval(interval);
-              document.getElementById(frame[0]).className = 
-                frame[1].getClass();
+              document.getElementById(cellClass).className = cell.getClass();
             }
           }, animationSpeed);
         }

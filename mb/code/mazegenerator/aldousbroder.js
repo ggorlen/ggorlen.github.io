@@ -17,28 +17,22 @@ AldousBroder.prototype.carve = function(maze) {
   cellsLeft--;
   
   // Add this cell to the animation queue
-  animStates.push(["cell_" + cell.y + "_" + cell.x, cell]);
+  animStates.push(cell);
 
   // Keep going while there are unvisited cells
   while (cellsLeft) {
 
     // Pick a random neighbor--if it's unvisited, add it
     // to the maze, else make it the current cell
-    let randDirs = shuffle(Object.keys(cell.neighbors)); 
-    for (let i = 0; i < randDirs.length; i++) {
-      let neighbor = cell.neighbors[randDirs[i]];
-      if (neighbor) {
-        if (!neighbor.visited) {
-          cell.link(neighbor);
-          neighbor.visited = true;
-          cellsLeft--;
-        }
-        cell = neighbor;
-        break;
-      } 
+    let randNeighbor = cell.getRandNeighbor();
+    if (!randNeighbor.visited) {
+      cell.link(randNeighbor);
+      randNeighbor.visited = true;
+      cellsLeft--;
     }
+    cell = randNeighbor;
     
     // Add this cell to the animation queue
-    animStates.push(["cell_" + cell.y + "_" + cell.x, cell]);
+    animStates.push(cell);
   }
 }; // end carve

@@ -18,7 +18,7 @@ TicTacToeBoard.winPositions = [
 /**
  * Moves the current player to the parameter square
  *
- * @param the destination square in the range 0-8
+ * @param square the destination square in the range 0-8
  * @return true if move was executed, false otherwise
  */
 TicTacToeBoard.prototype.move = function (square) {

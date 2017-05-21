@@ -6,13 +6,14 @@
 let Cell = function(x, y) {
   this.x = x;
   this.y = y;
-  this.neighbors = { 'n': null, 's': null, 'e': null, 'w': null };
+  this.neighbors = {};
   this.links = { 'n': false, 's': false, 'e': false, 'w': false };
   this.visited = false;
 }; // end Cell class
   
 /** 
  * Prepares cell for HTML output
+ * @return string HTML tag for this cell
  */
 Cell.prototype.toHTML = function() {
   return "<td id='cell_" + this.y + 
@@ -21,7 +22,8 @@ Cell.prototype.toHTML = function() {
 }; // end toHTML
   
 /** 
- * Returns a CSS class representation
+ * Returns a CSS class representation of this cell
+ * @return string of CSS
  */
 Cell.prototype.getClass = function() {
   let output = "grid";
@@ -58,6 +60,7 @@ Cell.prototype.draw = function(ctx, grid) {
 
 /**
  * Sets the neighbors for this cell
+ * @param maze the maze this cell is a member of
  */
 Cell.prototype.setNeighbors = function(maze) {        
   let dirs = { 'n': [-1, 0], 's': [1, 0], 'e': [0, 1], 'w': [0, -1] };
@@ -74,6 +77,7 @@ Cell.prototype.setNeighbors = function(maze) {
 
 /**
  * Links this and parameter cell
+ * @param otherCell the cell to link to this
  */
 Cell.prototype.link = function(otherCell) {
 
@@ -81,7 +85,7 @@ Cell.prototype.link = function(otherCell) {
   for (let neighbor in this.neighbors) {
     if (this.neighbors[neighbor] === otherCell) {
       this.links[neighbor] = true;
-      break
+      break;
     }
   }
 
@@ -93,3 +97,11 @@ Cell.prototype.link = function(otherCell) {
     }
   }
 }; // end link
+
+/**
+ * Returns a random neighbor or undefined if no neighbors
+ * @return the random neighbor
+ */ 
+Cell.prototype.getRandNeighbor = function () {
+  return shuffle(Object.values(this.neighbors))[0] 
+}; // end getRandNeighbor

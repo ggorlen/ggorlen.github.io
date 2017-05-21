@@ -25,13 +25,12 @@ Negamax.prototype.getBestMove = function (originNode) {
  * @param depth the search depth in the tree
  * @param a     alpha value
  * @param b     beta value
- * @param color specifying the player to maximize
  * @return the best value in the position
  */
 Negamax.prototype.getBestMoveHelper = function (node, depth, a, b) {
 
   // Return the node's value if the position is terminal
-  if (node.isWon()) return -1;
+  if (node.isWon()) return -(10 - depth);
   if (node.isDrawn()) return 0;
 
   // Set the best value low
@@ -48,18 +47,18 @@ Negamax.prototype.getBestMoveHelper = function (node, depth, a, b) {
     let childVal = -this.getBestMoveHelper(nextNode, depth + 1, -b, -a);
 
     // Set best values and alpha based on this child's evaluation
-    bestVal = Math.max(bestVal, childVal);
     a = Math.max(a, childVal);
 
+    if (bestVal < childVal) {
+        bestVal = childVal;
+        if (depth === 0) {
+          this.bestMove = moves[i];
+        }
+    }
+    
     // Abandon searching this node if child node
     // evaluation is outside alpha beta range
-    if (b < a) break;
-
-    // Set the best move if at root node and the 
-    // current move is as good as the best move
-    if (depth === 0 && bestVal <= childVal) {
-      this.bestMove = moves[i];
-    }
+    if (a >= b) break;
   }
   return bestVal;
 }; // end getBestMoveHelper

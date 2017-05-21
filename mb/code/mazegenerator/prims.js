@@ -21,7 +21,7 @@ Prims.prototype.carve = function(maze) {
   cell.visited = true;
 
   // Add this cell to the animation queue
-  animStates.push(["cell_" + cell.y + "_" + cell.x, cell]);
+  animStates.push(cell);
 
   // Add its neighbors to the frontier
   for (let dir in cell.neighbors) {
@@ -40,10 +40,10 @@ Prims.prototype.carve = function(maze) {
     cell.visited = true;
 
     // Carve a path between this cell and a random neighbor cell already in the maze
-    let randDirs = shuffle(Object.keys(cell.neighbors)); 
+    let randNeighbors = shuffle(Object.values(cell.neighbors)); 
 
-    for (let i = 0; i < randDirs.length; i++) {
-      let neighbor = cell.neighbors[randDirs[i]];
+    for (let i = 0; i < randNeighbors.length; i++) {
+      let neighbor = randNeighbors[i];
       if (neighbor && neighbor.visited) {
         cell.link(neighbor);
         break;
@@ -60,6 +60,6 @@ Prims.prototype.carve = function(maze) {
     }
 
     // Add this cell to the animation queue
-    animStates.push(["cell_" + cell.y + "_" + cell.x, cell]);
+    animStates.push(cell);
   }
 }; // end carve

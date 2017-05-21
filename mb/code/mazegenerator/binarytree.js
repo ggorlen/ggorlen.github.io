@@ -14,7 +14,7 @@ BinaryTree.prototype.carve = function(maze) {
     let cell = grid.shift();
    
     // Add this cell to the animation queue
-    animStates.push(["cell_" + cell.y + "_" + cell.x, cell]);
+    animStates.push(cell);
   
     // Mark this cell visited
     cell.visited = true;

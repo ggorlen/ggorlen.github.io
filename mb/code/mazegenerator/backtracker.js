@@ -18,27 +18,26 @@ Backtracker.prototype.carve = function(maze) {
     let cell = stack[stack.length - 1];
     
     // Add this cell to the animation queue
-    animStates.push(["cell_" + cell.y + "_" + cell.x, cell]);
+    animStates.push(cell);
   
     // Mark this cell visited
     cell.visited = true;
     
-    // Get this cell's neighbor keys in random order
-    let randDirs = shuffle(Object.keys(cell.neighbors));
+    // Get this cell's neighbors in random order
+    let randNeighbors = shuffle(Object.values(cell.neighbors));
 
     // Find an unvisited neighbor--assume we'll pop the stack at the end
     let pop = true;
-    for (let i = 0; i < randDirs.length && pop; i++) {
+    for (let i = 0; i < randNeighbors.length && pop; i++) {
 
       // Ensure candidate cell to link to is unvisited
-      if (cell.neighbors[randDirs[i]] && 
-          !cell.neighbors[randDirs[i]].visited) {
+      if (randNeighbors[i] && !randNeighbors[i].visited) {
 
         // Add the unvisited neighbor to the stack
-        stack.push(cell.neighbors[randDirs[i]]);
+        stack.push(randNeighbors[i]);
 
         // Make a path between current cell and unvisited neighbor                      
-        cell.link(cell.neighbors[randDirs[i]]);
+        cell.link(randNeighbors[i]);
 
         // Flag to exit the loop and not pop the stack
         pop = false;
