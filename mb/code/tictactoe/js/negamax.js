@@ -30,8 +30,8 @@ Negamax.prototype.getBestMove = function (originNode) {
 Negamax.prototype.getBestMoveHelper = function (node, depth, a, b) {
 
   // Return the node's value if the position is terminal
-  if (node.isWon()) return -(10 - depth);
-  if (node.isDrawn()) return 0;
+  if (node.isWon()) return -node.scoreWin();
+  if (node.isDrawn()) return node.scoreDraw();
 
   // Set the best value low
   let bestVal = -Infinity;

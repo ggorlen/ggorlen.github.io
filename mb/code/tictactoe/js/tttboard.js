@@ -96,3 +96,19 @@ TicTacToeBoard.prototype.clone = function () {
   ttt.ply = this.ply;
   return ttt;
 }; // end clone
+
+/**
+ * Scores a won position based on ply
+ * @return the score rating
+ */
+TicTacToeBoard.prototype.scoreWin = function () {
+  return 10 - this.ply;
+}; // end scoreWin
+
+/**
+ * Scores a drawn position
+ * @ return the drawn position rating
+ */
+TicTacToeBoard.prototype.scoreDraw = function () {
+  return 0;
+}; // end scoreDraw
