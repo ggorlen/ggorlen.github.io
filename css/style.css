@@ -1,0 +1,16 @@
+html, body, #main {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+} 
+
+#main {
+    font-family: monospace;
+    white-space: pre;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+}
