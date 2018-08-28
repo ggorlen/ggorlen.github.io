@@ -50,6 +50,8 @@ for (let j = 0; j < width; j++) {
 }
 
 res.push(palette.btmRCorner);
+res.push(palette.shade);
+res.push(palette.shade);
 res.push("<br>");
 
 res.push("   ");
