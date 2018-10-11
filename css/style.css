@@ -1,23 +1,52 @@
-html, body, #main {
+@import url('https://fonts.googleapis.com/css?family=Inconsolata|Karla');
+
+html, body {
   height: 100%;
 }
 
 body {
   margin: 0;
+  display: flex;
+  flex-flow: column wrap;
 } 
 
-#main {
-  font-family: "courier", monospace;
-  white-space: pre;
+a,
+a:link,
+a:visited,
+a:hover,
+a:active {
+  color: #000;
+}
+
+div#main {
+  font-size: 1.2em;
+  padding: 1em;
+  margin: auto;
   display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  justify-content: center;
+}
+
+div#main > div.section {
+  padding: 1em;
+  font-family: "Karla", sans-serif;
+}
+
+div#main > div.section div.code {
+  font-family: "Inconsolata", monospace;
+}
+
+div#main > div.section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 @media (max-width: 500px) {
-  #main {
+  body,
+  div#main {
     display: block;
-    margin: 1em;
+  }
+
+  div#main > div.section {
+    padding: 0;
   }
 }
