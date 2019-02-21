@@ -19,7 +19,6 @@ a:active {
 }
 
 div#main {
-  font-size: 1.2em;
   padding: 1em;
   margin: auto;
   display: flex;
@@ -31,7 +30,7 @@ div#main > div.section {
 }
 
 div#main > div.section div.code {
-  font-family: "Inconsolata", monospace;
+  font-family: monospace;
 }
 
 div#main > div.section ul {

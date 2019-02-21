@@ -15,7 +15,6 @@
     <div id="main">
       <div class="section">
         <div class="code">
-          <p>
             ++++++++++[>+++++++<br>
             +++>+++++++++++>+++<br>
             +++>+++++<<<<-]>+++<br>
@@ -23,25 +22,30 @@
             .<+++++.-------.>--<br>
             --.>++++.<<++.>-.<-<br>
             -----.>----.+++.>>-<br>
-            ---.<<<++.>+++.--. <br>
-          </p>
+            ---.<<<++.>+++.--. 
         </div>
       </div>
       <div class="section">
-        <p>hello!</p>
-        <p>
-          <a href="https://stackexchange.com/users/8306545"><img src="https://stackexchange.com/users/flair/8306545.png" 
-                 width="208" 
-                 height="58" 
-                 alt="profile for ggorlen on Stack Exchange, a network of free, community-driven Q&amp;A sites" 
-                 title="profile for ggorlen on Stack Exchange, a network of free, community-driven Q&amp;A sites"
-          ></a>
-          <br>
-          <a style="border: 0;" href="https://projecteuler.net/progress=ggorlen">
-            <img alt="ggorlen's Project Euler progress" src="https://projecteuler.net/profile/ggorlen.png">
-          </a>
-        </p>
       </div>
     </div>
+    <script>
+
+     const canvas = document.createElement("canvas");
+     canvas.width = 300;
+     canvas.height = 130;
+     document.getElementsByClassName("section")[1].appendChild(canvas);
+     const ctx = canvas.getContext("2d");
+     ctx.fillStyle = "#333";
+
+     for (let y = 0; y < 10; y += 0.055) {
+       for (let x = 0; x <= 2; x += 0.15) {
+         let z = Math.sin(y * x) / (x + 36);
+         let px = x * 100 + y * 10;
+         let py = z * 140 + y * 12;
+         ctx.fillRect(px, py, 1, 1);
+       }
+     }
+
+    </script>
   </body>
 </html>
