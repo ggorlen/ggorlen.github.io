@@ -1,19 +1,50 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>ggorlen</title>
+    <title>~ggorlen</title>
     <meta charset="utf-8">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="css/style.css">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
   </head>
   <body>
     <div id="main">
       <div class="section">
+        <h2>Greg's internet corner</h2>
+        <canvas width=0 height=0 id="sketch"></canvas>
+      </div>
+      <div class="section">
+        <h4>Currently working on (3/2019)</h4>
+        <ul>
+          <li>taking <a href="https://www.omscs.gatech.edu/cs-6210-advanced-operating-systems">Advanced Operating Systems</a> at OMSCS</li>
+          <li>writing coding challenge content for <a href="https://www.qualified.io/">Qualified</a></li>
+          <li>teaching at <a href="https://www.thecoderschool.com/sanfrancisco/">The Coder School</a></li>
+          <li>hosting a weekly whiteboarding meetup at <a href="https://www.meetup.com/noisebridge/events/">Noisebridge</a></li>
+        </ul>
+      </div>
+      <div class="section">
+        <h4>Github pages sundries</h4>
+        <ul>
+          <li><a href="resources">resources</a></li>
+          <li><a href="prettybt">pretty binary tree</a></li>
+          <li><a href="sokoban">sokoban</a></li>
+          <li><a href="tetris">tetris</a></li>
+          <li><a href="minesweeper">minesweeper</a></li>
+          <li><a href="gloaming">gloaming</a></li>
+          <li><a href="mazes">mazes</a></li>
+        </ul>
+      </div>
+      <div class="section">
+        <h4>Elsewhere</h4>
+        <ul>
+          <li><a href="https://stackexchange.com/users/8306545/ggorlen">stack exchange</a></li>
+          <li><a href="https://codepen.io/ggorlen/">codepen</a></li>
+          <li><a href="https://leetcode.com/ggorlen/">leetcode</a></li>
+          <li><a href="https://codewars.com/users/ggorlen">codewars</a></li>
+          <li><a href="https://www.hackerrank.com/ggorlen">hackerrank</a></li>
+        </ul>
+      </div>
+      <div class="section">
+        <h4>Contact</h4>
         <div class="code">
             ++++++++++[>+++++++<br>
             +++>+++++++++++>+++<br>
@@ -26,25 +57,37 @@
         </div>
       </div>
       <div class="section">
+        <br>
+        <em style="font-size: 0.8em">Thanks for visiting!</em>
       </div>
     </div>
     <script>
+     
+      function drawSquares(x, y, size, shrinkFactor) {
+        if (size > 1 && Math.random() > 0.5) {
+          ctx.strokeRect(x, y, size, size);
 
-     const canvas = document.createElement("canvas");
-     canvas.width = 300;
-     canvas.height = 130;
-     document.getElementsByClassName("section")[1].appendChild(canvas);
-     const ctx = canvas.getContext("2d");
-     ctx.fillStyle = "#333";
+          var newSize = ~~(size / 2);
+          drawSquares(x, y, newSize, shrinkFactor);
+          drawSquares(x, y + newSize, newSize, shrinkFactor);
+          drawSquares(x + newSize, y, newSize, shrinkFactor);
+          drawSquares(x + newSize, y + newSize, newSize, shrinkFactor);
+        }
+      }
 
-     for (let y = 0; y < 10; y += 0.055) {
-       for (let x = 0; x <= 2; x += 0.15) {
-         let z = Math.sin(y * x) / (x + 36);
-         let px = x * 100 + y * 10;
-         let py = z * 140 + y * 12;
-         ctx.fillRect(px, py, 1, 1);
-       }
-     }
+      var canvas = document.getElementById("sketch");
+      var ctx = canvas.getContext("2d");
+      canvas.width = 240;
+      canvas.height = 120;
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "hsl(0, 0%, 30%)";
+      var gridSize = ~~(canvas.width / 4 - ~~(ctx.lineWidth / 2)) - ~~(ctx.lineWidth / 2);
+
+      for (var i = ctx.lineWidth; i < canvas.height - gridSize; i += gridSize) {
+        for (var j = ctx.lineWidth; j < canvas.width - gridSize; j += gridSize) {
+          drawSquares(j, i, gridSize);
+        }
+      }
 
     </script>
   </body>
