@@ -40,9 +40,14 @@ div#main > div.section ul {
   body,
   div#main {
     display: block;
+    font-size: 1.1em;
   }
 
   div#main > div.section {
     padding: 0;
+  }
+
+  div#main > div.section li {
+    padding-bottom: 0.5em;
   }
 }
