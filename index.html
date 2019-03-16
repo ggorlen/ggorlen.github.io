@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>~ggorlen</title>
+    <title>ggorlen</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
@@ -14,7 +14,7 @@
         <canvas width=0 height=0 id="sketch"></canvas>
       </div>
       <div class="section">
-        <h4>Currently working on (3/2019)</h4>
+        <h4>Right now I'm...</h4>
         <ul>
           <li>taking <a href="https://www.omscs.gatech.edu/cs-6210-advanced-operating-systems">Advanced Operating Systems</a> at OMSCS</li>
           <li>writing coding challenge content for <a href="https://www.qualified.io/">Qualified</a></li>
@@ -26,12 +26,12 @@
         <h4>Github pages sundries</h4>
         <ul>
           <li><a href="resources">resources</a></li>
-          <li><a href="prettybt">pretty binary tree</a></li>
           <li><a href="sokoban">sokoban</a></li>
           <li><a href="tetris">tetris</a></li>
           <li><a href="minesweeper">minesweeper</a></li>
           <li><a href="gloaming">gloaming</a></li>
           <li><a href="mazes">mazes</a></li>
+          <li><a href="prettybt">pretty binary tree</a></li>
         </ul>
       </div>
       <div class="section">
@@ -65,7 +65,7 @@
     <script>
      
       function drawSquares(x, y, size, shrinkFactor) {
-        if (size > 1 && Math.random() > 0.5) {
+        if (size > 1 && Math.random() > 0.4) {
           ctx.strokeRect(x, y, size, size);
 
           var newSize = ~~(size / 2);
@@ -81,8 +81,8 @@
       canvas.width = 240;
       canvas.height = 120;
       ctx.lineWidth = 2;
-      ctx.strokeStyle = "hsl(0, 0%, 30%)";
-      var gridSize = ~~(canvas.width / 4 - ~~(ctx.lineWidth / 2)) - ~~(ctx.lineWidth / 2);
+      ctx.strokeStyle = "hsl(0, 0%, 20%)";
+      var gridSize = ~~(canvas.width / 4) - ~~(ctx.lineWidth / 2) * 2;
 
       for (var i = ctx.lineWidth; i < canvas.height - gridSize; i += gridSize) {
         for (var j = ctx.lineWidth; j < canvas.width - gridSize; j += gridSize) {
