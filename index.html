@@ -30,7 +30,7 @@
           <li><a href="tetris">tetris</a></li>
           <li><a href="minesweeper">minesweeper</a></li>
           <li><a href="gloaming">gloaming</a></li>
-          <li><a href="mazes">mazes</a></li>
+          <li><a href="mazes">maze generator</a></li>
           <li><a href="prettybt">pretty binary tree</a></li>
         </ul>
       </div>
@@ -39,6 +39,7 @@
         <ul>
           <li><a href="https://stackexchange.com/users/8306545/ggorlen">stack exchange</a></li>
           <li><a href="https://codepen.io/ggorlen/">codepen</a></li>
+          <li><a href="https://jsfiddle.net/user/ggorlen/">jsfiddle</a></li>
           <li><a href="https://leetcode.com/ggorlen/">leetcode</a></li>
           <li><a href="https://codewars.com/users/ggorlen">codewars</a></li>
           <li><a href="https://www.hackerrank.com/ggorlen">hackerrank</a></li>
@@ -65,7 +66,7 @@
     <script>
      
       function drawSquares(x, y, size, shrinkFactor) {
-        if (size > 1 && Math.random() > 0.4) {
+        if (size > 1 && Math.random() >= 0.5) {
           ctx.strokeRect(x, y, size, size);
 
           var newSize = ~~(size / 2);
@@ -78,10 +79,10 @@
 
       var canvas = document.getElementById("sketch");
       var ctx = canvas.getContext("2d");
-      canvas.width = 240;
-      canvas.height = 120;
+      canvas.width = 60;
+      canvas.height = 60;
       ctx.lineWidth = 2;
-      ctx.strokeStyle = "hsl(0, 0%, 20%)";
+      ctx.strokeStyle = "hsl(0, 0%, 40%)";
       var gridSize = ~~(canvas.width / 4) - ~~(ctx.lineWidth / 2) * 2;
 
       for (var i = ctx.lineWidth; i < canvas.height - gridSize; i += gridSize) {
