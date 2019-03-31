@@ -9,12 +9,12 @@
   </head>
   <body>
     <div id="main">
-      <div class="section">
-        <h2>Greg's internet corner</h2>
+      <div class="section" style="display: flex;">
         <canvas width=0 height=0 id="sketch"></canvas>
+        <h2>ggorlen.github.io</h2>
       </div>
       <div class="section">
-        <h4>Right now I'm...</h4>
+        <h4>Currently, I'm...</h4>
         <ul>
           <li>taking <a href="https://www.omscs.gatech.edu/cs-6210-advanced-operating-systems">Advanced Operating Systems</a> at OMSCS</li>
           <li>writing coding challenge content for <a href="https://www.qualified.io/">Qualified</a></li>
@@ -23,7 +23,7 @@
         </ul>
       </div>
       <div class="section">
-        <h4>Github pages sundries</h4>
+        <h4>Sundries</h4>
         <ul>
           <li><a href="resources">resources</a></li>
           <li><a href="sokoban">sokoban</a></li>
@@ -58,15 +58,11 @@
             ---.<<<++.>+++.--. 
         </div>
       </div>
-      <div class="section">
-        <br>
-        <em style="font-size: 0.8em">Thanks for visiting!</em>
-      </div>
     </div>
     <script>
      
       function drawSquares(x, y, size, shrinkFactor) {
-        if (size > 1 && Math.random() >= 0.5) {
+        if (size > 2 && Math.random() >= 0.6) {
           ctx.strokeRect(x, y, size, size);
 
           var newSize = ~~(size / 2);
@@ -82,7 +78,7 @@
       canvas.width = 60;
       canvas.height = 60;
       ctx.lineWidth = 2;
-      ctx.strokeStyle = "hsl(0, 0%, 40%)";
+      ctx.strokeStyle = "hsl(0, 0%, 30%)";
       var gridSize = ~~(canvas.width / 4) - ~~(ctx.lineWidth / 2) * 2;
 
       for (var i = ctx.lineWidth; i < canvas.height - gridSize; i += gridSize) {
