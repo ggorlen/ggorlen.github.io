@@ -3,7 +3,7 @@ body {
   font-size: 10pt;
   margin: 0;
   color: #333;
-  max-width: 50em;
+  max-width: 38em;
 } 
 
 a,
@@ -18,8 +18,7 @@ header {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  margin: 2em;
-  border-bottom: 1px solid #777;
+  margin: 2em 2em 0 2em;
 }
 
 header > *:last-child {
@@ -45,7 +44,7 @@ div#main > div.section {
 
 div#main > div.section div.code {
   font-family: "Source Code Pro", monospace;
-  font-size: 8pt;
+  font-size: 9pt;
 }
 
 div#main > div.section ul {
@@ -54,11 +53,11 @@ div#main > div.section ul {
   margin: 0;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 600px) {
   body,
   div#main {
     display: inline-block;
-    font-size: 1.1em;
+    font-size: 1em;
   }
 
   div#main > div.section {
@@ -66,6 +65,6 @@ div#main > div.section ul {
   }
 
   div#main > div.section li {
-    padding-bottom: 0.5em;
+    padding-bottom: 0.4em;
   }
 }

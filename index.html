@@ -14,6 +14,21 @@
     </header>
     <div id="main">
       <div class="section">
+        <h4>Profiles</h4>
+        <ul>
+          <li><a href="https://github.com/ggorlen">github</a></li>
+          <li><a href="https://stackexchange.com/users/8306545/ggorlen">stack exchange</a></li>
+          <li><a href="https://codepen.io/ggorlen/">codepen</a></li>
+          <li><a href="https://glitch.com/@ggorlen">glitch</a></li>
+          <li><a href="https://jsfiddle.net/user/ggorlen/">jsfiddle</a></li>
+          <li><a href="https://scratch.mit.edu/users/ggorlen/">scratch</a></li>
+          <li><a href="https://leetcode.com/ggorlen/">leetcode</a></li>
+          <li><a href="https://codewars.com/users/ggorlen">codewars</a></li>
+          <li><a href="https://www.hackerrank.com/ggorlen">hackerrank</a></li>
+          <li><a href="https://teamtreehouse.com/ggorlen">treehouse</a></li>
+        </ul>
+      </div>
+      <div class="section">
         <h4>Sundries</h4>
         <ul>
           <li><a href="resources">resources</a></li>
@@ -26,58 +41,50 @@
         </ul>
       </div>
       <div class="section">
-        <h4>Profiles</h4>
-        <ul>
-          <li><a href="https://github.com/ggorlen">github</a></li>
-          <li><a href="https://stackexchange.com/users/8306545/ggorlen">stack exchange</a></li>
-          <li><a href="https://codepen.io/ggorlen/">codepen</a></li>
-          <li><a href="https://jsfiddle.net/user/ggorlen/">jsfiddle</a></li>
-          <li><a href="https://leetcode.com/ggorlen/">leetcode</a></li>
-          <li><a href="https://codewars.com/users/ggorlen">codewars</a></li>
-          <li><a href="https://www.hackerrank.com/ggorlen">hackerrank</a></li>
-        </ul>
-      </div>
-      <div class="section">
         <h4>Contact</h4>
         <div class="code">
-            ++++++++++[>+++++++<br>
-            +++>+++++++++++>+++<br>
-            +++>+++++<<<<-]>+++<br>
-            .>+++++.<.>----.+++<br>
-            .<+++++.-------.>--<br>
-            --.>++++.<<++.>-.<-<br>
-            -----.>----.+++.>>-<br>
-            ---.<<<++.>+++.--. 
+          ++++++++++[>+++++++<br>
+          +++>+++++++++++>+++<br>
+          +++>+++++<<<<-]>+++<br>
+          .>+++++.<.>----.+++<br>
+          .<+++++.-------.>--<br>
+          --.>++++.<<++.>-.<-<br>
+          -----.>----.+++.>>-<br>
+          ---.<<<++.>+++.--. 
         </div>
       </div>
     </div>
     <script>
      
-      function drawSquares(x, y, size, shrinkFactor) {
-        if (size > 2 && Math.random() >= 0.6) {
-          ctx.strokeRect(x, y, size, size);
+      (function () {  
+        function drawSquares(x, y, size, shrinkFactor) {
+          if (size > 2 && Math.random() >= 0.6) {
+            ctx.strokeRect(x, y, size, size);
 
-          var newSize = ~~(size / 2);
-          drawSquares(x, y, newSize, shrinkFactor);
-          drawSquares(x, y + newSize, newSize, shrinkFactor);
-          drawSquares(x + newSize, y, newSize, shrinkFactor);
-          drawSquares(x + newSize, y + newSize, newSize, shrinkFactor);
+            var newSize = ~~(size / 2);
+            setTimeout(() => {
+              drawSquares(x, y, newSize, shrinkFactor);
+              drawSquares(x, y + newSize, newSize, shrinkFactor);
+              drawSquares(x + newSize, y, newSize, shrinkFactor);
+              drawSquares(x + newSize, y + newSize, newSize, shrinkFactor);
+            }, Math.random() * 10 + 100);
+          }
         }
-      }
 
-      var canvas = document.getElementById("sketch");
-      var ctx = canvas.getContext("2d");
-      canvas.width = 60;
-      canvas.height = 60;
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = "hsl(0, 0%, 30%)";
-      var gridSize = ~~(canvas.width / 4) - ~~(ctx.lineWidth / 2) * 2;
+        var canvas = document.getElementById("sketch");
+        var ctx = canvas.getContext("2d");
+        canvas.width = 60;
+        canvas.height = 60;
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "hsl(0, 0%, 30%)";
+        var gridSize = ~~(canvas.width / 4) - ~~(ctx.lineWidth / 2) * 2;
 
-      for (var i = ctx.lineWidth; i < canvas.height - gridSize; i += gridSize) {
-        for (var j = ctx.lineWidth; j < canvas.width - gridSize; j += gridSize) {
-          drawSquares(j, i, gridSize);
+        for (var i = ctx.lineWidth; i < canvas.height - gridSize; i += gridSize) {
+          for (var j = ctx.lineWidth; j < canvas.width - gridSize; j += gridSize) {
+            drawSquares(j, i, gridSize);
+          }
         }
-      }
+      })();
 
     </script>
   </body>
