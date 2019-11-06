@@ -26,12 +26,14 @@
           <li><a href="https://codewars.com/users/ggorlen">codewars</a></li>
           <li><a href="https://www.hackerrank.com/ggorlen">hackerrank</a></li>
           <li><a href="https://teamtreehouse.com/ggorlen">treehouse</a></li>
+          <li><a href="https://open.kattis.com/users/ggorlen">kattis</a></li>
+          <li><a href="https://repl.it/@ggorlen">repl</a></li>
         </ul>
       </div>
       <div class="section">
         <h4>Sundries</h4>
         <ul>
-          <li><a href="resources">resources</a></li>
+          <li><a href="resources">programming resources</a></li>
           <li><a href="sokoban">sokoban</a></li>
           <li><a href="tetris">tetris</a></li>
           <li><a href="minesweeper">minesweeper</a></li>
@@ -62,12 +64,10 @@
             ctx.strokeRect(x, y, size, size);
 
             var newSize = ~~(size / 2);
-            setTimeout(() => {
-              drawSquares(x, y, newSize, shrinkFactor);
-              drawSquares(x, y + newSize, newSize, shrinkFactor);
-              drawSquares(x + newSize, y, newSize, shrinkFactor);
-              drawSquares(x + newSize, y + newSize, newSize, shrinkFactor);
-            }, Math.random() * 10 + 100);
+            drawSquares(x, y, newSize, shrinkFactor);
+            drawSquares(x, y + newSize, newSize, shrinkFactor);
+            drawSquares(x + newSize, y, newSize, shrinkFactor);
+            drawSquares(x + newSize, y + newSize, newSize, shrinkFactor);
           }
         }
 
