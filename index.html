@@ -9,7 +9,7 @@
   </head>
   <body>
     <header>
-      <canvas width=0 height=0 id="sketch"></canvas>
+      <canvas width=90 height=90 id="sketch"></canvas>
       <h2>ggorlen.github.io</h2>
     </header>
     <div id="main">
@@ -26,7 +26,9 @@
           <li><a href="https://codewars.com/users/ggorlen">codewars</a></li>
           <li><a href="https://www.hackerrank.com/ggorlen">hackerrank</a></li>
           <li><a href="https://teamtreehouse.com/ggorlen">treehouse</a></li>
+          <li><a href="https://ggorlen.neocities.org/">neocities</a></li>
           <li><a href="https://open.kattis.com/users/ggorlen">kattis</a></li>
+          <li><a href="https://cses.fi/user/25733">cses</a></li>
           <li><a href="https://repl.it/@ggorlen">repl</a></li>
         </ul>
       </div>
@@ -44,26 +46,31 @@
       </div>
       <div class="section">
         <h4>Contact</h4>
-        <div class="code">
-          ++++++++++[>+++++++<br>
-          +++>+++++++++++>+++<br>
-          +++>+++++<<<<-]>+++<br>
-          .>+++++.<.>----.+++<br>
-          .<+++++.-------.>--<br>
-          --.>++++.<<++.>-.<-<br>
-          -----.>----.+++.>>-<br>
-          ---.<<<++.>+++.--. 
-        </div>
+        <div class="code">++++++++++[&gt;+++++++
++++&gt;+++++++++++&gt;+++
++++&gt;+++++&lt;&lt;&lt;&lt;-]&gt;+++
+.&gt;+++++.&lt;.&gt;----.+++
+.&lt;+++++.-------.&gt;--
+--.&gt;++++.&lt;&lt;++.&gt;-.&lt;-
+-----.&gt;----.+++.&gt;&gt;-
+---.&lt;&lt;&lt;++.&gt;+++.--.</div>
       </div>
     </div>
+    <!--
+    <footer>
+      <img src="https://projecteuler.net/profile/ggorlen.png">
+      <a href="https://stackexchange.com/users/8306545"><img src="https://stackexchange.com/users/flair/8306545.png" width="208" height="58" alt="profile for ggorlen on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for ggorlen on Stack Exchange, a network of free, community-driven Q&amp;A sites"></a>
+      <img src="https://www.codewars.com/users/ggorlen/badges/micro">
+      <img src="http://vanilla-js.com/assets/button.png">
+    </footer>
+    -->
     <script>
      
       (function () {  
         function drawSquares(x, y, size, shrinkFactor) {
           if (size > 2 && Math.random() >= 0.6) {
             ctx.strokeRect(x, y, size, size);
-
-            var newSize = ~~(size / 2);
+            var newSize = size / 2;
             drawSquares(x, y, newSize, shrinkFactor);
             drawSquares(x, y + newSize, newSize, shrinkFactor);
             drawSquares(x + newSize, y, newSize, shrinkFactor);
@@ -73,11 +80,11 @@
 
         var canvas = document.getElementById("sketch");
         var ctx = canvas.getContext("2d");
-        canvas.width = 60;
-        canvas.height = 60;
+        canvas.width = 90;
+        canvas.height = 90;
         ctx.lineWidth = 2;
-        ctx.strokeStyle = "hsl(0, 0%, 30%)";
-        var gridSize = ~~(canvas.width / 4) - ~~(ctx.lineWidth / 2) * 2;
+        ctx.strokeStyle = "hsl(0, 0%, 40%)";
+        var gridSize = ~~(canvas.width / 3) - ~~(ctx.lineWidth / 2) * 2;
 
         for (var i = ctx.lineWidth; i < canvas.height - gridSize; i += gridSize) {
           for (var j = ctx.lineWidth; j < canvas.width - gridSize; j += gridSize) {

@@ -1,9 +1,15 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-  font-family: Verdana, Geneva, sans-serif;
+  font-family: "Source Code Pro", monospace;
   font-size: 10pt;
   margin: 0;
-  color: #333;
-  max-width: 500px;
+  color: #000;
+  max-width: 550px;
 } 
 
 a,
@@ -14,15 +20,22 @@ a:active {
   color: #333;
 }
 
+h4 {
+  margin-bottom: 0.5em;
+}
+
 header {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  margin: 2em 2em 0 2em;
+  margin: 1em;
+  margin-bottom: 1em;
+  padding-bottom: 1em;
+  border-bottom: 1px solid #888;
 }
 
-header > *:last-child {
-  padding-bottom: 0.5em;
+footer {
+  margin-left: 1em;
 }
 
 #sketch {
@@ -30,7 +43,6 @@ header > *:last-child {
 }
 
 div#main {
-  margin: 1em;
   display: flex;
   flex-wrap: wrap;
 }
@@ -45,6 +57,7 @@ div#main > div.section {
 div#main > div.section div.code {
   font-family: "Source Code Pro", monospace;
   font-size: 9pt;
+  white-space: pre;
 }
 
 div#main > div.section ul {
@@ -54,17 +67,21 @@ div#main > div.section ul {
 }
 
 @media (max-width: 600px) {
-  body,
-  div#main {
-    display: inline-block;
+  body {
     font-size: 1em;
+  }
+
+  header {
+    display: block;
+  }
+
+  div#main {
+    display: block;
   }
 
   div#main > div.section {
     padding: 0;
-  }
-
-  div#main > div.section li {
-    padding-bottom: 0.4em;
+    line-height: 1.4em;
   }
 }
+
