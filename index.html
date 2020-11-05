@@ -9,27 +9,27 @@
   </head>
   <body>
     <header>
-      <canvas width=90 height=90 id="sketch"></canvas>
+      <canvas width=74 height=74 id="sketch"></canvas>
       <h2>ggorlen.github.io</h2>
     </header>
     <div id="main">
       <div class="section">
         <h4>Profiles</h4>
         <ul>
-          <li><a href="https://github.com/ggorlen">github</a></li>
-          <li><a href="https://stackexchange.com/users/8306545/ggorlen">stack exchange</a></li>
           <li><a href="https://codepen.io/ggorlen/">codepen</a></li>
-          <li><a href="https://glitch.com/@ggorlen">glitch</a></li>
-          <li><a href="https://jsfiddle.net/user/ggorlen/">jsfiddle</a></li>
-          <li><a href="https://scratch.mit.edu/users/ggorlen/">scratch</a></li>
-          <li><a href="https://leetcode.com/ggorlen/">leetcode</a></li>
           <li><a href="https://codewars.com/users/ggorlen">codewars</a></li>
-          <li><a href="https://www.hackerrank.com/ggorlen">hackerrank</a></li>
-          <li><a href="https://teamtreehouse.com/ggorlen">treehouse</a></li>
-          <li><a href="https://ggorlen.neocities.org/">neocities</a></li>
-          <li><a href="https://open.kattis.com/users/ggorlen">kattis</a></li>
           <li><a href="https://cses.fi/user/25733">cses</a></li>
+          <li><a href="https://github.com/ggorlen">github</a></li>
+          <li><a href="https://glitch.com/@ggorlen">glitch</a></li>
+          <li><a href="https://www.hackerrank.com/ggorlen">hackerrank</a></li>
+          <li><a href="https://jsfiddle.net/user/ggorlen/">jsfiddle</a></li>
+          <li><a href="https://open.kattis.com/users/ggorlen">kattis</a></li>
+          <li><a href="https://leetcode.com/ggorlen/">leetcode</a></li>
+          <li><a href="https://ggorlen.neocities.org/">neocities</a></li>
           <li><a href="https://repl.it/@ggorlen">repl</a></li>
+          <li><a href="https://scratch.mit.edu/users/ggorlen/">scratch</a></li>
+          <li><a href="https://stackexchange.com/users/8306545/ggorlen">stack exchange</a></li>
+          <li><a href="https://teamtreehouse.com/ggorlen">treehouse</a></li>
         </ul>
       </div>
       <div class="section">
@@ -66,25 +66,25 @@
     -->
     <script>
      
-      (function () {  
-        function drawSquares(x, y, size, shrinkFactor) {
-          if (size > 2 && Math.random() >= 0.6) {
-            ctx.strokeRect(x, y, size, size);
+      (function () {
+        function drawSquares(x, y, size) {
+          if (size > 1 && Math.random() >= 0.4) {
+            ctx.strokeRect(x - 0.5, y - 0.5, size, size);
             var newSize = size / 2;
-            drawSquares(x, y, newSize, shrinkFactor);
-            drawSquares(x, y + newSize, newSize, shrinkFactor);
-            drawSquares(x + newSize, y, newSize, shrinkFactor);
-            drawSquares(x + newSize, y + newSize, newSize, shrinkFactor);
+            drawSquares(x, y, newSize);
+            drawSquares(x, y + newSize, newSize);
+            drawSquares(x + newSize, y, newSize);
+            drawSquares(x + newSize, y + newSize, newSize);
           }
         }
 
         var canvas = document.getElementById("sketch");
         var ctx = canvas.getContext("2d");
-        canvas.width = 90;
-        canvas.height = 90;
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = "hsl(0, 0%, 40%)";
-        var gridSize = ~~(canvas.width / 3) - ~~(ctx.lineWidth / 2) * 2;
+        canvas.width = 74;
+        canvas.height = 74;
+        var gridSize = 24;
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "hsl(0, 0%, 20%)";
 
         for (var i = ctx.lineWidth; i < canvas.height - gridSize; i += gridSize) {
           for (var j = ctx.lineWidth; j < canvas.width - gridSize; j += gridSize) {

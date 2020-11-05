@@ -5,11 +5,9 @@
 }
 
 body {
-  font-family: "Source Code Pro", monospace;
+  font-family: Verdana, Geneva, sans-serif;
   font-size: 10pt;
-  margin: 0;
-  color: #000;
-  max-width: 550px;
+  max-width: 480px;
 } 
 
 a,
@@ -17,7 +15,7 @@ a:link,
 a:visited,
 a:hover,
 a:active {
-  color: #333;
+  color: #000;
 }
 
 h4 {
@@ -29,9 +27,6 @@ header {
   align-items: center;
   flex-wrap: wrap;
   margin: 1em;
-  margin-bottom: 1em;
-  padding-bottom: 1em;
-  border-bottom: 1px solid #888;
 }
 
 footer {
@@ -51,7 +46,6 @@ div#main > div.section {
   flex-grow: 1;
   flex-basis: 0;
   margin: 1em;
-  margin-top: 0;
 }
 
 div#main > div.section div.code {
@@ -71,17 +65,22 @@ div#main > div.section ul {
     font-size: 1em;
   }
 
-  header {
-    display: block;
-  }
-
+  header,
   div#main {
     display: block;
   }
 
+  header > h2 {
+    margin-top: 1em;
+  }
+
   div#main > div.section {
-    padding: 0;
-    line-height: 1.4em;
+    line-height: 1.4;
+    margin-top: 2em;
+  }
+
+  div#main > div.section:last-child {
+    line-height: 1.2;
   }
 }
 
