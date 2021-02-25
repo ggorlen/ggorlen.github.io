@@ -8,6 +8,8 @@ body {
   font-family: Verdana, Geneva, sans-serif;
   font-size: 10pt;
   max-width: 480px;
+  background: #111;
+  color: #ddd;
 } 
 
 a,
@@ -15,7 +17,7 @@ a:link,
 a:visited,
 a:hover,
 a:active {
-  color: #000;
+  color: #aaa;
 }
 
 h4 {
