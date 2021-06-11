@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>ggorlen</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>ggorlen</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="css/style.css">
   </head>
@@ -41,6 +41,7 @@
           <li><a href="minesweeper">minesweeper</a></li>
           <li><a href="gloaming">gloaming</a></li>
           <li><a href="mazes">maze generator</a></li>
+          <li><a href="antlr-calc">antlr calc</a></li>
           <li><a href="prettybt">pretty binary tree</a></li>
         </ul>
       </div>
@@ -53,7 +54,7 @@
 .&lt;+++++.-------.&gt;--
 --.&gt;++++.&lt;&lt;++.&gt;-.&lt;-
 -----.&gt;----.+++.&gt;&gt;-
----.&lt;&lt;&lt;++.&gt;+++.--.</div>
+---.&lt;&lt;&lt;++.&gt;+++.--x.</div>
       </div>
     </div>
     <!--
@@ -84,7 +85,7 @@
         canvas.height = 74;
         var gridSize = 24;
         ctx.lineWidth = 1;
-        ctx.strokeStyle = "hsl(0, 0%, 70%)";
+        ctx.strokeStyle = "hsl(0, 0%, 60%)";
 
         for (var i = ctx.lineWidth; i < canvas.height - gridSize; i += gridSize) {
           for (var j = ctx.lineWidth; j < canvas.width - gridSize; j += gridSize) {
