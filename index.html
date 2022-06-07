@@ -9,7 +9,7 @@
   </head>
   <body>
     <header>
-      <canvas width=74 height=74 id="sketch"></canvas>
+      <canvas width="0" height="0" id="sketch"></canvas>
       <h2>ggorlen.github.io</h2>
     </header>
     <div id="main">
@@ -75,33 +75,55 @@
     </footer>
     -->
     <script>
-     
-      (function () {
-        function drawSquares(x, y, size) {
-          if (size > 1 && Math.random() >= 0.4) {
-            ctx.strokeRect(x - 0.5, y - 0.5, size, size);
-            var newSize = size / 2;
-            drawSquares(x, y, newSize);
-            drawSquares(x, y + newSize, newSize);
-            drawSquares(x + newSize, y, newSize);
-            drawSquares(x + newSize, y + newSize, newSize);
-          }
-        }
+"use strict";
 
-        var canvas = document.getElementById("sketch");
-        var ctx = canvas.getContext("2d");
-        canvas.width = 74;
-        canvas.height = 74;
-        var gridSize = 24;
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = "hsl(0, 0%, 60%)";
+const makeTilePattern = (w, h, shrink=6, min=6) => {
+  const r = (x, y, w, h, d=0) => {
+    if (d > 2 && (w < min || h < min || Math.random() > 0.95 || d > 10)) {
+      return true;
+    }
 
-        for (var i = ctx.lineWidth; i < canvas.height - gridSize; i += gridSize) {
-          for (var j = ctx.lineWidth; j < canvas.width - gridSize; j += gridSize) {
-            drawSquares(j, i, gridSize);
-          }
-        }
-      })();
+    if (Math.random() < 0.5) {
+      const xLine = Math.random() * (w - shrink * 2) + x + shrink;
+    
+      if (r(x, y, xLine - x, h, d + 1) ||
+          r(xLine, y, w - (xLine - x), h, d + 1)) {
+        res.push({x, y, w, h, d});
+      }
+    }
+    else {
+      const yLine = Math.random() * (h - shrink * 2) + y + shrink;
+      
+      if (r(x, y, w, yLine - y, d + 1) ||
+          r(x, yLine, w, h - (yLine - y), d + 1)) {
+        res.push({x, y, w, h, d});
+      }
+    }
+  }
+
+  const res = [];
+  r(0, 0, w, h);
+  return res;
+};
+
+const canvas = document.querySelector("#sketch");
+canvas.width = 60;
+canvas.height = 60;
+const ctx = canvas.getContext("2d");
+ctx.translate(1, 1);
+ctx.lineWidth = 2;
+const tiles = makeTilePattern(canvas.width - 2, canvas.height - 2)
+  .reverse();
+
+for (const {x, y, w, h, d} of tiles) {
+  ctx.fillStyle = `hsl(
+    250,
+    0%,
+    ${Math.random() * 60 + 20}%
+  )`;
+  ctx.fillRect(x, y, w, h);
+  ctx.strokeRect(x, y, w, h);
+}
 
     </script>
   </body>
