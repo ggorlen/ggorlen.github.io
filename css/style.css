@@ -86,3 +86,17 @@ div#main > div.section ul {
   }
 }
 
+@media (prefers-color-scheme: light) {
+  body {
+    background: #ddd;
+    color: #111;
+  }
+
+  a,
+  a:link,
+  a:visited,
+  a:hover,
+  a:active {
+    color: #666;
+  }
+}
