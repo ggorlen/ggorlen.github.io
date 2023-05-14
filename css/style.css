@@ -12,8 +12,6 @@ body {
   font-family: Verdana, Geneva, sans-serif;
   font-size: 10pt;
   max-width: 480px;
-  background: #111;
-  color: #ddd;
   padding: 1em;
 } 
 
@@ -22,7 +20,7 @@ a:link,
 a:visited,
 a:hover,
 a:active {
-  color: #aaa;
+  color: #ddd;
 }
 
 h4 {
@@ -95,16 +93,11 @@ div#main > div.section ul {
 }
 
 @media (prefers-color-scheme: light) {
-  body {
-    background: #ddd;
-    color: #111;
-  }
-
   a,
   a:link,
   a:visited,
   a:hover,
   a:active {
-    color: #666;
+    color: #222;
   }
 }
