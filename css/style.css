@@ -75,7 +75,7 @@ div#main > div.section ul {
 
 @media (max-width: 600px) {
   body {
-    font-size: 1em;
+    font-size: 1.1em;
   }
 
   header,
@@ -91,7 +91,7 @@ div#main > div.section ul {
   }
 
   div#main > div.section {
-    line-height: 1.4;
+    line-height: 1.5;
     margin-top: 2em;
   }
 
