@@ -1,3 +1,7 @@
+:root {
+  color-scheme: dark light;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -8,8 +12,7 @@ body {
   font-family: Verdana, Geneva, sans-serif;
   font-size: 10pt;
   max-width: 500px;
-  background: #111;
-  color: #ddd;
+  padding: 1em;
 } 
 
 a,
@@ -17,11 +20,16 @@ a:link,
 a:visited,
 a:hover,
 a:active {
-  color: #aaa;
+  color: #ddd;
 }
 
-h4 {
-  margin-bottom: 0.5em;
+h1 {
+  font-size: 1.5em;
+}
+
+h2 {
+  font-size: 1.1em;
+  margin-bottom: 1em;
 }
 
 header {
@@ -31,9 +39,12 @@ header {
   margin: 1em;
 }
 
+/*
 footer {
   margin-left: 1em;
+  margin-right: 1em;
 }
+*/
 
 #sketch {
   margin-right: 1em;
@@ -64,7 +75,7 @@ div#main > div.section ul {
 
 @media (max-width: 600px) {
   body {
-    font-size: 1em;
+    font-size: 1.1em;
   }
 
   header,
@@ -72,12 +83,15 @@ div#main > div.section ul {
     display: block;
   }
 
+  header > h1 {
+    margin-top: 1em;
+  }
   header > h2 {
     margin-top: 1em;
   }
 
   div#main > div.section {
-    line-height: 1.4;
+    line-height: 1.8;
     margin-top: 2em;
   }
 
@@ -87,16 +101,11 @@ div#main > div.section ul {
 }
 
 @media (prefers-color-scheme: light) {
-  body {
-    background: #ddd;
-    color: #111;
-  }
-
   a,
   a:link,
   a:visited,
   a:hover,
   a:active {
-    color: #666;
+    color: #222;
   }
 }
