@@ -1,7 +1,3 @@
-:root {
-  color-scheme: dark light;
-}
-
 * {
   box-sizing: border-box;
 }
@@ -14,49 +10,24 @@ body {
 
 header {
   display: flex;
-  align-items: center;
   flex-wrap: wrap;
-  margin-bottom: 3em;
-}
-
-footer {
+  align-items: center;
 }
 
 canvas {
-  margin-right: 1.5em;
+  margin-right: 1em;
 }
 
 article {
-  line-height: 1.2;
-  margin-bottom: 3em;
+  line-height: 1.5;
 }
 
-main article code {
-  font-family: "Source Code Pro", monospace;
-}
-
-main article ul {
+article pre {
+  line-height: 1.3;
 }
 
 @media (max-width: 600px) {
   body {
     font-size: 1.1em;
-  }
-
-  main article {
-    line-height: 1.8;
-  }
-
-  main article:last-child {
-    line-height: 1.2;
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  a,
-  a:link,
-  a:visited,
-  a:hover,
-  a:active {
   }
 }
